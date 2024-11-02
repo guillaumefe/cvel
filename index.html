@@ -1,9 +1,9 @@
+
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>VulnLearner - Apprentissage Ludique</title>
-    <style>
+<style>
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
             --bg-primary: #0f172a;
@@ -179,13 +179,11 @@
             justify-content: center;
             z-index: 1000;
         }
-        
-        /* Modal styles */
         .modal-content {
-            width: 90%; /* Responsive width */
-            max-width: 800px; /* Limit max width for better readability */
-            height: 90vh; /* Viewport height */
-            max-height: 600px; /* Limit height */
+            width: 90%;
+            max-width: 800px;
+            height: 90vh;
+            max-height: 600px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -193,8 +191,6 @@
             padding: 1rem;
             border-radius: 1rem;
         }
-        
-        /* Game iframe container styles */
         .game-container {
             flex: 1;
             display: flex;
@@ -204,163 +200,178 @@
             width: 100%;
             height: 100%;
         }
-        
         .game-container iframe {
-            width: 100%; /* Full width within the container */
+            width: 100%;
             height: 100%;
             border: none;
             border-radius: 0.5rem;
-    background-color: var(--bg-secondary);
+            background-color: var(--bg-secondary);
         }
-        
         .progress-container {
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 10px;
         }
-
-
-/* General Styling */
-body {
-    background: #1a1d25; /* Softer background */
-    color: #f0f2f5; /* Softer text color for readability */
-    font-family: 'Inter', sans-serif;
-}
-
-.container {
-    max-width: 800px; /* More centralized, comfortable width */
-    margin: 0 auto;
-    padding: 2rem;
-}
-
-/* Card Styling */
-.card {
-    background: #242833; /* Softer, more neutral card background */
-    border-radius: 8px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* Button Styling */
-.btn {
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: 8px; /* Rounded corners */
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-    font-size: 1rem;
-}
-
-.btn-primary {
-    background: #3b82f6; /* Softer blue */
-    color: white;
-}
-
-.btn-primary:hover {
-    background: #2563eb; /* Darker blue on hover */
-}
-
-.btn-danger {
-    background: #ef4444; /* Softer red */
-    color: white;
-}
-
-.btn-danger:hover {
-    background: #dc2626; /* Darker red on hover */
-}
-
-/* Progress Bar Styling */
-.progress-container {
-    background: #3a3f47;
-    border-radius: 5px;
-    overflow: hidden;
-    height: 12px;
-    margin: 0.5rem 0;
-}
-
-.progress-container progress {
-    background-color: #3b82f6; /* Use primary color for consistency */
-    height: 100%;
-}
-
-/* Textarea for Description */
-textarea.input {
-    resize: vertical; /* Allow vertical resizing only */
-    min-height: 100px; /* Ensure sufficient height for readability */
-}
-
-/* Appliquer ce style globalement à tous les champs de texte et zones de texte */
-input[type="text"],
-textarea {
-    width: 100%;
-    padding: 10px;
-    background-color: #ffffff; /* Fond clair */
-    color: #333333; /* Couleur du texte */
-    border: 1px solid #d1d5db; /* Bordure gris clair */
-    border-radius: 4px;
-    font-size: 1rem;
-    margin-bottom: 15px;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-input[type="text"]:focus,
-textarea:focus {
-    border-color: #3b82f6; /* Couleur d'accentuation */
-    box-shadow: 0 0 5px rgba(59, 130, 246, 0.5); /* Ombre légère sur focus */
-    outline: none;
-}
-
-input[type="text"],
-textarea {
-    width: 100%;
-    padding: 10px;
-    background-color: var(--bg-secondary); /* Couleur de fond sombre */
-    color: var(--text-primary); /* Couleur de texte clair */
-    border: 1px solid rgba(255, 255, 255, 0.1); /* Bordure discrète */
-    border-radius: 4px;
-    font-size: 1rem;
-    margin-bottom: 15px;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-input[type="text"]:focus,
-textarea:focus {
-    border-color: var(--accent); /* Couleur d'accentuation */
-    box-shadow: 0 0 5px rgba(59, 130, 246, 0.5); /* Ombre légère sur focus */
-    outline: none;
-}
-
-textarea {
-    width: 100%;
-    padding: 10px;
-    background-color: var(--bg-secondary);
-    color: var(--text-primary);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
-    font-size: 1rem;
-    margin-bottom: 15px;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    height: calc(30vh - 10px); /* Ajuste cette valeur pour contrôler la hauteur */
-}
-
-textarea:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
-    outline: none;
-}
-
-.modal-content {
-    max-height: 80vh; /* Limite la hauteur de la modal */
-    overflow-y: auto; /* Permet le défilement vertical */
-    padding: 1rem;
-}
-
+        body {
+            background: #1a1d25;
+            color: #f0f2f5;
+            font-family: 'Inter', sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .card {
+            background: #242833;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #2563eb;
+        }
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+        .progress-container {
+            background: #3a3f47;
+            border-radius: 5px;
+            overflow: hidden;
+            height: 12px;
+            margin: 0.5rem 0;
+        }
+        .progress-container progress {
+            background-color: #3b82f6;
+            height: 100%;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        input[type="text"]:focus,
+        textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+            outline: none;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            height: calc(30vh - 10px);
+        }
+        textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+            outline: none;
+        }
+        .modal-content {
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+        #wall {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 0.5rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+        .validation-error {
+            color: var(--danger);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        .generation-log {
+            background: var(--bg-secondary);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-top: 1rem;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .log-entry {
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+        }
+        .log-entry.error { background: rgba(239, 68, 68, 0.2); }
+        .log-entry.warning { background: rgba(245, 158, 11, 0.2); }
+        .log-entry.success { background: rgba(34, 197, 94, 0.2); }
+        .log-entry.info { background: rgba(59, 130, 246, 0.2); }
     </style>
+    <style>
+        .analogy-game {
+            background-color: #f5f5f5;
+            text-align: center;
+            padding: 50px;
+        }
+        .technical-game {
+            background-color: #1a1d25;
+            color: #fff;
+            font-family: monospace;
+            text-align: center;
+            padding-top: 50px;
+        }
+        
+        
+/* Style pour le bouton de rechargement */
+.modal-content .btn-primary {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+</style>
 </head>
 <body>
+<!-- Inclusion des bibliothèques React, ReactDOM et Babel -->
+<script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+
+
     <nav class="navbar">
         <div class="logo">VulnLearner</div>
         <div class="flex">
@@ -372,56 +383,625 @@ textarea:focus {
         </div>
     </nav>
     <div class="container">
-        <!-- Tab Navigation -->
         <div class="tab-group">
             <div class="tab" onclick="app.setTab('création')">Création</div>
             <div class="tab" onclick="app.setTab('bibliothèque')">Bibliothèque</div>
             <div class="tab" onclick="app.setTab('progression')">Progression</div>
         </div>
-    
-        <!-- Tab Content Area -->
         <div id="tab-content"></div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.10/purify.min.js"></script>
-    <script>
-class VulnLearnerApp {
-    constructor() {
-        this.storage = window.localStorage;
-        this.initializeModels();
-        this.initializeState();
-        this.initializeStorage();
-        this.initializeEventListeners();
-        this.loadCurrentTab();
-        this.updateAIBadge();
-        this.addUsageStyles();
-    }
-    setTab(tabName) {
-        this.state.currentTab = tabName;
-        this.storage.setItem('currentTab', tabName);
-        this.loadCurrentTab();
-    }
-    initializeModels() {
-        this.AI_MODELS = {
-            claude: {
-                models: {
-                    'claude-3-opus-20240229': { maxTokens: 200000, costPer1kTokens: { input: 0.015, output: 0.075 }, description: 'Plus puissant et précis, meilleur raisonnement' },
-                    'claude-3-sonnet-20240229': { maxTokens: 200000, costPer1kTokens: { input: 0.003, output: 0.015 }, description: 'Excellent rapport qualité/prix' },
-                    'claude-2.1': { maxTokens: 100000, costPer1kTokens: { input: 0.008, output: 0.024 }, description: 'Modèle stable et éprouvé' },
-                    'claude-instant-1.2': { maxTokens: 100000, costPer1kTokens: { input: 0.0008, output: 0.0024 }, description: 'Rapide et économique' }
-                }
-            },
-            openai: {
-                models: {
-                    'gpt-4': { maxTokens: 8192, costPer1kTokens: { input: 0.03, output: 0.06 }, description: 'Plus précis, meilleur pour les tâches complexes' },
-                    'gpt-4-turbo-preview': { maxTokens: 128000, costPer1kTokens: { input: 0.01, output: 0.03 }, description: 'Version preview de GPT-4, plus rapide' },
-                    'gpt-3.5-turbo': { maxTokens: 4096, costPer1kTokens: { input: 0.0015, output: 0.002 }, description: 'Bon rapport qualité/prix, rapide' },
-                    'gpt-3.5-turbo-16k': { maxTokens: 16384, costPer1kTokens: { input: 0.003, output: 0.004 }, description: 'GPT-3.5 avec contexte étendu' }
+    
+<script>
+
+    class CodeValidator {
+        static validateGameCode(code) {
+            const requiredElements = {
+                style: new RegExp('<style[^>]*>[\\s\\S]*?<\\/style>', 'i'),
+                javascript: new RegExp('<script[^>]*>[\\s\\S]*?<\\/script>', 'i'),
+                htmlStructure: new RegExp('<body[^>]*>[\\s\\S]*?<\\/body>', 'i'),
+                cdn: new RegExp('https:\\/\\/cdnjs\\.cloudflare\\.com', 'i')
+            };
+    
+            const validation = {
+                isValid: true,
+                missing: [],
+                messages: []
+            };
+    
+            // Vérification de chaque élément requis
+            for (const [element, regex] of Object.entries(requiredElements)) {
+                if (!regex.test(code)) {
+                    validation.isValid = false;
+                    validation.missing.push(element);
+                    validation.messages.push(`${element} manquant dans le code`);
                 }
             }
-        };
+    
+            // Vérification du fond blanc et texte noir par défaut
+            if (!code.includes('background-color: #ffffff') && !code.includes('background: #fff') && !code.includes('background: white')) {
+                validation.messages.push('Fond blanc manquant');
+            }
+            if (!code.includes('color: #000000') && !code.includes('color: black')) {
+                validation.messages.push('Texte noir manquant');
+            }
+    
+            // Vérification de la présence d'au moins une fonction JavaScript
+            const jsContent = code.match(new RegExp('<script[^>]*>([\\s\\S]*?)<\\/script>', 'i'));
+            if (jsContent && jsContent[1]) {
+                if (!jsContent[1].includes('function')) {
+                    validation.messages.push('Aucune fonction JavaScript définie');
+                }
+            }
+    
+            return validation;
+        }
     }
-    getDefaultConfig() {
-        if (!this.AI_MODELS || !this.AI_MODELS.claude || !this.AI_MODELS.openai) {
+
+    class VulnLearnerApp {
+        constructor() {
+            this.storage = window.localStorage;
+            this.maxRetries = 3;
+            this.retryDelay = 1000;
+            
+            this.initializeModels();
+            this.initializeState();
+            this.initializeStorage();
+            this.initializeEventListeners();
+            this.loadCurrentTab();
+            this.updateAIBadge();
+            this.addUsageStyles();
+            this.initializeLogger();
+        }
+        
+        // Mise à jour du HTML de la navbar pour inclure l'ID correct
+        updateNavbar() {
+            const navbar = document.querySelector('.navbar');
+            if (navbar) {
+                navbar.innerHTML = `
+                    <div class="logo">VulnLearner</div>
+                    <div class="flex">
+                        <button class="btn btn-secondary" id="ai-config-btn">
+                            <span class="badge badge-warning">IA: Non configurée</span>
+                        </button>
+                        <span class="badge badge-blue">Mode Apprentissage</span>
+                        <button class="btn btn-secondary">Documentation</button>
+                    </div>
+                `;
+                // Réattacher l'écouteur après la mise à jour
+                const aiConfigBtn = document.getElementById('ai-config-btn');
+                if (aiConfigBtn) {
+                    aiConfigBtn.onclick = () => this.showAIConfig();
+                }
+            }
+        }
+        
+        async resumeGeneration() {
+            const generationData = JSON.parse(this.storage.getItem('generationInProgress'));
+            if (!generationData) {
+                console.log('Aucune génération en cours à reprendre');
+                return;
+            }
+    
+            const { name, cve, description } = generationData;
+            console.log('Reprise de la génération pour:', name);
+    
+            const terminal = document.querySelector('.terminal');
+            if (terminal) {
+                this.appendToTerminal(terminal, 'Reprise de la génération...', 'info');
+            }
+    
+            try {
+                // Génération du scénario analogique
+                this.log('Reprise de la génération du scénario analogique...', 'info');
+                let analogyResponse = await this.callAI(this.buildAnalogyPrompt(name, cve, description));
+                analogyResponse = await this.validateAndRetryGeneration(analogyResponse);
+                this.log('Scénario analogique généré.', 'success');
+    
+                // Génération du scénario technique
+                this.log('Reprise de la génération du scénario technique...', 'info');
+                let technicalResponse = await this.callAI(this.buildTechnicalPrompt(name, cve, description));
+                technicalResponse = await this.validateAndRetryGeneration(technicalResponse);
+                this.log('Scénario technique généré.', 'success');
+    
+                // Créer et sauvegarder la vulnérabilité
+                const vulnerability = {
+                    id: Date.now().toString(),
+                    name,
+                    cve,
+                    description,
+                    analogyCode: analogyResponse,
+                    technicalCode: technicalResponse,
+                    created: new Date().toISOString()
+                };
+    
+                // Sauvegarder dans localStorage
+                const vulnerabilities = JSON.parse(localStorage.getItem('vulnerabilities')) || [];
+                vulnerabilities.push(vulnerability);
+                localStorage.setItem('vulnerabilities', JSON.stringify(vulnerabilities));
+    
+                // Injecter les jeux et mettre à jour l'interface
+                await this.injectGamesIntoWall(vulnerability);
+                this.log('Génération reprise terminée avec succès!', 'success');
+                this.showNotification('Vulnérabilité créée!', 'success');
+                this.loadCurrentTab();
+    
+            } catch (error) {
+                this.log(`Erreur lors de la reprise: ${error.message}`, 'error');
+                this.showNotification(error.message, 'danger');
+            } finally {
+                // Nettoyer l'état de génération
+                this.storage.removeItem('generationInProgress');
+            }
+        }
+        
+        // Méthode spécifique pour les écouteurs globaux
+        initializeEventListeners() {
+            // Attendre que le DOM soit chargé
+            document.addEventListener('DOMContentLoaded', () => {
+                // Configuration IA
+                const aiConfigBtn = document.getElementById('ai-config-btn');
+                if (aiConfigBtn) {
+                    aiConfigBtn.onclick = () => this.showAIConfig();
+                }
+
+                // Gestion des onglets
+                const tabs = document.querySelectorAll('.tab');
+                tabs.forEach(tab => {
+                    tab.onclick = (e) => {
+                        tabs.forEach(t => t.classList.remove('active'));
+                        e.target.classList.add('active');
+                        this.setTab(e.target.textContent.toLowerCase());
+                    };
+                });
+            });
+        }
+        
+        // Méthode spécifique pour initialiser les écouteurs de formulaire
+        initializeFormListeners() {
+            const nameInput = document.querySelector('input[placeholder="Nom de la vulnérabilité"]');
+            const cveInput = document.querySelector('input[placeholder="Identifiant CVE (optionnel)"]');
+            const descTextarea = document.querySelector('textarea[placeholder="Description détaillée"]');
+            
+            if (!nameInput || !cveInput || !descTextarea) {
+                console.warn("Form elements not found. Skipping initialization.");
+                return;
+            }
+        
+            nameInput.value = this.state.formData.name;
+            cveInput.value = this.state.formData.cve;
+            descTextarea.value = this.state.formData.description;
+        
+            const updateStorage = () => {
+                this.state.formData = {
+                    name: nameInput.value,
+                    cve: cveInput.value,
+                    description: descTextarea.value
+                };
+                this.storage.setItem('formData', JSON.stringify(this.state.formData));
+            };
+        
+            nameInput.addEventListener('input', updateStorage);
+            cveInput.addEventListener('input', updateStorage);
+            descTextarea.addEventListener('input', updateStorage);
+        }
+
+       // Méthode d'initialisation du logger
+        initializeLogger() {
+            this.logContainer = document.createElement('div');
+            this.logContainer.className = 'generation-log';
+            const terminal = document.querySelector('.terminal');
+            if (terminal) {
+                terminal.appendChild(this.logContainer);
+            }
+        }
+
+        loadCurrentTab() {
+            const contentContainer = document.querySelector('#tab-content');
+            contentContainer.innerHTML = '';
+
+            // Mettre à jour les classes actives des onglets
+            document.querySelectorAll('.tab').forEach(tab => {
+                const tabName = tab.textContent.toLowerCase();
+                if (tabName === this.state.currentTab) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
+            });
+
+            let content;
+            switch (this.state.currentTab) {
+                case 'création':
+                    content = `
+                        <div class="card animate-in">
+                            <h2>Nouvelle Vulnérabilité</h2>
+                            <div style="margin-top: 1rem;">
+                                <div>
+                                    <input type="text" placeholder="Nom de la vulnérabilité" value="${this.state.formData.name}">
+                                    <input type="text" placeholder="Identifiant CVE (optionnel)" value="${this.state.formData.cve}">
+                                    <textarea rows="4" placeholder="Description détaillée">${this.state.formData.description}</textarea>
+                                    <button class="btn btn-primary" onclick="app.generateVulnerability()">Générer les Simulations</button>
+                                </div>
+                                <div class="generation-box">
+                                    <div class="generation-progress">
+                                        <div class="progress-bar-container">
+                                            <div class="progress-bar"></div>
+                                        </div>
+                                        <div class="generation-logs">
+                                            <div class="logs-title">Logs de génération</div>
+                                            <div class="logs-container">
+                                                <div class="logs-content"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
+                    break;
+                case 'bibliothèque':
+                    content = this.getLibraryContent();
+                    break;
+                case 'progression':
+                    content = this.getProgressionContent();
+                    break;
+                default:
+                    content = '';
+            }
+
+            contentContainer.innerHTML = content;
+
+            if (this.state.currentTab === 'création') {
+                this.initializeFormListeners();
+                this.addGenerationStyles();
+            }
+        }
+
+
+        addSectionStyles() {
+            const styles = document.createElement('style');
+            styles.textContent = `
+                .vulnerabilities-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                    gap: 1.5rem;
+                    padding: 1rem 0;
+                }
+
+                .vulnerability-card {
+                    background: var(--card-bg);
+                    border-radius: 0.5rem;
+                    padding: 1.5rem;
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                }
+
+                .vuln-header {
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+                    margin-bottom: 1rem;
+                }
+
+                .vuln-description {
+                    color: var(--text-secondary);
+                    margin-bottom: 1.5rem;
+                }
+
+                .vuln-actions {
+                    display: flex;
+                    gap: 0.5rem;
+                    flex-wrap: wrap;
+                }
+
+                .progress-stats {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                    gap: 1.5rem;
+                    margin: 1.5rem 0;
+                }
+
+                .stat-card {
+                    background: var(--card-bg);
+                    padding: 1.5rem;
+                    border-radius: 0.5rem;
+                    text-align: center;
+                }
+
+                .stat-card h3 {
+                    font-size: 2rem;
+                    color: var(--accent);
+                    margin-bottom: 0.5rem;
+                }
+
+                .stat-card p {
+                    color: var(--text-secondary);
+                }
+
+                .activities-list {
+                    background: var(--bg-secondary);
+                    border-radius: 0.5rem;
+                    padding: 1rem;
+                    margin-top: 1rem;
+                }
+
+                .activity-item {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 0.75rem;
+                    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                }
+
+                .activity-item:last-child {
+                    border-bottom: none;
+                }
+
+                .activity-score {
+                    color: var(--success);
+                    font-weight: 500;
+                }
+
+                .activity-mode {
+                    color: var(--text-secondary);
+                }
+            `;
+            document.head.appendChild(styles);
+        }
+
+    addGenerationStyles() {
+        const styles = document.createElement('style');
+        styles.textContent = `
+            .generation-box {
+                margin-top: 1.5rem;
+                background: var(--bg-secondary);
+                border-radius: 0.5rem;
+                overflow: hidden;
+            }
+
+            .generation-progress {
+                padding: 1rem;
+            }
+
+            .progress-bar-container {
+                width: 100%;
+                height: 6px;
+                background: var(--bg-primary);
+                border-radius: 3px;
+                overflow: hidden;
+            }
+
+            .progress-bar {
+                height: 100%;
+                width: 0;
+                background: var(--accent);
+                transition: width 0.3s ease;
+            }
+
+            .generation-logs {
+                margin-top: 1rem;
+            }
+
+            .logs-title {
+                font-weight: 500;
+                color: var(--text-primary);
+                margin-bottom: 0.5rem;
+            }
+
+            .logs-container {
+                background: var(--bg-primary);
+                border-radius: 0.5rem;
+                padding: 1rem;
+                min-height: 200px;
+                max-height: 400px;
+                overflow-y: auto;
+            }
+
+            .logs-content {
+                font-family: 'Fira Code', monospace;
+                font-size: 0.9rem;
+                line-height: 1.5;
+            }
+
+            .log-entry {
+                display: flex;
+                align-items: baseline;
+                gap: 0.5rem;
+                padding: 0.25rem 0;
+            }
+
+            .log-entry .log-time {
+                color: var(--text-secondary);
+                font-size: 0.8rem;
+            }
+
+            .log-entry.info .log-message { color: var(--text-primary); }
+            .log-entry.success .log-message { color: var(--success); }
+            .log-entry.warning .log-message { color: var(--warning); }
+            .log-entry.error .log-message { color: var(--danger); }
+
+            .log-entry.error {
+                background: rgba(239, 68, 68, 0.1);
+                padding: 0.5rem;
+                border-radius: 0.25rem;
+                margin: 0.25rem 0;
+            }
+        `;
+        document.head.appendChild(styles);
+    }
+
+    log(message, type = 'info') {
+        const logsContent = document.querySelector('.logs-content');
+        if (!logsContent) return;
+
+        const entry = document.createElement('div');
+        entry.className = `log-entry ${type}`;
+        entry.innerHTML = `
+            <span class="log-time">[${new Date().toLocaleTimeString()}]</span>
+            <span class="log-message">${message}</span>
+        `;
+        
+        logsContent.appendChild(entry);
+        logsContent.scrollTop = logsContent.scrollHeight;
+
+        // Mise à jour de la barre de progression
+        this.updateProgress(message);
+        
+        // Log console pour debug
+        console.log(`${type.toUpperCase()}: ${message}`);
+    }
+
+    updateProgress(message) {
+        const progressBar = document.querySelector('.progress-bar');
+        if (!progressBar) return;
+
+        const steps = {
+            'Début de la génération': 10,
+            'Génération du scénario analogique': 25,
+            'Scénario analogique validé': 50,
+            'Génération du scénario technique': 65,
+            'Scénario technique validé': 90,
+            'Vulnérabilité sauvegardée': 100
+        };
+
+        for (const [step, value] of Object.entries(steps)) {
+            if (message.includes(step)) {
+                progressBar.style.width = `${value}%`;
+                break;
+            }
+        }
+    }
+        
+ensureBaseStyles(code) {
+    // Vérifie si une balise style existe déjà
+    const hasStyle = /<style[^>]*>[\s\S]*?<\/style>/i.test(code);
+    const baseStyles = `
+        <style>
+            body {
+                background-color: #ffffff !important;
+                color: #000000 !important;
+                margin: 0;
+                padding: 20px;
+                font-family: Arial, sans-serif;
+            }
+            .game-container {
+                max-width: 800px;
+                margin: 0 auto;
+            }
+            /* Forcer les couleurs pour les éléments de texte communs */
+            p, h1, h2, h3, h4, h5, h6, span, div {
+                color: #000000 !important;
+            }
+            /* Conserver les couleurs spécifiques pour les boutons et éléments d'interface */
+            button, .btn, .button {
+                color: inherit;
+            }
+        </style>
+    `;
+
+    if (!hasStyle) {
+        // Ajoute les styles dans le head
+        code = code.replace('</head>', `${baseStyles}</head>`);
+    } else {
+        // Injecte les styles de base au début des styles existants
+        code = code.replace(/<style[^>]*>/i, match => `${match}
+            body {
+                background-color: #ffffff !important;
+                color: #000000 !important;
+            }
+            p, h1, h2, h3, h4, h5, h6, span, div {
+                color: #000000 !important;
+            }
+            button, .btn, .button {
+                color: inherit;
+            }
+        `);
+    }
+
+    return code;
+}
+
+
+async validateAndRetryGeneration(code, retryCount = 0) {
+    const validation = CodeValidator.validateGameCode(code);
+    
+    if (!validation.isValid && retryCount < this.maxRetries) {
+        this.log(`Validation échouée: ${validation.messages.join(', ')}`, 'warning');
+        this.log(`Tentative ${retryCount + 1}/${this.maxRetries} de régénération...`, 'info');
+        
+        await new Promise(resolve => setTimeout(resolve, this.retryDelay));
+        
+        let correctionPrompt = `Le code généré nécessite les corrections suivantes:
+        ${validation.messages.map(msg => `- ${msg}`).join('\n')}
+        
+        RAPPEL DES CONTRAINTES OBLIGATOIRES :
+        1. Le code DOIT contenir :
+           - CSS dans une balise <style>
+           - HTML dans le <body>
+           - JavaScript dans une balise <script>
+        2. Style par défaut OBLIGATOIRE :
+           - background-color: #ffffff
+           - color: #000000
+        3. Au moins une fonction JavaScript
+        4. Un CDN de cdnjs.cloudflare.com
+        
+        Régénère le code complet en respectant TOUTES ces contraintes.`;
+
+        return this.callAI(correctionPrompt)
+            .then(newCode => this.validateAndRetryGeneration(newCode, retryCount + 1));
+    }
+    
+    if (!validation.isValid) {
+        // Si toujours invalide après les retries, on force les styles de base
+        code = this.ensureBaseStyles(code);
+        this.log('Styles de base forcés sur le code.', 'warning');
+    }
+    
+    return code;
+}
+
+
+
+        setTab(tabName) {
+            this.state.currentTab = tabName;
+            this.storage.setItem('currentTab', tabName);
+            this.loadCurrentTab();
+        }
+
+        initializeModels() {
+            this.AI_MODELS = {
+                claude: {
+                    models: {
+                        'claude-3-opus-20240229': { maxTokens: 200000, costPer1kTokens: { input: 0.015, output: 0.075 }, description: 'Plus puissant et précis, meilleur raisonnement' },
+                        'claude-3-sonnet-20240229': { maxTokens: 200000, costPer1kTokens: { input: 0.003, output: 0.015 }, description: 'Excellent rapport qualité/prix' },
+                        'claude-2.1': { maxTokens: 100000, costPer1kTokens: { input: 0.008, output: 0.024 }, description: 'Modèle stable et éprouvé' },
+                        'claude-instant-1.2': { maxTokens: 100000, costPer1kTokens: { input: 0.0008, output: 0.0024 }, description: 'Rapide et économique' }
+                    }
+                },
+                openai: {
+                    models: {
+                        'gpt-4': { maxTokens: 8192, costPer1kTokens: { input: 0.03, output: 0.06 }, description: 'Plus précis, meilleur pour les tâches complexes' },
+                        'gpt-4-turbo-preview': { maxTokens: 128000, costPer1kTokens: { input: 0.01, output: 0.03 }, description: 'Version preview de GPT-4, plus rapide' },
+                        'gpt-3.5-turbo': { maxTokens: 4096, costPer1kTokens: { input: 0.0015, output: 0.002 }, description: 'Bon rapport qualité/prix, rapide' },
+                        'gpt-3.5-turbo-16k': { maxTokens: 16384, costPer1kTokens: { input: 0.003, output: 0.004 }, description: 'GPT-3.5 avec contexte étendu' }
+                    }
+                }
+            };
+        }
+
+        getDefaultConfig() {
+            if (!this.AI_MODELS || !this.AI_MODELS.claude || !this.AI_MODELS.openai) {
+                return {
+                    provider: 'none',
+                    apiKey: '',
+                    endpoint: '',
+                    maxCost: 0,
+                    retryDelay: 1000,
+                    maxRetries: 3,
+                    enabledModels: { claude: [], openai: [] },
+                    modelOrder: { claude: [], openai: [] },
+                    preferredModel: ''
+                };
+            }
             return {
                 provider: 'none',
                 apiKey: '',
@@ -429,982 +1009,240 @@ class VulnLearnerApp {
                 maxCost: 0,
                 retryDelay: 1000,
                 maxRetries: 3,
-                enabledModels: { claude: [], openai: [] },
-                modelOrder: { claude: [], openai: [] },
+                enabledModels: {
+                    claude: Object.keys(this.AI_MODELS.claude.models).slice(0, 2),
+                    openai: Object.keys(this.AI_MODELS.openai.models).slice(0, 2)
+                },
+                modelOrder: {
+                    claude: Object.keys(this.AI_MODELS.claude.models),
+                    openai: Object.keys(this.AI_MODELS.openai.models)
+                },
                 preferredModel: ''
             };
         }
-        return {
-            provider: 'none',
-            apiKey: '',
-            endpoint: '',
-            maxCost: 0,
-            retryDelay: 1000,
-            maxRetries: 3,
-            enabledModels: {
-                claude: Object.keys(this.AI_MODELS.claude.models).slice(0, 2),
-                openai: Object.keys(this.AI_MODELS.openai.models).slice(0, 2)
-            },
-            modelOrder: {
-                claude: Object.keys(this.AI_MODELS.claude.models),
-                openai: Object.keys(this.AI_MODELS.openai.models)
-            },
-            preferredModel: ''
-        };
-    }
-    initializeState() {
-        var defaultConfig = this.getDefaultConfig();
-        var savedConfig = JSON.parse(this.storage.getItem('aiConfig')) || {};
-        this.state = {
-            currentTab: this.storage.getItem('currentTab') || 'création',
-            formData: JSON.parse(this.storage.getItem('formData')) || { name: '', cve: '', description: '' },
-            aiConfig: Object.assign({}, defaultConfig, savedConfig, {
-                enabledModels: Object.assign({}, defaultConfig.enabledModels, savedConfig.enabledModels || {}),
-                modelOrder: Object.assign({}, defaultConfig.modelOrder, savedConfig.modelOrder || {}),
-                preferredModel: savedConfig.preferredModel || defaultConfig.preferredModel
-            })
-        };
-        this.storage.setItem('aiConfig', JSON.stringify(this.state.aiConfig));
-    }
-    getUsageStatsHTML() {
-        var stats = JSON.parse(this.storage.getItem('usageStats') || '{}');
-        var provider = this.state.aiConfig.provider;
-        if (provider === 'none' || !stats[provider]) {
-            return '<p>Aucune statistique disponible</p>';
-        }
-        var usageRows = Object.entries(stats[provider]).map((entry) => {
-            var model = entry[0];
-            var data = entry[1];
-            return '<div class="usage-row">' +
-                '<div class="model-name">' + model + '</div>' +
-                '<div class="usage-details">' +
-                    '<span>Appels: ' + data.calls + '</span>' +
-                    '<span>Tokens: ' + data.tokens.toLocaleString() + '</span>' +
-                    '<span>Coût: $' + data.cost.toFixed(4) + '</span>' +
-                '</div>' +
-            '</div>';
-        }).join('');
-        return '<div class="usage-table">' + usageRows + '<div class="usage-total"><strong>Total: $' + this.calculateTotalCost(stats[provider]).toFixed(4) + '</strong></div></div>';
-    }
-    calculateTotalCost(providerStats) {
-        return Object.values(providerStats).reduce((total, data) => total + (data.cost || 0), 0);
-    }
-    updateUsageStats(provider, model, inputTokens, outputTokens) {
-        var stats = JSON.parse(this.storage.getItem('usageStats') || '{}');
-        if (!stats[provider]) stats[provider] = {};
-        if (!stats[provider][model]) {
-            stats[provider][model] = { calls: 0, tokens: 0, cost: 0 };
-        }
-        var modelInfo = this.AI_MODELS[provider].models[model];
-        var inputCost = (inputTokens / 1000) * modelInfo.costPer1kTokens.input;
-        var outputCost = (outputTokens / 1000) * modelInfo.costPer1kTokens.output;
-        stats[provider][model].calls += 1;
-        stats[provider][model].tokens += (inputTokens + outputTokens);
-        stats[provider][model].cost += (inputCost + outputCost);
-        this.storage.setItem('usageStats', JSON.stringify(stats));
-        this.updateUsageDisplay();
-    }
-    updateUsageDisplay() {
-        var usageStats = document.getElementById('usage-stats');
-        if (usageStats) {
-            usageStats.innerHTML = this.getUsageStatsHTML();
-        }
-    }
-    resetUsageStats() {
-        if (confirm('Voulez-vous vraiment réinitialiser toutes les statistiques d\'utilisation ?')) {
-            this.storage.setItem('usageStats', JSON.stringify({}));
-            this.updateUsageDisplay();
-            this.showNotification('Statistiques réinitialisées', 'success');
-        }
-    }
-    addUsageStyles() {
-        var styles = document.createElement('style');
-        styles.textContent = `
-            .usage-table { margin-top: 1rem; }
-            .usage-row { display: flex; justify-content: space-between; padding: 0.5rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
-            .usage-details { display: flex; gap: 1rem; }
-            .usage-total { margin-top: 1rem; text-align: right; color: var(--accent); }
-            .model-name { font-weight: 500; }
-        `;
-        document.head.appendChild(styles);
-    }
-    
-    getLibraryContent() {
-        const vulnerabilities = JSON.parse(localStorage.getItem('vulnerabilities')) || [];
-        console.log("Displaying vulnerabilities:", vulnerabilities);
-    
-        if (!vulnerabilities.length) {
-            return '<div class="card animate-in"><h2>Bibliothèque vide</h2><p style="color: var(--text-secondary);">Créez votre première vulnérabilité dans l\'onglet Création.</p></div>';
-        }
-    
-        return vulnerabilities.map((vuln) => {
-            const cveBadge = vuln.cve ? `<span class="badge badge-blue">${vuln.cve}</span>` : '';
-            return `
-                <div class="card animate-in">
-                    <div style="margin-bottom: 1rem;">
-                        <h3 style="margin-bottom: 0.5rem;">${vuln.name}</h3>
-                        ${cveBadge}
-                    </div>
-                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">${vuln.description}</p>
-                    <div class="flex">
-                        <button class="btn btn-primary" onclick="app.showGame('${vuln.id}', 'analogy')">Mode Histoire</button>
-                        <button class="btn btn-warning" onclick="app.showGame('${vuln.id}', 'technical')">Mode Technique</button>
-                        <button class="btn btn-danger" onclick="app.deleteVulnerability('${vuln.id}')">Supprimer</button>
-                    </div>
-                </div>`;
-        }).join('');
-    }
 
-
-
-
-loadCurrentTab() {
-    const contentContainer = document.querySelector('#tab-content');
-    contentContainer.innerHTML = '';
-
-    let content;
-    switch (this.state.currentTab) {
-        case 'création':
-            content = this.getCreationContent();
-            break;
-        case 'bibliothèque':
-            content = this.getLibraryContent();
-            break;
-        case 'progression':
-            content = this.getProgressionContent();
-            break;
-        default:
-            content = '';
-    }
-    contentContainer.insertAdjacentHTML('beforeend', content);
-    if (this.state.currentTab === 'création') {
-        this.initializeFormListeners();
-    }
-}
-
-
-
-    getProgressionContent() {
-        var progress = JSON.parse(this.storage.getItem('userProgress'));
-        var vulnerabilities = JSON.parse(this.storage.getItem('vulnerabilities'));
-        return '<div class="card animate-in"><h2>Votre Progression</h2><div style="margin-top: 1rem;"><div class="flex" style="margin-bottom: 1rem;"><div><h3 style="color: var(--success);">' + progress.totalScore + '</h3><p style="color: var(--text-secondary);">Score total</p></div><div><h3 style="color: var(--accent);">' + progress.completedGames.length + '</h3><p style="color: var(--text-secondary);">Scénarios terminés</p></div><div><h3 style="color: var(--warning);">' + vulnerabilities.length + '</h3><p style="color: var(--text-secondary);">Vulnérabilités créées</p></div></div><h3 style="margin: 1rem 0;">Dernières activités</h3>' + this.getRecentActivities() + '</div></div>';
-    }
-    getRecentActivities() {
-        var progress = JSON.parse(this.storage.getItem('userProgress'));
-        if (!progress.completedGames.length) {
-            return '<p style="color: var(--text-secondary);">Aucune activité pour le moment</p>';
-        }
-        return '<div class="terminal" style="background: var(--bg-secondary);">' + progress.completedGames.sort((a, b) => b.timestamp - a.timestamp).slice(0, 5).map((game) => '<div class="terminal-line"><span class="terminal-prompt">></span><span class="terminal-output">' + game.name + ' - Mode ' + game.mode + ' <span style="color: var(--success);">+' + game.score + ' pts</span></span></div>').join('') + '</div>';
-    }
-
-
-
-deleteVulnerability(id) {
-    if (confirm('Êtes-vous sûr de vouloir supprimer cette vulnérabilité ?')) {
-        // Get current vulnerabilities
-        let vulnerabilities = JSON.parse(localStorage.getItem('vulnerabilities')) || [];
-        
-        // Log the vulnerabilities before deletion for debugging
-        console.log("Vulnerabilities before deletion:", vulnerabilities);
-
-        // Filter out the vulnerability to delete with type check on ID
-        vulnerabilities = vulnerabilities.filter((vuln) => {
-            console.log(`Comparing ${vuln.id} with ${id}`);
-            return vuln.id.toString() !== id.toString();
-        });
-
-        // Log the updated vulnerabilities list after filtering
-        console.log("Vulnerabilities after filtering:", vulnerabilities);
-
-        // Update localStorage with the new list
-        localStorage.setItem('vulnerabilities', JSON.stringify(vulnerabilities));
-
-        // Verify if the vulnerability was removed successfully
-        const updatedVulnerabilities = JSON.parse(localStorage.getItem('vulnerabilities'));
-        console.log("Vulnerabilities in storage after deletion:", updatedVulnerabilities);
-
-        // Show notification
-        this.showNotification('Vulnérabilité supprimée', 'success');
-        
-        // Refresh the UI to reflect the updated vulnerabilities
-        this.loadCurrentTab();
-    }
-}
-
-
-async startGame(vulnId, mode) {
-    const vulnerabilities = JSON.parse(localStorage.getItem('vulnerabilities'));
-    const vuln = vulnerabilities.find(v => v.id === vulnId);
-    if (!vuln) return;
-
-    // Demande à l'IA de générer le code index.html pour le jeu
-    const gameContent = await this.callAI(this.buildGamePrompt(vuln.name, vuln.cve, mode));
-
-    // Extraire le code HTML, CSS, et JS
-    const codeMatch = gameContent.match(/```html([\s\S]*?)```/);
-    if (codeMatch && codeMatch[1]) {
-        const codeToInject = codeMatch[1].trim();
-
-        // Créer la modal pour afficher le jeu
-        const modal = document.createElement('div');
-        modal.className = 'modal';
-        modal.innerHTML = `
-            <div class="modal-content card">
-                <h2>${vuln.name} - ${mode === 'analogy' ? 'Mode Histoire' : 'Mode Technique'}</h2>
-                <div class="game-container">
-                    <iframe sandbox="allow-scripts allow-same-origin" width="100%" height="100%" frameborder="0"></iframe>
-                </div>
-                <div class="flex" style="margin-top: 1rem;">
-                    <button class="btn btn-danger" onclick="this.closest('.modal').remove()">Fermer</button>
-                </div>
-            </div>
-        `;
-
-        // Ajouter la modal au document
-        document.body.appendChild(modal);
-
-        // Injecter le code HTML directement dans l'iframe
-        const iframe = modal.querySelector('iframe');
-        iframe.srcdoc = codeToInject;  // Injecter le code extrait
-    } else {
-        this.showNotification("Le code du jeu n'a pas pu être extrait.", 'danger');
-    }
-}
-
-// Méthode pour construire le prompt pour demander le code à l'IA
-buildGamePrompt(name, cve, mode) {
-    return `Fournis uniquement le code HTML/CSS/JavaScript complet pour un jeu interactif qui explique la vulnérabilité ${name} (CVE: ${cve}) dans le mode ${mode}. Ne mets pas de texte supplémentaire, juste le code.`;
-}
-
-
-
-    renderGameIframe(game, mode) {
-        if (mode === 'analogy' || mode === 'technical') {
-            if (typeof game === 'object' && game.error) {
-                return '<div class="step"><p style="color: var(--danger);">' + game.error + '</p></div>';
-            }
-            const simulationHTML = `
-                <!DOCTYPE html>
-                <html lang="fr">
-                <head>
-                    <meta charset="UTF-8">
-                    <title>Simulation</title>
-                    <style>
-                        body { margin: 0; padding: 0; font-family: 'Inter', system-ui, sans-serif; background-color: #ffffff; color: #000000; }
-                        .container { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1rem; }
-                        h1, h2, h3, p { text-align: center; }
-                    </style>
-                </head>
-                <body>
-                    <div class="container">` + game + `</div>
-                </body>
-                </html>`;
-            return `<iframe srcdoc="${DOMPurify.sanitize(simulationHTML)}" sandbox="allow-scripts" width="100%" height="600px" frameborder="0"></iframe>`;
-        }
-    }
-    initializeStorage() {
-        if (!this.storage.getItem('vulnerabilities')) {
-            this.storage.setItem('vulnerabilities', JSON.stringify([]));
-        }
-        if (!this.storage.getItem('userProgress')) {
-            this.storage.setItem('userProgress', JSON.stringify({ completedGames: [], totalScore: 0 }));
-        }
-        if (!this.storage.getItem('formData')) {
-            this.storage.setItem('formData', JSON.stringify({ name: '', cve: '', description: '' }));
-        }
-    }
-    updateAIBadge() {
-        var badge = document.querySelector('#ai-config-btn .badge');
-        if (this.state.aiConfig.provider !== 'none') {
-            badge.className = 'badge badge-blue';
-            badge.textContent = 'IA: ' + this.state.aiConfig.provider;
-        } else {
-            badge.className = 'badge badge-warning';
-            badge.textContent = 'IA: Non configurée';
-        }
-    }
-    initializeEventListeners() {
-        var tabs = document.querySelectorAll('.tab');
-        for (var i = 0; i < tabs.length; i++) {
-            tabs[i].addEventListener('click', (e) => {
-                var allTabs = document.querySelectorAll('.tab');
-                for (var j = 0; j < allTabs.length; j++) {
-                    allTabs[j].classList.remove('active');
-                }
-                e.target.classList.add('active');
-                this.state.currentTab = e.target.textContent.toLowerCase();
-                this.storage.setItem('currentTab', this.state.currentTab);
-                this.loadCurrentTab();
-            });
-        }
-        var primaryButton = document.querySelector('.btn-primary');
-        if (primaryButton) {
-            primaryButton.addEventListener('click', () => {
-                this.generateVulnerability();
-            });
-        }
-    }
-
-    initializeFormListeners() {
-        const nameInput = document.querySelector('input[placeholder="Nom de la vulnérabilité"]');
-        const cveInput = document.querySelector('input[placeholder="Identifiant CVE (optionnel)"]');
-        const descTextarea = document.querySelector('textarea[placeholder="Description détaillée"]');
-        
-        if (!nameInput || !cveInput || !descTextarea) {
-            console.warn("Form elements not found. Skipping initialization.");
-            return;
-        }
-    
-        nameInput.value = this.state.formData.name;
-        cveInput.value = this.state.formData.cve;
-        descTextarea.value = this.state.formData.description;
-    
-        const updateStorage = () => {
-            this.state.formData = {
-                name: nameInput.value,
-                cve: cveInput.value,
-                description: descTextarea.value
+        initializeState() {
+            var defaultConfig = this.getDefaultConfig();
+            var savedConfig = JSON.parse(this.storage.getItem('aiConfig')) || {};
+            this.state = {
+                currentTab: this.storage.getItem('currentTab') || 'création',
+                formData: JSON.parse(this.storage.getItem('formData')) || { name: '', cve: '', description: '' },
+                aiConfig: Object.assign({}, defaultConfig, savedConfig, {
+                    enabledModels: Object.assign({}, defaultConfig.enabledModels, savedConfig.enabledModels || {}),
+                    modelOrder: Object.assign({}, defaultConfig.modelOrder, savedConfig.modelOrder || {}),
+                    preferredModel: savedConfig.preferredModel || defaultConfig.preferredModel
+                })
             };
-            this.storage.setItem('formData', JSON.stringify(this.state.formData));
-        };
-    
-        nameInput.addEventListener('input', updateStorage);
-        cveInput.addEventListener('input', updateStorage);
-        descTextarea.addEventListener('input', updateStorage);
-    }
-
-
-loadCurrentTab() {
-    const contentContainer = document.querySelector('#tab-content');
-
-    // Clear only the tab content area
-    contentContainer.innerHTML = '';
-
-    // Load content based on the current tab
-    let content;
-    switch (this.state.currentTab) {
-        case 'création':
-            content = `
-                <div class="card animate-in">
-                    <h2>Nouvelle Vulnérabilité</h2>
-                    <div class="grid" style="margin-top: 1rem;">
-                        <div>
-                            <input type="text" placeholder="Nom de la vulnérabilité" value="${this.state.formData.name}">
-                            <input type="text" placeholder="Identifiant CVE (optionnel)" value="${this.state.formData.cve}">
-                            <textarea rows="4" placeholder="Description détaillée">${this.state.formData.description}</textarea>
-                            <button class="btn btn-primary" onclick="app.generateVulnerability()">Générer les Simulations</button>
-                        </div>
-                        <div class="terminal">
-                            <div class="terminal-line">
-                                <span class="terminal-prompt">$</span>
-                                <span class="terminal-output">En attente de génération...</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="analogyContainer" class="card animate-in" style="margin-top: 1rem; display: none;">
-                        <h3>Scénario Analogique</h3>
-                        <div class="terminal"></div>
-                    </div>
-                    <div id="technicalContainer" class="card animate-in" style="margin-top: 1rem; display: none;">
-                        <h3>Simulation Technique</h3>
-                        <div class="terminal"></div>
-                    </div>
-                </div>`;
-            break;
-
-        case 'bibliothèque':
-            content = this.getLibraryContent();
-            break;
-
-        case 'progression':
-            content = this.getProgressionContent();
-            break;
-
-        default:
-            content = '';
-    }
-
-    // Insert the content only once into #tab-content
-    contentContainer.insertAdjacentHTML('beforeend', content);
-
-    // Initialize form listeners only for the "création" tab
-    if (this.state.currentTab === 'création') {
-        this.initializeFormListeners();
-    }
-}
-
-
-
-
-async generateVulnerability() {
-    const terminal = document.querySelector('.terminal');
-    terminal.innerHTML = ''; // Clear previous content
-
-    const { name, cve, description } = this.state.formData;
-    if (!name || !description) {
-        this.showNotification('Veuillez remplir les champs requis', 'danger');
-        return;
-    }
-
-    try {
-        // Generate analogy and technical responses
-        this.appendToTerminal(terminal, 'Génération du scénario analogique...', 'info');
-        const analogyResponse = await this.callAI(this.buildAnalogyPrompt(name, cve, description));
-        this.appendToTerminal(terminal, 'Génération du scénario technique...', 'info');
-        const technicalResponse = await this.callAI(this.buildTechnicalPrompt(name, cve, description));
-
-        const vulnerability = {
-            id: Date.now().toString(), // Ensure ID is a string for consistency
-            name,
-            cve,
-            description,
-            analogyCode: analogyResponse,
-            technicalCode: technicalResponse,
-            created: new Date().toISOString()
-        };
-
-        // Save vulnerability
-        const vulnerabilities = JSON.parse(localStorage.getItem('vulnerabilities')) || [];
-        vulnerabilities.push(vulnerability);
-        localStorage.setItem('vulnerabilities', JSON.stringify(vulnerabilities));
-
-        this.showNotification('Vulnérabilité créée!', 'success');
-        this.loadCurrentTab();
-
-    } catch (error) {
-        this.appendToTerminal(terminal, 'Erreur: ' + error.message, 'danger');
-        this.showNotification(error.message, 'danger');
-    }
-}
-
-
-
-
-
-
-appendToTerminal(terminal, text, type) {
-    const line = document.createElement('div');
-    line.className = 'terminal-line';
-    line.innerHTML = `<span class="terminal-prompt">$</span><span class="terminal-output ${type}">${text}</span>`;
-    terminal.appendChild(line);
-    terminal.scrollTop = terminal.scrollHeight;
-}
-
-    showNotification(message, type) {
-        var notification = document.createElement('div');
-        notification.className = 'card animate-in';
-        notification.style.cssText = 'position: fixed; top: 20px; right: 20px; z-index: 1000; background: var(--' + type + '); padding: 1rem; color: ' + (type === 'danger' || type === 'warning' ? 'white' : 'black') + '; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);';
-        notification.textContent = message;
-        document.body.appendChild(notification);
-        setTimeout(() => {
-            notification.remove();
-        }, 3000);
-    }
-    completeGame(vulnId, mode) {
-        var vulnerabilities = JSON.parse(this.storage.getItem('vulnerabilities'));
-        var vuln = vulnerabilities.find((v) => v.id === vulnId);
-        if (!vuln) return;
-        var progress = JSON.parse(this.storage.getItem('userProgress'));
-        var score = mode === 'analogy' ? 10 : 20;
-        progress.completedGames.push({ id: vulnId, name: vuln.name, mode: mode, score: score, timestamp: Date.now() });
-        progress.totalScore += score;
-        this.storage.setItem('userProgress', JSON.stringify(progress));
-        this.showNotification('+' + score + ' points gagnés !', 'success');
-        document.querySelector('.modal').remove();
-        this.loadCurrentTab();
-    }
-    generateModelConfigHTML() {
-        var provider = this.state.aiConfig.provider;
-        if (provider === 'none') return '';
-        
-        if (!this.AI_MODELS || !this.AI_MODELS[provider] || !this.AI_MODELS[provider].models) {
-            console.error("Configuration des modèles non disponible pour", provider);
-            return '<div class="error">Configuration des modèles non disponible</div>';
-        }
-        
-        var models = this.AI_MODELS[provider].models;
-        var enabledModels = this.state.aiConfig.enabledModels[provider] || [];
-        var modelOrder = this.state.aiConfig.modelOrder[provider] || Object.keys(models);
-        
-        var modelItems = modelOrder.map((modelId) => {
-            var isChecked = enabledModels.includes(modelId) ? 'checked' : '';
-            return '<div class="sortable-item" draggable="true" data-model="' + modelId + '">' +
-                '<span class="handle">↕️</span>' +
-                '<div class="model-info">' +
-                    '<div class="model-name">' + modelId + '</div>' +
-                    '<div class="model-description">' + models[modelId].description + '</div>' +
-                    '<div class="model-specs">' +
-                        'Max tokens: ' + models[modelId].maxTokens.toLocaleString() + ' | ' +
-                        'Input: $' + models[modelId].costPer1kTokens.input + '/1k tokens | ' +
-                        'Output: $' + models[modelId].costPer1kTokens.output + '/1k tokens' +
-                    '</div>' +
-                '</div>' +
-                '<label class="toggle">' +
-                    '<input type="checkbox" ' + isChecked + '>' +
-                    '<span class="slider"></span>' +
-                '</label>' +
-            '</div>';
-        }).join('');
-        
-        var modelSelector = '<div class="input-group">' +
-            '<label>Modèle Préféré</label>' +
-            '<select class="input" id="preferred-model">' +
-                enabledModels.map((modelId) => {
-                    var selected = this.state.aiConfig.preferredModel === modelId ? 'selected' : '';
-                    return '<option value="' + modelId + '" ' + selected + '>' + modelId + '</option>';
-                }).join('') +
-            '</select>' +
-        '</div>';
-        
-        var html = '<div class="model-preferences">' +
-            '<h4>Configuration des modèles ' + provider + '</h4>' +
-            modelSelector +
-            '<div id="model-order" class="sortable-list">' +
-                modelItems +
-            '</div>' +
-        '</div>';
-        
-        setTimeout(() => {
-            this.updatePreferredModelOptions();
-        }, 0);
-        
-        return html;
-    }
-
-    showAIConfig() {
-        var modal = document.createElement('div');
-        modal.className = 'modal';
-        modal.innerHTML = '<div class="modal-content card">' +
-            '<h2>Configuration de l\'IA</h2>' +
-            '<div class="grid" style="margin-top: 1rem;">' +
-                '<div>' +
-                    '<select class="input" id="ai-provider" onchange="app.updateProviderConfig(this.value)">' +
-                        '<option value="none" ' + (this.state.aiConfig.provider === 'none' ? 'selected' : '') + '>' +
-                            'Choisir un provider' +
-                        '</option>' +
-                        '<option value="claude" ' + (this.state.aiConfig.provider === 'claude' ? 'selected' : '') + '>' +
-                            'Claude (Anthropic)' +
-                        '</option>' +
-                        '<option value="openai" ' + (this.state.aiConfig.provider === 'openai' ? 'selected' : '') + '>' +
-                            'ChatGPT (OpenAI)' +
-                        '</option>' +
-                    '</select>' +
-                    
-                    '<div id="model-config" class="provider-config" style="margin-top: 1rem;">' +
-                        this.generateModelConfigHTML() +
-                    '</div>' +
-                    
-                    '<input type="password" class="input" id="ai-key" ' +
-                        'placeholder="Clé API" value="' + this.state.aiConfig.apiKey + '">' +
-                    '<input type="text" class="input" id="ai-endpoint" ' +
-                        'placeholder="Endpoint (optionnel)" value="' + this.state.aiConfig.endpoint + '">' +
-                    
-                    '<div class="global-settings">' +
-                        '<h4>Paramètres globaux</h4>' +
-                        '<div class="input-group">' +
-                            '<label>Budget maximum par requête (USD)</label>' +
-                            '<input type="number" class="input" id="max-cost" ' +
-                                'value="' + (this.state.aiConfig.maxCost || 0) + '" ' +
-                                'step="0.01" min="0">' +
-                        '</div>' +
-                        '<div class="input-group">' +
-                            '<label>Délai entre tentatives (ms)</label>' +
-                            '<input type="number" class="input" id="retry-delay" ' +
-                                'value="' + (this.state.aiConfig.retryDelay || 1000) + '" ' +
-                                'min="500">' +
-                        '</div>' +
-                        '<div class="input-group">' +
-                            '<label>Nombre maximum de tentatives</label>' +
-                            '<input type="number" class="input" id="max-retries" ' +
-                                'value="' + (this.state.aiConfig.maxRetries || 3) + '" ' +
-                                'min="1" max="5">' +
-                        '</div>' +
-                    '</div>' +
-                    
-                    '<div class="usage-stats">' +
-                        '<h4>Statistiques d\'utilisation</h4>' +
-                        '<div id="usage-stats">' +
-                            this.getUsageStatsHTML() +
-                        '</div>' +
-                    '</div>' +
-                    
-                    '<div class="flex" style="margin-top: 1rem;">' +
-                        '<button class="btn btn-primary" onclick="app.saveAIConfig()">Sauvegarder</button>' +
-                        '<button class="btn btn-secondary" onclick="app.testConnection()">Tester la connexion</button>' +
-                        '<button class="btn btn-danger" onclick="this.closest(\'.modal\').remove()">Fermer</button>' +
-                        
-                        '<button class="btn btn-warning" onclick="app.resetUsageStats()">' +
-                            'Réinitialiser les statistiques' +
-                        '</button>' +
-                    '</div>' +
-                '</div>' +
-            '</div>' +
-        '</div>';
-        
-        document.body.appendChild(modal);
-        this.initializeConfigHandlers();
-    }
-    updateProviderConfig(provider) {
-        console.log('Provider updated to: ' + provider);
-
-        this.state.aiConfig.provider = provider;
-
-        if (provider === 'none') {
-            this.state.aiConfig.apiKey = '';
-            this.state.aiConfig.endpoint = '';
-            this.state.aiConfig.enabledModels = { claude: [], openai: [] };
-            this.state.aiConfig.modelOrder = { claude: [], openai: [] };
-            this.state.aiConfig.preferredModel = '';
-        } else {
-            const providerModels = this.AI_MODELS[provider].models;
-            this.state.aiConfig.enabledModels[provider] = Object.keys(providerModels).slice(0, 2);
-            this.state.aiConfig.modelOrder[provider] = Object.keys(providerModels);
-            this.state.aiConfig.preferredModel = this.state.aiConfig.enabledModels[provider][0] || '';
-        }
-
-        this.storage.setItem('aiConfig', JSON.stringify(this.state.aiConfig));
-
-        const modelConfigDiv = document.getElementById('model-config');
-        if (modelConfigDiv) {
-            modelConfigDiv.innerHTML = this.generateModelConfigHTML();
-            this.initializeModelConfigHandlers();
-        }
-
-        this.updateAIBadge();
-        this.updateUsageDisplay();
-        this.showNotification('AI provider configuration updated.', 'success');
-    }
-    initializeConfigHandlers() {
-        // Set up event listeners for configuration elements here
-        const checkboxes = document.querySelectorAll('.provider-config input[type="checkbox"]');
-        for (let checkbox of checkboxes) {
-            checkbox.addEventListener('change', (e) => {
-                const modelId = e.target.closest('.sortable-item').getAttribute('data-model');
-                const provider = this.state.aiConfig.provider;
-
-                if (e.target.checked) {
-                    this.state.aiConfig.enabledModels[provider].push(modelId);
-                } else {
-                    this.state.aiConfig.enabledModels[provider] = this.state.aiConfig.enabledModels[provider].filter((id) => id !== modelId);
-                    
-                    if (this.state.aiConfig.preferredModel === modelId) {
-                        this.state.aiConfig.preferredModel = this.state.aiConfig.enabledModels[provider][0] || '';
-                        const preferredModelSelect = document.getElementById('preferred-model');
-                        if (preferredModelSelect) {
-                            preferredModelSelect.value = this.state.aiConfig.preferredModel;
-                        }
-                    }
-                }
-
-                this.storage.setItem('aiConfig', JSON.stringify(this.state.aiConfig));
-                this.updateUsageDisplay();
-                this.updatePreferredModelOptions();
-            });
-        }
-
-        const preferredModelSelect = document.getElementById('preferred-model');
-        if (preferredModelSelect) {
-            preferredModelSelect.addEventListener('change', (e) => {
-                this.state.aiConfig.preferredModel = e.target.value;
-                this.storage.setItem('aiConfig', JSON.stringify(this.state.aiConfig));
-            });
-        }
-    }
-    updatePreferredModelOptions() {
-        const provider = this.state.aiConfig.provider;
-        const enabledModels = this.getEnabledModels(provider);
-        const preferredModelSelect = document.getElementById('preferred-model');
-    
-        if (!preferredModelSelect) return;
-    
-        const currentSelection = this.state.aiConfig.preferredModel;
-    
-        preferredModelSelect.innerHTML = '';
-    
-        enabledModels.forEach((modelId) => {
-            const option = document.createElement('option');
-            option.value = modelId;
-            option.textContent = modelId;
-            if (modelId === currentSelection) {
-                option.selected = true;
-            }
-            preferredModelSelect.appendChild(option);
-        });
-    
-        if (!enabledModels.includes(currentSelection)) {
-            this.state.aiConfig.preferredModel = enabledModels[0] || '';
             this.storage.setItem('aiConfig', JSON.stringify(this.state.aiConfig));
-            preferredModelSelect.value = this.state.aiConfig.preferredModel;
         }
-    }
-    getEnabledModels(provider) {
-        // Check if `enabledModels` exists in the current state and contains the specified provider
-        if (this.state && this.state.aiConfig && this.state.aiConfig.enabledModels) {
-            return this.state.aiConfig.enabledModels[provider] || [];
-        }
-        return [];
-    }
 
-    updatePreferredModelOptions() {
-        const provider = this.state.aiConfig.provider;
-        const enabledModels = this.getEnabledModels(provider);
-        const preferredModelSelect = document.getElementById('preferred-model');
-
-        if (!preferredModelSelect) return;
-
-        const currentSelection = this.state.aiConfig.preferredModel;
-
-        preferredModelSelect.innerHTML = '';
-
-        enabledModels.forEach((modelId) => {
-            const option = document.createElement('option');
-            option.value = modelId;
-            option.textContent = modelId;
-            if (modelId === currentSelection) {
-                option.selected = true;
+        getUsageStatsHTML() {
+            var stats = JSON.parse(this.storage.getItem('usageStats') || '{}');
+            var provider = this.state.aiConfig.provider;
+            if (provider === 'none' || !stats[provider]) {
+                return '<p>Aucune statistique disponible</p>';
             }
-            preferredModelSelect.appendChild(option);
-        });
-
-        if (!enabledModels.includes(currentSelection)) {
-            this.state.aiConfig.preferredModel = enabledModels[0] || '';
-            this.storage.setItem('aiConfig', JSON.stringify(this.state.aiConfig));
-            preferredModelSelect.value = this.state.aiConfig.preferredModel;
+            var usageRows = Object.entries(stats[provider]).map((entry) => {
+                var model = entry[0];
+                var data = entry[1];
+                return '<div class="usage-row">' +
+                    '<div class="model-name">' + model + '</div>' +
+                    '<div class="usage-details">' +
+                        '<span>Appels: ' + data.calls + '</span>' +
+                        '<span>Tokens: ' + data.tokens.toLocaleString() + '</span>' +
+                        '<span>Coût: $' + data.cost.toFixed(4) + '</span>' +
+                    '</div>' +
+                '</div>';
+            }).join('');
+            return '<div class="usage-table">' + usageRows + '<div class="usage-total"><strong>Total: $' + this.calculateTotalCost(stats[provider]).toFixed(4) + '</strong></div></div>';
         }
-    }
-    initializeModelConfigHandlers() {
-        // Add event listeners to model configuration checkboxes
-        const checkboxes = document.querySelectorAll('.provider-config input[type="checkbox"]');
-        checkboxes.forEach((checkbox) => {
-            checkbox.addEventListener('change', (e) => {
-                const modelId = e.target.closest('.sortable-item').getAttribute('data-model');
-                const provider = this.state.aiConfig.provider;
 
-                if (e.target.checked) {
-                    this.state.aiConfig.enabledModels[provider].push(modelId);
-                } else {
-                    this.state.aiConfig.enabledModels[provider] = this.state.aiConfig.enabledModels[provider].filter((id) => id !== modelId);
+        calculateTotalCost(providerStats) {
+            return Object.values(providerStats).reduce((total, data) => total + (data.cost || 0), 0);
+        }
 
-                    if (this.state.aiConfig.preferredModel === modelId) {
-                        this.state.aiConfig.preferredModel = this.state.aiConfig.enabledModels[provider][0] || '';
-                        const preferredModelSelect = document.getElementById('preferred-model');
-                        if (preferredModelSelect) {
-                            preferredModelSelect.value = this.state.aiConfig.preferredModel;
-                        }
-                    }
-                }
+        updateUsageStats(provider, model, inputTokens, outputTokens) {
+            var stats = JSON.parse(this.storage.getItem('usageStats') || '{}');
+            if (!stats[provider]) stats[provider] = {};
+            if (!stats[provider][model]) {
+                stats[provider][model] = { calls: 0, tokens: 0, cost: 0 };
+            }
+            var modelInfo = this.AI_MODELS[provider].models[model];
+            var inputCost = (inputTokens / 1000) * modelInfo.costPer1kTokens.input;
+            var outputCost = (outputTokens / 1000) * modelInfo.costPer1kTokens.output;
+            stats[provider][model].calls += 1;
+            stats[provider][model].tokens += (inputTokens + outputTokens);
+            stats[provider][model].cost += (inputCost + outputCost);
+            this.storage.setItem('usageStats', JSON.stringify(stats));
+            this.updateUsageDisplay();
+        }
 
-                this.storage.setItem('aiConfig', JSON.stringify(this.state.aiConfig));
+        updateUsageDisplay() {
+            var usageStats = document.getElementById('usage-stats');
+            if (usageStats) {
+                usageStats.innerHTML = this.getUsageStatsHTML();
+            }
+        }
+
+        resetUsageStats() {
+            if (confirm('Voulez-vous vraiment réinitialiser toutes les statistiques d\'utilisation ?')) {
+                this.storage.setItem('usageStats', JSON.stringify({}));
                 this.updateUsageDisplay();
-                this.updatePreferredModelOptions();
-            });
-        });
-
-        // Event listener for preferred model selection
-        const preferredModelSelect = document.getElementById('preferred-model');
-        if (preferredModelSelect) {
-            preferredModelSelect.addEventListener('change', (e) => {
-                this.state.aiConfig.preferredModel = e.target.value;
-                this.storage.setItem('aiConfig', JSON.stringify(this.state.aiConfig));
-            });
+                this.showNotification('Statistiques réinitialisées', 'success');
+            }
         }
-    }
-    async testConnection() {
-        try {
-            this.showNotification('Testing connection...', 'info');
+
+        addUsageStyles() {
+            var styles = document.createElement('style');
+            styles.textContent = `
+                .usage-table { margin-top: 1rem; }
+                .usage-row { display: flex; justify-content: space-between; padding: 0.5rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+                .usage-details { display: flex; gap: 1rem; }
+                .usage-total { margin-top: 1rem; text-align: right; color: var(--accent); }
+                .model-name { font-weight: 500; }
+            `;
+            document.head.appendChild(styles);
+        }
+
+        getLibraryContent() {
+            const vulnerabilities = JSON.parse(localStorage.getItem('vulnerabilities')) || [];
+            console.log("Displaying vulnerabilities:", vulnerabilities);
+        
+            if (!vulnerabilities.length) {
+                return '<div class="card animate-in"><h2>Bibliothèque vide</h2><p style="color: var(--text-secondary);">Créez votre première vulnérabilité dans l\'onglet Création.</p></div>';
+            }
+        
+            return vulnerabilities.map((vuln) => {
+                const cveBadge = vuln.cve ? `<span class="badge badge-blue">${vuln.cve}</span>` : '';
+                return `
+                    <div class="card animate-in">
+                        <div style="margin-bottom: 1rem;">
+                            <h3 style="margin-bottom: 0.5rem;">${vuln.name}</h3>
+                            ${cveBadge}
+                        </div>
+                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">${vuln.description}</p>
+                        <div class="flex">
+                            <button class="btn btn-primary" onclick="app.showGame('${vuln.id}', 'analogy')">Mode Histoire</button>
+                            <button class="btn btn-warning" onclick="app.showGame('${vuln.id}', 'technical')">Mode Technique</button>
+                            <button class="btn btn-danger" onclick="app.deleteVulnerability('${vuln.id}')">Supprimer</button>
+                        </div>
+                    </div>`;
+            }).join('');
+        }
+
+        createWall() {
+            const existingWall = document.querySelector('#wall');
+            if (!existingWall) {
+                const wall = document.createElement('div');
+                wall.id = 'wall';
+                wall.className = 'grid';
+                document.querySelector('.container').appendChild(wall);
+            }
+        }
+
+        appendToTerminal(terminal, text, type) {
+            const line = document.createElement('div');
+            line.className = 'terminal-line';
             
-            const provider = document.getElementById('ai-provider').value;
-            const apiKey = document.getElementById('ai-key').value;
-            const endpoint = document.getElementById('ai-endpoint').value || 'https://api.anthropic.com/v1/messages';
-            const preferredModel = document.getElementById('preferred-model').value;
-    
-            if (!apiKey) {
-                throw new Error('API Key is missing. Please enter it in the configuration.');
-            }
-    
-            let response;
-            if (provider === 'claude') {
-                response = await fetch(endpoint, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'x-api-key': apiKey,
-                        'anthropic-version': '2023-06-01',
-                        'anthropic-dangerous-direct-browser-access': 'true'
-                    },
-                    body: JSON.stringify({
-                        model: preferredModel,
-                        messages: [{ role: 'user', content: 'Connection test' }],
-                        max_tokens: 10
-                    })
-                });
-            } else if (provider === 'openai') {
-                response = await fetch('https://api.openai.com/v1/chat/completions', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${apiKey}`
-                    },
-                    body: JSON.stringify({
-                        model: preferredModel,
-                        messages: [{ role: 'user', content: 'Connection test' }],
-                        temperature: 0.5,
-                        max_tokens: 10
-                    })
-                });
-            }
-    
-            if (!response.ok) {
-                const errorText = await response.text();
-                throw new Error(`Connection test failed: ${errorText}`);
-            }
-    
-            const result = await response.json();
-            if (result.choices || result.content) {
-                this.showNotification('Connection successful!', 'success');
+            if (type === 'output') {
+                line.innerHTML = `<span class="terminal-output">${text}</span>`;
             } else {
-                throw new Error('Unexpected response structure.');
+                line.innerHTML = `<span class="terminal-prompt">$</span><span class="terminal-output ${type}">${text}</span>`;
             }
-        } catch (error) {
-            this.showNotification(`Connection test failed: ${error.message}`, 'danger');
-            console.error('Connection test error:', error);
+            
+            terminal.appendChild(line);
+            terminal.scrollTop = terminal.scrollHeight;
         }
-    }
 
-    async callAI(prompt) {
-        // Ensure a provider is selected
-        const provider = this.state.aiConfig.provider;
-        if (provider === 'none') {
-            throw new Error('Please configure an AI provider in the settings.');
+        showNotification(message, type) {
+            var notification = document.createElement('div');
+            notification.className = 'card animate-in';
+            notification.style.cssText = 'position: fixed; top: 20px; right: 20px; z-index: 1000; background: var(--' + type + '); padding: 1rem; color: ' + (type === 'danger' || type === 'warning' ? 'white' : 'black') + '; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);';
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
         }
-    
-        try {
-            // Route to the correct API based on the provider
-            if (provider === 'claude') {
-                return await this.callClaude(prompt);
-            } else if (provider === 'openai') {
-                return await this.callChatGPT(prompt);
-            } else {
-                throw new Error('Unsupported AI provider selected.');
+
+        getProgressionContent() {
+            var progress = JSON.parse(this.storage.getItem('userProgress'));
+            var vulnerabilities = JSON.parse(this.storage.getItem('vulnerabilities'));
+            return '<div class="card animate-in"><h2>Votre Progression</h2><div style="margin-top: 1rem;"><div class="flex" style="margin-bottom: 1rem;"><div><h3 style="color: var(--success);">' + progress.totalScore + '</h3><p style="color: var(--text-secondary);">Score total</p></div><div><h3 style="color: var(--accent);">' + progress.completedGames.length + '</h3><p style="color: var(--text-secondary);">Scénarios terminés</p></div><div><h3 style="color: var(--warning);">' + vulnerabilities.length + '</h3><p style="color: var(--text-secondary);">Vulnérabilités créées</p></div></div><h3 style="margin: 1rem 0;">Dernières activités</h3>' + this.getRecentActivities() + '</div></div>';
+        }
+
+        getRecentActivities() {
+            var progress = JSON.parse(this.storage.getItem('userProgress'));
+            if (!progress.completedGames.length) {
+                return '<p style="color: var(--text-secondary);">Aucune activité pour le moment</p>';
             }
-        } catch (error) {
-            console.error('Error in callAI:', error);
-            throw error;
+            return '<div class="terminal" style="background: var(--bg-secondary);">' + progress.completedGames.sort((a, b) => b.timestamp - a.timestamp).slice(0, 5).map((game) => '<div class="terminal-line"><span class="terminal-prompt">></span><span class="terminal-output">' + game.name + ' - Mode ' + game.mode + ' <span style="color: var(--success);">+' + game.score + ' pts</span></span></div>').join('') + '</div>';
         }
-    }
-    // Function to call the Claude API
-    async callClaude(prompt) {
-        const selectedModel = this.state.aiConfig.preferredModel;
-        const apiKey = this.state.aiConfig.apiKey;
-    
-        // Check if API key is present
-        if (!apiKey) {
-            throw new Error('API Key for Claude is missing. Please configure it in the settings.');
+
+        deleteVulnerability(id) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer cette vulnérabilité ?')) {
+                let vulnerabilities = JSON.parse(localStorage.getItem('vulnerabilities')) || [];
+                console.log("Vulnerabilities before deletion:", vulnerabilities);
+                vulnerabilities = vulnerabilities.filter((vuln) => vuln.id.toString() !== id.toString());
+                console.log("Vulnerabilities after filtering:", vulnerabilities);
+                localStorage.setItem('vulnerabilities', JSON.stringify(vulnerabilities));
+                const updatedVulnerabilities = JSON.parse(localStorage.getItem('vulnerabilities'));
+                console.log("Vulnerabilities in storage after deletion:", updatedVulnerabilities);
+                this.showNotification('Vulnérabilité supprimée', 'success');
+                this.loadCurrentTab();
+            }
         }
-    
-        const url = this.state.aiConfig.endpoint || 'https://api.anthropic.com/v1/messages';
-    
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'x-api-key': apiKey, // Ensure the key is added here
-                'anthropic-version': '2023-06-01',
-                'anthropic-dangerous-direct-browser-access': 'true' 
-            },
-            body: JSON.stringify({
-                model: selectedModel,
-                messages: [{ role: 'user', content: prompt }],
-                max_tokens: 4096
-            })
-        });
-    
-        if (!response.ok) {
-            throw new Error(`Claude API Error: ${await response.text()}`);
+
+        buildAnalogyPrompt(name, cve, description) {
+            return `
+            Crée le code HTML CSS JS complet et entièrement fonctionnel pour une seule page (index.html) qui explique la vulnérabilité ${name} ${cve ? `(${cve})` : ''} de manière analogique.
+
+            CONTRAINTES TECHNIQUES OBLIGATOIRES :
+            1. Le code DOIT contenir ces trois parties, CHACUNE EST OBLIGATOIRE :
+               - CSS dans une balise <style>
+               - HTML dans le <body>
+               - JavaScript dans une balise <script>
+            2. Style par défaut OBLIGATOIRE :
+               - background-color: #ffffff (fond blanc)
+               - color: #000000 (texte noir)
+            3. Au moins une fonction JavaScript interactive DOIT être définie
+            4. Inclure au moins un CDN
+            5. La page DOIT être autonome et fonctionner sans dépendances externes (hors CDN)
+
+            DÉTAILS DU JEU :
+            - Créer une métaphore simple et ludique (ex: infiltration d'un bâtiment pour expliquer une injection)
+            - Interface claire avec des boutons "Continuer" pour chaque étape
+            - Feedback visuel pour chaque action (animations, messages)
+            - Le joueur doit comprendre intuitivement la vulnérabilité ${name} à la fin
+
+            RETOURNE LE CODE COMPLET sans omission ni commentaire avec toutes les parties (HTML, CSS, JavaScript). N'OMETS AUCUNE PARTIE.`;
         }
-    
-        const result = await response.json();
-        return result.content[0].text.trim();
-    }
-    
-    // Function to call the OpenAI API
-    async callChatGPT(prompt) {
-        const selectedModel = this.state.aiConfig.preferredModel;
-        const response = await fetch('https://api.openai.com/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.state.aiConfig.apiKey}`
-            },
-            body: JSON.stringify({
-                model: selectedModel,
-                messages: [{ role: 'user', content: prompt }],
-                temperature: 0.7
-            })
-        });
-    
-        if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.message || 'OpenAI API Error');
+
+        buildTechnicalPrompt(name, cve, description) {
+            return `
+            Crée le code HTML CSS JS complet et entièrement fonctionnel pour une seule page (index.html) qui simule techniquement l'exploitation de la vulnérabilité ${name} ${cve ? `(${cve})` : ''}.
+
+            CONTRAINTES TECHNIQUES OBLIGATOIRES :
+            1. Le code DOIT contenir ces trois parties, CHACUNE EST OBLIGATOIRE :
+               - CSS dans une balise <style>
+               - HTML dans le <body>
+               - JavaScript dans une balise <script>
+            2. Style par défaut OBLIGATOIRE :
+               - background-color: #ffffff (fond blanc)
+               - color: #000000 (texte noir)
+            3. Au moins une fonction JavaScript interactive DOIT être définie
+            4. Inclure au moins un CDN
+            5. La page DOIT être autonome et fonctionner sans dépendances externes (hors CDN)
+
+            DÉTAILS DU JEU :
+            - Interface type terminal avec commandes interactives
+            - Chaque étape doit simuler une vraie commande (nmap, sqlmap, etc.)
+            - Messages clairs expliquant les actions techniques
+            - Le joueur doit comprendre techniquement l'exploitation à la fin
+
+            RETOURNE LE CODE COMPLET sans omission ni commentaire avec toutes les parties (HTML, CSS, JavaScript). N'OMETS AUCUNE PARTIE.`;
         }
-    
-        const data = await response.json();
-        return data.choices[0].message.content;
-    }
-    saveAIConfig() {
-        const provider = document.getElementById('ai-provider').value;
-        const apiKey = document.getElementById('ai-key').value;
-        const endpoint = document.getElementById('ai-endpoint').value;
-        const preferredModel = document.getElementById('preferred-model') ? document.getElementById('preferred-model').value : '';
-    
-        this.state.aiConfig = {
-            ...this.state.aiConfig,
-            provider,
-            apiKey,
-            endpoint,
-            preferredModel,
-            maxCost: parseFloat(document.getElementById('max-cost').value) || 0,
-            retryDelay: parseInt(document.getElementById('retry-delay').value) || 1000,
-            maxRetries: parseInt(document.getElementById('max-retries').value) || 3
-        };
-    
-        this.storage.setItem('aiConfig', JSON.stringify(this.state.aiConfig));
-        document.querySelector('.modal').remove();
-        this.showNotification('AI configuration saved successfully', 'success');
-        this.updateAIBadge();
-    }
 
-buildAnalogyPrompt(name, cve, description) {
-    return `
-    Crée un jeu interactif en HTML/CSS/JavaScript pour expliquer de manière analogique la vulnérabilité suivante : ${description}.
-
-    **Détails du jeu** :
-    - Le jeu doit être simple et ludique, conçu sous forme d'analogie pour aider les utilisateurs à comprendre le concept de l'attaque sans entrer dans les détails techniques.
-    - Utilise une métaphore : imagine une scène qui simule une "infiltration" ou une "attaque" de manière amusante, par exemple un agent secret qui tente de pénétrer un bâtiment sécurisé pour représenter l'injection de code.
-    - Le joueur doit accomplir plusieurs actions pour "infiltrer" ou "désactiver" les défenses, en cliquant sur des éléments ou en choisissant les bonnes options.
-    - Ajoute des feedbacks visuels pour chaque action (par exemple, des messages ou des animations) pour indiquer la progression.
-    - La couleur de fond doit être #f5f5f5, avec une interface simple et claire, et un bouton "Continuer" pour chaque étape.
-
-    À la fin du jeu, le joueur doit comprendre que la vulnérabilité ${name} représente une faiblesse que l'on peut exploiter en s'infiltrant de manière ciblée.
-    Montre moi le code index.html sans commentaire ni ommission.
-    `;
-}
-
-buildTechnicalPrompt(name, cve, description) {
-    return `
-    Crée un jeu interactif en HTML/CSS/JavaScript pour simuler techniquement une attaque sur la vulnérabilité suivante : ${description}.
-
-    **Détails du jeu** :
-    - Le jeu doit suivre un format de terminal où le joueur peut entrer des commandes ou cliquer pour exécuter des actions.
-    - Chaque étape de l'attaque doit être représentée de manière réaliste, par exemple : "nmap scan" pour détecter les ports ouverts, "exploit avec SQLMap" pour injecter du code, etc.
-    - Chaque étape doit inclure une description claire de l'action technique réalisée et fournir des retours visuels (par exemple, des lignes de commande et des résultats).
-    - L'interface du terminal doit être sombre (fond #1a1d25) avec des couleurs vertes pour le texte des commandes (#39ff14) et des détails blancs pour les retours d’information.
-    - Ajoute des boutons pour avancer dans le processus, chaque étape du jeu devant enseigner un concept technique particulier lié à cette vulnérabilité.
-
-    Le joueur doit sortir de cette simulation avec une compréhension claire des étapes nécessaires pour exploiter cette vulnérabilité.
-    Montre moi le code index.html sans commentaire ni ommission.
-    `;
-}
 
 
 
@@ -1417,10 +1255,45 @@ showGame(vulnId, mode) {
     }
 
     const gameContent = mode === 'analogy' ? vuln.analogyCode : vuln.technicalCode;
+    const currentPrompt = mode === 'analogy' ? vuln.analogyPrompt : vuln.technicalPrompt; // AJOUTÉ
+
     if (!gameContent) {
         this.showNotification('Le jeu sélectionné est manquant.', 'danger');
         return;
     }
+
+    // Assurer le fond blanc et le texte noir
+    const wrappedContent = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <style>
+                /* Style de base forcé */
+                html, body {
+                    background-color: #ffffff !important;
+                    color: #000000 !important;
+                    margin: 0 !important;
+                    padding: 20px !important;
+                    min-height: 100vh !important;
+                    font-family: Arial, sans-serif !important;
+                }
+                /* Forcer les couleurs pour les éléments de texte communs */
+                p, h1, h2, h3, h4, h5, h6, span, div {
+                    color: #000000 !important;
+                }
+                /* Conserver les couleurs spécifiques pour les boutons et éléments d'interface */
+                button, .btn, .button {
+                    color: inherit;
+                }
+            </style>
+            ${gameContent.match(/<style[^>]*>[\s\S]*?<\/style>/gi) || ''}
+        </head>
+        <body>
+            ${gameContent.match(/<body[^>]*>([\s\S]*?)<\/body>/i)?.[1] || gameContent}
+            ${gameContent.match(/<script[^>]*>[\s\S]*?<\/script>/gi) || ''}
+        </body>
+        </html>`;
 
     const modal = document.createElement('div');
     modal.className = 'modal';
@@ -1428,29 +1301,1238 @@ showGame(vulnId, mode) {
         <div class="modal-content card">
             <h2>${vuln.name} - ${mode === 'analogy' ? 'Mode Histoire' : 'Mode Technique'}</h2>
             <div class="game-container">
-                <iframe srcdoc="${DOMPurify.sanitize(gameContent)}" sandbox="allow-scripts" width="100%" height="100%" frameborder="0"></iframe>
+                <iframe 
+                    srcdoc="${DOMPurify.sanitize(wrappedContent)}"
+                    sandbox="allow-scripts allow-same-origin"
+                    style="background: #ffffff !important; width: 100%; height: 100%; border: none;"
+                    frameborder="0">
+                </iframe>
             </div>
-            <button class="btn btn-danger" onclick="this.closest('.modal').remove()">Fermer</button>
-        </div>
-    `;
+            <div class="flex" style="margin-top: 1rem; gap: 1rem;">
+                <button class="btn btn-primary" onclick="app.reloadGame('${vuln.id}', '${mode}')">
+                    🔄 Recharger
+                </button>
+                <button class="btn btn-danger" onclick="this.closest('.modal').remove()">Fermer</button>
+            </div>
+        </div>`;
+
     document.body.appendChild(modal);
+
+    // AJOUTÉ : Forcer les styles après le chargement de l'iframe
+    const iframe = modal.querySelector('iframe');
+    iframe.onload = () => {
+        const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+        const style = iframeDocument.createElement('style');
+        style.textContent = `
+            body {
+                background-color: #ffffff !important;
+                color: #000000 !important;
+            }
+            p, h1, h2, h3, h4, h5, h6, span, div {
+                color: #000000 !important;
+            }
+            button, .btn, .button {
+                color: inherit;
+            }
+        `;
+        iframeDocument.head.appendChild(style);
+    };
 }
 
 
 
+
+
+
+        injectGamesIntoWall(vulnerability) {
+            const wallElement = document.querySelector('#wall');
+            if (!wallElement) {
+                this.showNotification("L'élément du wall n'a pas été trouvé.", 'danger');
+                return;
+            }
+
+            wallElement.innerHTML += `
+                <div class="vulnerability-card" id="${vulnerability.id}">
+                    <h3>${vulnerability.name} (CVE: ${vulnerability.cve})</h3>
+                    <div class="game-container">
+                        <h4>Mode Histoire</h4>
+                        <iframe srcdoc="${DOMPurify.sanitize(vulnerability.analogyCode)}" sandbox="allow-scripts" width="100%" height="300px"></iframe>
+                    </div>
+                    <div class="game-container">
+                        <h4>Mode Technique</h4>
+                        <iframe srcdoc="${DOMPurify.sanitize(vulnerability.technicalCode)}" sandbox="allow-scripts" width="100%" height="300px"></iframe>
+                    </div>
+                </div>`;
+        }
+
+
+        async retrySpecificMode(mode, name, cve, description, maxRetries = 3) {
+            let retryCount = 0;
+            while (retryCount < maxRetries) {
+                this.log(`Tentative ${retryCount + 1}/${maxRetries} pour le mode ${mode}...`, 'info');
+                
+                try {
+                    const prompt = mode === 'analogy' 
+                        ? this.buildAnalogyPrompt(name, cve, description)
+                        : this.buildTechnicalPrompt(name, cve, description);
+                    
+                    let response = await this.callAI(prompt);
+                    response = await this.validateAndRetryGeneration(response);
+                    
+                    const validation = this.validateGameContent(response);
+                    if (validation.isValid) {
+                        this.log(`Mode ${mode} généré avec succès.`, 'success');
+                        return { isValid: true, code: response };
+                    }
+                } catch (error) {
+                    this.log(`Erreur lors de la tentative ${retryCount + 1}: ${error.message}`, 'error');
+                }
+                
+                retryCount++;
+                await new Promise(resolve => setTimeout(resolve, this.retryDelay));
+            }
+            
+            return { isValid: false, code: null };
+        }
+
+validateGameContent(code) {
+    // Validation de base
+    const validation = CodeValidator.validateGameCode(code);
+
+    // Vérifications supplémentaires
+    const hasInteractiveElements = code.includes('onclick') || 
+                                code.includes('addEventListener') || 
+                                code.includes('input') ||
+                                code.includes('button') ||
+                                code.includes('function '); // S'assurer qu'au moins une fonction est définie
+    
+    const hasProperStructure = code.includes('<!DOCTYPE html>') &&
+                             code.includes('<html') &&
+                             code.includes('<head') &&
+                             code.includes('<body');
+
+    // Log des validations
+    this.log(`Validation - Éléments interactifs: ${hasInteractiveElements}`, 'info');
+    this.log(`Validation - Structure HTML: ${hasProperStructure}`, 'info');
+
+    return {
+        isValid: validation.isValid && hasInteractiveElements && hasProperStructure,
+        messages: [
+            ...validation.messages,
+            !hasInteractiveElements ? 'Pas d\'éléments interactifs trouvés' : null,
+            !hasProperStructure ? 'Structure HTML incorrecte' : null
+        ].filter(Boolean)
+    };
 }
 
 
-window.addEventListener('DOMContentLoaded', function() {
-    window.app = new VulnLearnerApp();
-    var aiConfigBtn = document.getElementById('ai-config-btn');
-    if (aiConfigBtn) {
-        aiConfigBtn.addEventListener('click', function() {
-            app.showAIConfig();
-        });
+
+        async updateExistingVulnerability(vulnId, mode, code) {
+            const vulnerabilities = JSON.parse(localStorage.getItem('vulnerabilities')) || [];
+            const index = vulnerabilities.findIndex(v => v.id === vulnId);
+            
+            if (index !== -1) {
+                if (mode === 'analogy') {
+                    vulnerabilities[index].analogyCode = code;
+                } else {
+                    vulnerabilities[index].technicalCode = code;
+                }
+                
+                localStorage.setItem('vulnerabilities', JSON.stringify(vulnerabilities));
+                this.log(`Mode ${mode} mis à jour pour la vulnérabilité ${vulnId}`, 'success');
+                return true;
+            }
+            
+            return false;
+        }
+
+        async callAI(prompt) {
+            const provider = this.state.aiConfig.provider;
+            if (provider === 'none') {
+                throw new Error('Please configure an AI provider in the settings.');
+            }
+        
+            try {
+                if (provider === 'claude') {
+                    return await this.callClaude(prompt);
+                } else if (provider === 'openai') {
+                    return await this.callChatGPT(prompt);
+                } else {
+                    throw new Error('Unsupported AI provider selected.');
+                }
+            } catch (error) {
+                console.error('Error in callAI:', error);
+                throw error;
+            }
+        }
+
+        async callClaude(prompt) {
+            const selectedModel = this.state.aiConfig.preferredModel;
+            const apiKey = this.state.aiConfig.apiKey;
+        
+            if (!apiKey) {
+                throw new Error('API Key for Claude is missing. Please configure it in the settings.');
+            }
+        
+            const url = this.state.aiConfig.endpoint || 'https://api.anthropic.com/v1/messages';
+        
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-api-key': apiKey,
+                    'anthropic-version': '2023-06-01',
+                    'anthropic-dangerous-direct-browser-access': 'true' 
+                },
+                body: JSON.stringify({
+                    model: selectedModel,
+                    messages: [{ role: 'user', content: prompt }],
+                    max_tokens: 4096
+                })
+            });
+        
+            if (!response.ok) {
+                throw new Error(`Claude API Error: ${await response.text()}`);
+            }
+        
+            const result = await response.json();
+            return result.content[0].text.trim();
+        }
+        
+        async callChatGPT(prompt) {
+            const selectedModel = this.state.aiConfig.preferredModel;
+            const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${this.state.aiConfig.apiKey}`
+                },
+                body: JSON.stringify({
+                    model: selectedModel,
+                    messages: [{ role: 'user', content: prompt }],
+                    temperature: 0.7
+                })
+            });
+        
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.message || 'OpenAI API Error');
+            }
+        
+            const data = await response.json();
+            return data.choices[0].message.content;
+        }
+
+        initializeFormListeners() {
+            const nameInput = document.querySelector('input[placeholder="Nom de la vulnérabilité"]');
+            const cveInput = document.querySelector('input[placeholder="Identifiant CVE (optionnel)"]');
+            const descTextarea = document.querySelector('textarea[placeholder="Description détaillée"]');
+            
+            if (!nameInput || !cveInput || !descTextarea) {
+                console.warn("Form elements not found. Skipping initialization.");
+                return;
+            }
+        
+            nameInput.value = this.state.formData.name;
+            cveInput.value = this.state.formData.cve;
+            descTextarea.value = this.state.formData.description;
+        
+            const updateStorage = () => {
+                this.state.formData = {
+                    name: nameInput.value,
+                    cve: cveInput.value,
+                    description: descTextarea.value
+                };
+                this.storage.setItem('formData', JSON.stringify(this.state.formData));
+            };
+        
+            nameInput.addEventListener('input', updateStorage);
+            cveInput.addEventListener('input', updateStorage);
+            descTextarea.addEventListener('input', updateStorage);
+        }
+
+        initializeStorage() {
+            if (!this.storage.getItem('vulnerabilities')) {
+                this.storage.setItem('vulnerabilities', JSON.stringify([]));
+            }
+            if (!this.storage.getItem('userProgress')) {
+                this.storage.setItem('userProgress', JSON.stringify({ completedGames: [], totalScore: 0 }));
+            }
+            if (!this.storage.getItem('formData')) {
+                this.storage.setItem('formData', JSON.stringify({ name: '', cve: '', description: '' }));
+            }
+        }
+
+        updateAIBadge() {
+            var badge = document.querySelector('#ai-config-btn .badge');
+            if (this.state.aiConfig.provider !== 'none') {
+                badge.className = 'badge badge-blue';
+                badge.textContent = 'IA: ' + this.state.aiConfig.provider;
+            } else {
+                badge.className = 'badge badge-warning';
+                badge.textContent = 'IA: Non configurée';
+            }
+        }
+
+        completeGame(vulnId, mode) {
+            var vulnerabilities = JSON.parse(this.storage.getItem('vulnerabilities'));
+            var vuln = vulnerabilities.find((v) => v.id === vulnId);
+            if (!vuln) return;
+            var progress = JSON.parse(this.storage.getItem('userProgress'));
+            var score = mode === 'analogy' ? 10 : 20;
+            progress.completedGames.push({ id: vulnId, name: vuln.name, mode: mode, score: score, timestamp: Date.now() });
+            progress.totalScore += score;
+            this.storage.setItem('userProgress', JSON.stringify(progress));
+            this.showNotification('+' + score + ' points gagnés !', 'success');
+            document.querySelector('.modal').remove();
+            this.loadCurrentTab();
+        }
+      
+      
+// Ajout des configurations Firebase dans l'interface IA
+        showAIConfig() {
+            console.log('Ouverture de la configuration IA'); // Debug
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.style.display = 'flex'; // Forcer l'affichage
+            modal.innerHTML = `
+                <div class="modal-content card" style="width: 90%; max-width: 800px;">
+                    <h2>Configuration</h2>
+                    <div class="tab-group" style="margin: 1rem 0;">
+                        <div class="config-tab active" onclick="app.switchConfigTab(this, 'ai')">IA</div>
+                        <div class="config-tab" onclick="app.switchConfigTab(this, 'firebase')">Firebase</div>
+                    </div>
+                    
+                    <div id="ai-config" class="config-section">
+                        <div class="provider-select">
+                            <select class="input" id="ai-provider" onchange="app.updateProviderConfig(this.value)">
+                                <option value="none" ${this.state.aiConfig.provider === 'none' ? 'selected' : ''}>
+                                    Choisir un provider
+                                </option>
+                                <option value="claude" ${this.state.aiConfig.provider === 'claude' ? 'selected' : ''}>
+                                    Claude (Anthropic)
+                                </option>
+                                <option value="openai" ${this.state.aiConfig.provider === 'openai' ? 'selected' : ''}>
+                                    ChatGPT (OpenAI)
+                                </option>
+                            </select>
+                        </div>
+
+                        <div id="model-config" class="provider-config" style="margin-top: 1rem;">
+                            ${this.generateModelConfigHTML()}
+                        </div>
+
+                        <input type="password" class="input" id="ai-key" 
+                            placeholder="Clé API" value="${this.state.aiConfig.apiKey || ''}">
+                        <input type="text" class="input" id="ai-endpoint" 
+                            placeholder="Endpoint (optionnel)" value="${this.state.aiConfig.endpoint || ''}">
+
+                        <div class="global-settings">
+                            <h3>Paramètres globaux</h3>
+                            <div class="input-group">
+                                <label>Budget maximum par requête (USD)</label>
+                                <input type="number" class="input" id="max-cost"
+                                    value="${this.state.aiConfig.maxCost || 0}"
+                                    step="0.01" min="0">
+                            </div>
+                            <div class="input-group">
+                                <label>Délai entre tentatives (ms)</label>
+                                <input type="number" class="input" id="retry-delay"
+                                    value="${this.state.aiConfig.retryDelay || 1000}"
+                                    min="500">
+                            </div>
+                            <div class="input-group">
+                                <label>Nombre maximum de tentatives</label>
+                                <input type="number" class="input" id="max-retries"
+                                    value="${this.state.aiConfig.maxRetries || 3}"
+                                    min="1" max="5">
+                            </div>
+                        </div>
+
+                        <div class="usage-stats">
+                            <h3>Statistiques d'utilisation</h3>
+                            <div id="usage-stats">
+                                ${this.getUsageStatsHTML()}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="firebase-config" class="config-section" style="display: none;">
+                        <!-- Contenu Firebase -->
+                    </div>
+
+                    <div class="flex" style="margin-top: 1rem; gap: 1rem;">
+                        <button class="btn btn-primary" onclick="app.saveAIConfig()">Sauvegarder</button>
+                        <button class="btn btn-secondary" onclick="app.testConnection()">Tester la connexion</button>
+                        <button class="btn btn-warning" onclick="app.resetUsageStats()">
+                            Réinitialiser les statistiques
+                        </button>
+                        <button class="btn btn-danger" onclick="this.closest('.modal').remove()">Fermer</button>
+                    </div>
+                </div>
+            `;
+
+            // Ajouter les styles
+            this.addAIConfigStyles();
+            
+            // Ajouter la modal au body
+            document.body.appendChild(modal);
+            
+            // Initialiser les gestionnaires d'événements
+            this.initializeConfigHandlers();
+        }
+
+
+        // Gestion de Firebase
+        initializeFirebase() {
+            const config = JSON.parse(localStorage.getItem('firebaseConfig'));
+            if (!config) return;
+
+            if (!window.firebase) {
+                const script = document.createElement('script');
+                script.src = 'https://www.gstatic.com/firebasejs/9.x.x/firebase-app.js';
+                script.onload = () => {
+                    const analyticsScript = document.createElement('script');
+                    analyticsScript.src = 'https://www.gstatic.com/firebasejs/9.x.x/firebase-firestore.js';
+                    analyticsScript.onload = () => {
+                        this.initializeFirebaseApp(config);
+                    };
+                    document.head.appendChild(analyticsScript);
+                };
+                document.head.appendChild(script);
+            } else {
+                this.initializeFirebaseApp(config);
+            }
+        }
+
+        async initializeFirebaseApp(config) {
+            try {
+                this.firebaseApp = firebase.initializeApp(config);
+                this.db = firebase.firestore();
+                console.log('Firebase initialized successfully');
+            } catch (error) {
+                console.error('Firebase initialization error:', error);
+            }
+        }
+
+        async saveFirebaseConfig() {
+            const config = {
+                apiKey: document.getElementById('firebase-apiKey').value,
+                authDomain: document.getElementById('firebase-authDomain').value,
+                projectId: document.getElementById('firebase-projectId').value,
+                storageBucket: document.getElementById('firebase-storageBucket').value,
+                messagingSenderId: document.getElementById('firebase-messagingSenderId').value,
+                appId: document.getElementById('firebase-appId').value
+            };
+
+            localStorage.setItem('firebaseConfig', JSON.stringify(config));
+            this.state.firebaseConfig = config;
+            this.initializeFirebase();
+            this.showNotification('Configuration Firebase sauvegardée', 'success');
+        }
+
+        async testFirebaseConnection() {
+            try {
+                if (!this.db) {
+                    throw new Error('Firebase n\'est pas initialisé');
+                }
+                await this.db.collection('test').add({
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                this.showNotification('Connexion Firebase réussie', 'success');
+            } catch (error) {
+                this.showNotification('Erreur de connexion Firebase: ' + error.message, 'danger');
+            }
+        }
+
+        async syncVulnerabilities() {
+            if (!this.db) {
+                this.showNotification('Firebase n\'est pas configuré', 'danger');
+                return;
+            }
+
+            try {
+                const vulnerabilities = JSON.parse(localStorage.getItem('vulnerabilities')) || [];
+                
+                // Organiser les vulnérabilités par mode
+                const organizedVulns = {
+                    histoire: vulnerabilities.filter(v => v.analogyCode),
+                    technique: vulnerabilities.filter(v => v.technicalCode)
+                };
+
+                // Mise à jour de Firebase
+                const batch = this.db.batch();
+                
+                // Collection pour le mode histoire
+                for (const vuln of organizedVulns.histoire) {
+                    const ref = this.db.collection('vulnerabilites').doc('histoire').collection('jeux').doc(vuln.id);
+                    batch.set(ref, {
+                        ...vuln,
+                        lastSync: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                }
+
+                // Collection pour le mode technique
+                for (const vuln of organizedVulns.technique) {
+                    const ref = this.db.collection('vulnerabilites').doc('technique').collection('jeux').doc(vuln.id);
+                    batch.set(ref, {
+                        ...vuln,
+                        lastSync: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                }
+
+                await batch.commit();
+                this.showNotification('Synchronisation réussie', 'success');
+            } catch (error) {
+                this.showNotification('Erreur de synchronisation: ' + error.message, 'danger');
+            }
+        }
+
+        // Style pour les onglets de configuration
+        addConfigStyles() {
+            const styles = document.createElement('style');
+            styles.textContent = `
+                .config-tab {
+                    padding: 0.5rem 1rem;
+                    cursor: pointer;
+                    border-radius: 0.5rem;
+                    background: var(--bg-secondary);
+                    color: var(--text-secondary);
+                }
+
+                .config-tab.active {
+                    background: var(--accent);
+                    color: white;
+                }
+
+                .config-section {
+                    margin-top: 1rem;
+                }
+            `;
+            document.head.appendChild(styles);
+        }
+
+        switchConfigTab(tab, section) {
+            // Gérer l'activation des onglets
+            document.querySelectorAll('.config-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            // Afficher la section correspondante
+            document.querySelectorAll('.config-section').forEach(s => s.style.display = 'none');
+            document.getElementById(`${section}-config`).style.display = 'block';
+        }
+        
+
+async validateAndRetryGeneration(code, mode, retryCount = 0) { // Ajout du paramètre mode
+    const validation = this.validateGameContent(code, mode); // Passer le mode
+
+    if (!validation.isValid && retryCount < this.maxRetries) {
+        this.log(`Validation échouée pour ${mode}: ${validation.messages.join(', ')}`, 'warning');
+        this.log(`Tentative ${retryCount + 1}/${this.maxRetries} de régénération pour ${mode}...`, 'info');
+        
+        await new Promise(resolve => setTimeout(resolve, this.retryDelay));
+        
+        let correctionPrompt = `Le code généré pour le mode ${mode} nécessite les corrections suivantes:
+        ${validation.messages.map(msg => `- ${msg}`).join('\n')}
+        
+        RAPPEL DES CONTRAINTES OBLIGATOIRES :
+        1. Le code DOIT contenir ces trois parties, CHACUNE EST OBLIGATOIRE :
+           - CSS dans une balise <style>
+           - HTML dans le <body>
+           - JavaScript dans une balise <script>
+        2. Style par défaut OBLIGATOIRE :
+           - background-color: #ffffff
+           - color: #000000
+        3. Au moins une fonction JavaScript
+        4. Un CDN de cdnjs.cloudflare.com
+        
+        Régénère le code complet pour le mode ${mode} en respectant TOUTES ces contraintes.`;
+        
+        return this.callAI(correctionPrompt)
+            .then(newCode => this.validateAndRetryGeneration(newCode, mode, retryCount + 1));
     }
-});
+    
+    if (!validation.isValid) {
+        // Si toujours invalide après les retries, on force les styles de base
+        code = this.ensureBaseStyles(code);
+        this.log(`Styles de base forcés sur le code pour ${mode}.`, 'warning');
+    }
+    
+    return code;
+}
 
-    </script>
+
+    async generateVulnerability() {
+        const terminal = document.querySelector('.logs-content');
+        if (terminal) terminal.innerHTML = '';
+
+        // Réinitialiser la barre de progression
+        const progressBar = document.querySelector('.progress-bar');
+        if (progressBar) progressBar.style.width = '0%';
+
+        const { name, cve, description } = this.state.formData;
+        if (!name || !description) {
+            this.showNotification('Veuillez remplir les champs requis', 'danger');
+            return;
+        }
+
+        const generateButton = document.querySelector('.btn-primary');
+        generateButton.disabled = true;
+
+        try {
+            this.log('Début de la génération...', 'info');
+
+            // Structure de la vulnérabilité
+            let vulnerability = {
+                id: Date.now().toString(),
+                name,
+                cve,
+                description,
+                created: new Date().toISOString(),
+                analogyPrompt: this.buildAnalogyPrompt(name, cve, description), // AJOUTÉ
+                technicalPrompt: this.buildTechnicalPrompt(name, cve, description) // AJOUTÉ
+            };
+
+            // Génération du mode analogique (Histoire)
+            this.log('Génération du scénario analogique...', 'info');
+            let analogyResponse = await this.callAI(vulnerability.analogyPrompt);
+
+            // Validation du mode analogique
+            analogyResponse = await this.validateAndRetryGeneration(analogyResponse);
+            const analogyValidation = this.validateGameContent(analogyResponse);
+
+            if (analogyValidation.isValid) {
+                this.log('Scénario analogique validé et sauvegardé.', 'success');
+                vulnerability.analogyCode = analogyResponse;
+                this.log(`Code Analogy : ${analogyResponse.substring(0, 100)}...`, 'info'); // AJOUTÉ
+            } else {
+                this.log('Scénario analogique invalide, nouvelle tentative...', 'warning');
+                const retryAnalogy = await this.retrySpecificMode('analogy', name, cve, description);
+                if (retryAnalogy.isValid) {
+                    vulnerability.analogyCode = retryAnalogy.code;
+                    vulnerability.analogyPrompt = retryAnalogy.prompt; // AJOUTÉ
+                    this.log('Scénario analogique régénéré et validé.', 'success');
+                    this.log(`Code Analogy Régénéré : ${retryAnalogy.code.substring(0, 100)}...`, 'info'); // AJOUTÉ
+                } else {
+                    this.log('Échec de la génération du mode analogique.', 'error');
+                    throw new Error('La génération du scénario analogique a échoué après plusieurs tentatives.');
+                }
+            }
+
+            // Génération du mode technique
+            this.log('Génération du scénario technique...', 'info');
+            let technicalResponse = await this.callAI(vulnerability.technicalPrompt);
+
+            // Validation du mode technique
+            technicalResponse = await this.validateAndRetryGeneration(technicalResponse);
+            const technicalValidation = this.validateGameContent(technicalResponse);
+
+            if (technicalValidation.isValid) {
+                this.log('Scénario technique validé et sauvegardé.', 'success');
+                vulnerability.technicalCode = technicalResponse;
+                this.log(`Code Technique : ${technicalResponse.substring(0, 100)}...`, 'info'); // AJOUTÉ
+            } else {
+                this.log('Scénario technique invalide, nouvelle tentative...', 'warning');
+                const retryTechnical = await this.retrySpecificMode('technical', name, cve, description);
+                if (retryTechnical.isValid) {
+                    vulnerability.technicalCode = retryTechnical.code;
+                    vulnerability.technicalPrompt = retryTechnical.prompt; // AJOUTÉ
+                    this.log('Scénario technique régénéré et validé.', 'success');
+                    this.log(`Code Technique Régénéré : ${retryTechnical.code.substring(0, 100)}...`, 'info'); // AJOUTÉ
+                } else {
+                    this.log('Échec de la génération du mode technique.', 'error');
+                    throw new Error('La génération du scénario technique a échoué après plusieurs tentatives.');
+                }
+            }
+
+            // Vérifier que les deux modes sont valides avant de sauvegarder
+            if (vulnerability.analogyCode && vulnerability.technicalCode) {
+                const vulnerabilities = JSON.parse(localStorage.getItem('vulnerabilities')) || [];
+                vulnerabilities.push(vulnerability);
+                localStorage.setItem('vulnerabilities', JSON.stringify(vulnerabilities));
+
+                this.log('Vulnérabilité sauvegardée dans la bibliothèque.', 'success');
+                this.showNotification('Vulnérabilité créée!', 'success');
+
+                // Mise à jour de la progression à 100%
+                if (progressBar) progressBar.style.width = '100%';
+
+                // Indiquer la fin de la génération
+                this.log('Génération terminée avec succès pour les deux modes.', 'success');
+                this.showNotification('Génération terminée avec succès pour les deux modes.', 'success');
+
+                // Ajout d'un message visuel dans la génération-box
+                const generationBox = document.querySelector('.generation-box');
+                if (generationBox) {
+                    const completionMessage = document.createElement('div');
+                    completionMessage.className = 'completion-message';
+                    completionMessage.innerHTML = `
+                        <p style="color: var(--success); font-weight: bold; margin-top: 1rem;">
+                            ✅ Génération terminée avec succès pour les deux modes.
+                        </p>`;
+                    generationBox.appendChild(completionMessage);
+                }
+
+                this.loadCurrentTab();
+            } else {
+                throw new Error('La génération n\'a pas pu être complétée correctement.');
+            }
+
+        } catch (error) {
+            this.log(`Erreur: ${error.message}`, 'error');
+            this.showNotification(error.message, 'danger');
+            // En cas d'erreur, mettre la barre de progression en rouge
+            if (progressBar) {
+                progressBar.style.backgroundColor = 'var(--danger)';
+            }
+        } finally {
+            generateButton.disabled = false;
+            this.storage.removeItem('generationInProgress');
+        }
+    }
+
+    /**
+     * Méthode pour valider le contenu généré par l'IA.
+     * @param {string} code - Le code généré par l'IA.
+     * @returns {object} - Résultat de la validation.
+     */
+    validateGameContent(code) {
+        // Validation de base
+        const validation = CodeValidator.validateGameCode(code);
+
+        // Vérifications supplémentaires
+        const hasInteractiveElements = code.includes('onclick') || 
+                                        code.includes('addEventListener') || 
+                                        code.includes('input') ||
+                                        code.includes('button') ||
+                                        code.includes('function '); // AJOUTÉ : Vérifier la présence d'une fonction
+
+        const hasProperStructure = code.includes('<!DOCTYPE html>') &&
+                                    code.includes('<html') &&
+                                    code.includes('<head') &&
+                                    code.includes('<body');
+
+        // Log des validations
+        this.log(`Validation - Éléments interactifs: ${hasInteractiveElements}`, 'info');
+        this.log(`Validation - Structure HTML: ${hasProperStructure}`, 'info');
+
+        return {
+            isValid: validation.isValid && hasInteractiveElements && hasProperStructure,
+            messages: [
+                ...validation.messages,
+                !hasInteractiveElements ? 'Pas d\'éléments interactifs trouvés' : null,
+                !hasProperStructure ? 'Structure HTML incorrecte' : null
+            ].filter(Boolean)
+        };
+    }
+
+    /**
+     * Méthode pour valider et réessayer la génération du code.
+     * @param {string} code - Le code généré par l'IA.
+     * @param {number} retryCount - Le nombre de tentatives effectuées.
+     * @returns {string} - Le code validé ou corrigé.
+     */
+    async validateAndRetryGeneration(code, retryCount = 0) {
+        const validation = CodeValidator.validateGameCode(code);
+
+        if (!validation.isValid && retryCount < this.maxRetries) {
+            this.log(`Validation échouée: ${validation.messages.join(', ')}`, 'warning');
+            this.log(`Tentative ${retryCount + 1}/${this.maxRetries} de régénération...`, 'info');
+
+            await new Promise(resolve => setTimeout(resolve, this.retryDelay));
+
+            let correctionPrompt = `Le code généré nécessite les corrections suivantes:
+${validation.messages.map(msg => `- ${msg}`).join('\n')}
+
+RAPPEL DES CONTRAINTES OBLIGATOIRES :
+1. Le code DOIT contenir :
+   - CSS dans une balise <style>
+   - HTML dans le <body>
+   - JavaScript dans une balise <script>
+2. Style par défaut OBLIGATOIRE :
+   - background-color: #ffffff
+   - color: #000000
+3. Au moins une fonction JavaScript
+4. Un CDN de cdnjs.cloudflare.com
+
+Régénère le code complet en respectant TOUTES ces contraintes.`;
+
+            try {
+                const newCode = await this.callAI(correctionPrompt);
+                return await this.validateAndRetryGeneration(newCode, retryCount + 1);
+            } catch (error) {
+                this.log(`Erreur lors de la régénération: ${error.message}`, 'error');
+                throw error;
+            }
+        }
+
+        if (!validation.isValid) {
+            // Si toujours invalide après les retries, on force les styles de base
+            const correctedCode = this.ensureBaseStyles(code);
+            this.log('Styles de base forcés sur le code.', 'warning');
+            return correctedCode;
+        }
+
+        return code;
+    }
+
+    /**
+     * Méthode pour forcer les styles de base si le code généré ne les contient pas.
+     * @param {string} code - Le code généré par l'IA.
+     * @returns {string} - Le code avec les styles forcés.
+     */
+    ensureBaseStyles(code) {
+        // Vérifie si une balise style existe déjà
+        const hasStyle = /<style[^>]*>[\s\S]*?<\/style>/i.test(code);
+        const baseStyles = `
+            <style>
+                body {
+                    background-color: #ffffff !important;
+                    color: #000000 !important;
+                    margin: 0;
+                    padding: 20px;
+                    font-family: Arial, sans-serif;
+                }
+                .game-container {
+                    max-width: 800px;
+                    margin: 0 auto;
+                }
+                /* Forcer les couleurs pour les éléments de texte communs */
+                p, h1, h2, h3, h4, h5, h6, span, div {
+                    color: #000000 !important;
+                }
+                /* Conserver les couleurs spécifiques pour les boutons et éléments d'interface */
+                button, .btn, .button {
+                    color: inherit;
+                }
+            </style>
+        `;
+
+        if (!hasStyle) {
+            // Ajoute les styles dans le head
+            code = code.replace('</head>', `${baseStyles}</head>`);
+        } else {
+            // Injecte les styles de base au début des styles existants
+            code = code.replace(/<style[^>]*>/i, match => `${match}
+                body {
+                    background-color: #ffffff !important;
+                    color: #000000 !important;
+                }
+                p, h1, h2, h3, h4, h5, h6, span, div {
+                    color: #000000 !important;
+                }
+                button, .btn, .button {
+                    color: inherit;
+                }
+            `);
+        }
+
+        return code;
+    }
+
+
+async retrySpecificMode(mode, name, cve, description, maxRetries = 3) {
+    let retryCount = 0;
+    while (retryCount < maxRetries) {
+        this.log(`Tentative ${retryCount + 1}/${maxRetries} pour le mode ${mode}...`, 'info');
+        
+        try {
+            const prompt = mode === 'analogy' 
+                ? this.buildAnalogyPrompt(name, cve, description)
+                : this.buildTechnicalPrompt(name, cve, description);
+            
+            let response = await this.callAI(prompt);
+            response = await this.validateAndRetryGeneration(response);
+            
+            const validation = this.validateGameContent(response);
+            if (validation.isValid) {
+                this.log(`Mode ${mode} généré avec succès.`, 'success');
+                return { isValid: true, code: response, prompt: prompt }; // AJOUTÉ
+            }
+        } catch (error) {
+            this.log(`Erreur lors de la tentative ${retryCount + 1}: ${error.message}`, 'error');
+        }
+        
+        retryCount++;
+        await new Promise(resolve => setTimeout(resolve, this.retryDelay));
+    }
+    
+    return { isValid: false, code: null, prompt: null }; // AJOUTÉ
+}
+
+    /**
+     * Méthode pour régénérer un jeu existant en redemandant à l'IA.
+     * @param {string} vulnId - L'ID de la vulnérabilité.
+     * @param {string} mode - Le mode à régénérer ('analogy' ou 'technical').
+     */
+    async reloadGame(vulnId, mode) {
+        const vulnerabilities = JSON.parse(localStorage.getItem('vulnerabilities')) || [];
+        const vulnIndex = vulnerabilities.findIndex(v => v.id === vulnId.toString());
+        if (vulnIndex === -1) {
+            this.showNotification('Vulnérabilité non trouvée.', 'danger');
+            return;
+        }
+
+        const vuln = vulnerabilities[vulnIndex];
+        const currentPrompt = mode === 'analogy' ? vuln.analogyPrompt : vuln.technicalPrompt;
+        const promptType = mode === 'analogy' ? 'analogie' : 'technique';
+
+        // Demander à l'utilisateur de confirmer ou de modifier le prompt
+        const userPrompt = prompt(`Veuillez entrer le prompt pour régénérer le jeu (${promptType}) :`, currentPrompt);
+
+        if (userPrompt === null) {
+            // L'utilisateur a annulé
+            return;
+        }
+
+        if (userPrompt.trim() === '') {
+            this.showNotification('Le prompt ne peut pas être vide.', 'warning');
+            return;
+        }
+
+        // Mettre à jour le prompt dans l'objet vulnérabilité
+        vulnerabilities[vulnIndex][`${mode}Prompt`] = userPrompt;
+        this.storage.setItem('vulnerabilities', JSON.stringify(vulnerabilities));
+
+        // Désactiver le bouton de génération pour éviter les conflits
+        const generateButton = document.querySelector('.btn-primary');
+        if (generateButton) {
+            generateButton.disabled = true;
+        }
+
+        try {
+            this.log(`Début de la régénération du mode ${promptType}...`, 'info');
+
+            // Appeler l'IA avec le nouveau prompt
+            const newCode = await this.callAI(userPrompt);
+
+            // Valider le nouveau code
+            const validatedCode = await this.validateAndRetryGeneration(newCode);
+            const validation = this.validateGameContent(validatedCode);
+
+            if (validation.isValid) {
+                this.log(`Mode ${promptType} régénéré et validé.`, 'success');
+                vulnerabilities[vulnIndex][`${mode}Code`] = validatedCode;
+                this.storage.setItem('vulnerabilities', JSON.stringify(vulnerabilities));
+
+                // Rafraîchir l'iframe avec le nouveau contenu
+                const modal = document.querySelector('.modal');
+                if (modal) {
+                    const iframe = modal.querySelector('iframe');
+                    if (iframe) {
+                        const wrappedContent = `
+                            <!DOCTYPE html>
+                            <html>
+                            <head>
+                                <meta charset="UTF-8">
+                                <style>
+                                    /* Style de base forcé */
+                                    html, body {
+                                        background-color: #ffffff !important;
+                                        color: #000000 !important;
+                                        margin: 0 !important;
+                                        padding: 20px !important;
+                                        min-height: 100vh !important;
+                                        font-family: Arial, sans-serif !important;
+                                    }
+                                    /* Forcer les couleurs pour les éléments de texte communs */
+                                    p, h1, h2, h3, h4, h5, h6, span, div {
+                                        color: #000000 !important;
+                                    }
+                                    /* Conserver les couleurs spécifiques pour les boutons et éléments d'interface */
+                                    button, .btn, .button {
+                                        color: inherit;
+                                    }
+                                </style>
+                                ${validatedCode.match(/<style[^>]*>[\s\S]*?<\/style>/gi) || ''}
+                            </head>
+                            <body>
+                                ${validatedCode.match(/<body[^>]*>([\s\S]*?)<\/body>/i)?.[1] || validatedCode}
+                                ${validatedCode.match(/<script[^>]*>[\s\S]*?<\/script>/gi) || ''}
+                            </body>
+                            </html>`;
+
+                        iframe.srcdoc = DOMPurify.sanitize(wrappedContent);
+                    }
+                }
+
+                this.showNotification(`Mode ${promptType} régénéré avec succès.`, 'success');
+            } else {
+                this.log(`Mode ${promptType} invalide après régénération.`, 'error');
+                this.showNotification(`La régénération du mode ${promptType} a échoué.`, 'danger');
+            }
+
+        } catch (error) {
+            this.log(`Erreur lors de la régénération du mode ${promptType}: ${error.message}`, 'error');
+            this.showNotification(`Erreur lors de la régénération du mode ${promptType}: ${error.message}`, 'danger');
+        } finally {
+            // Réactiver le bouton de génération
+            if (generateButton) {
+                generateButton.disabled = false;
+            }
+        }
+    }
+ 
+        
+        // Modification de l'initialisation de l'application
+        static initialize() {
+            window.addEventListener('DOMContentLoaded', () => {
+                window.app = new VulnLearnerApp();
+                
+                // Vérifier et reprendre la génération après l'initialisation complète
+                const generationInProgress = window.localStorage.getItem('generationInProgress');
+                if (generationInProgress) {
+                    console.log('Génération en cours détectée, tentative de reprise...');
+                    window.app.resumeGeneration().catch(error => {
+                        console.error('Erreur lors de la reprise de la génération:', error);
+                        window.app.showNotification('Erreur lors de la reprise de la génération', 'danger');
+                    });
+                }
+            });
+        }
+        
+    }
+
+    // Initialisation de l'application
+    VulnLearnerApp.initialize();
+    
+</script>
+<script>
+
+
+
+    (function () {
+        class AutonomousPatchButton {
+            constructor() {
+                this.instructions = [];
+                this.originalStates = new Map();
+                this.createButton();
+            }
+
+            createButton() {
+                this.button = document.createElement("button");
+                this.button.textContent = "Appliquer Instructions";
+                this.styleButton(this.button);
+                this.button.addEventListener("click", () => this.showPopup());
+                document.body.appendChild(this.button);
+            }
+
+            styleButton(button) {
+                button.style.position = "fixed";
+                button.style.top = "10px";
+                button.style.left = "10px";
+                button.style.padding = "10px 20px";
+                button.style.backgroundColor = "#3b82f6";
+                button.style.color = "#ffffff";
+                button.style.border = "none";
+                button.style.borderRadius = "5px";
+                button.style.cursor = "pointer";
+                button.style.zIndex = 10000;
+            }
+
+            showPopup() {
+                this.popup = document.createElement("div");
+                this.stylePopup(this.popup);
+
+                const textArea = document.createElement("textarea");
+                textArea.placeholder = 'Collez vos instructions JSON ici...';
+                this.styleTextArea(textArea);
+
+                const loadButton = this.createButtonElement("Charger Instructions", "#3b82f6");
+                const applyButton = this.createButtonElement("Appliquer Patch", "#10b981", false);
+                const closeButton = this.createButtonElement("Fermer", "#ef4444");
+
+                this.checkboxContainer = document.createElement("div");
+                this.checkboxContainer.style.maxHeight = "200px";
+                this.checkboxContainer.style.overflowY = "auto";
+                this.checkboxContainer.style.display = "none";
+
+                this.popup.appendChild(textArea);
+                this.popup.appendChild(loadButton);
+                this.popup.appendChild(this.checkboxContainer);
+                this.popup.appendChild(applyButton);
+                this.popup.appendChild(closeButton);
+                document.body.appendChild(this.popup);
+
+                loadButton.addEventListener("click", () => {
+                    this.loadInstructions(textArea.value);
+                    applyButton.style.display = "block";
+                });
+
+                applyButton.addEventListener("click", () => this.applySelectedPatches());
+                closeButton.addEventListener("click", () => this.closePopup());
+            }
+
+            stylePopup(popup) {
+                popup.style.position = "fixed";
+                popup.style.top = "50%";
+                popup.style.left = "50%";
+                popup.style.transform = "translate(-50%, -50%)";
+                popup.style.backgroundColor = "#ffffff";
+                popup.style.border = "2px solid #3b82f6";
+                popup.style.padding = "20px";
+                popup.style.width = "80%";
+                popup.style.maxWidth = "500px";
+                popup.style.zIndex = 10001;
+            }
+
+            styleTextArea(textArea) {
+                textArea.style.width = "100%";
+                textArea.style.height = "150px";
+                textArea.style.marginBottom = "10px";
+                textArea.style.padding = "10px";
+            }
+
+            createButtonElement(text, backgroundColor, visible = true) {
+                const button = document.createElement("button");
+                button.textContent = text;
+                button.style.padding = "10px 20px";
+                button.style.backgroundColor = backgroundColor;
+                button.style.color = "#ffffff";
+                button.style.border = "none";
+                button.style.borderRadius = "5px";
+                button.style.cursor = "pointer";
+                button.style.marginBottom = "10px";
+                button.style.display = visible ? "block" : "none";
+                return button;
+            }
+
+            loadInstructions(instructionsText) {
+                try {
+                    this.instructions = JSON.parse(instructionsText);
+                    if (!Array.isArray(this.instructions)) throw new Error("Les instructions doivent être un tableau.");
+                    this.displayCheckboxes();
+                    alert("Instructions chargées avec succès.");
+                } catch (error) {
+                    console.error("Erreur JSON :", error.message);
+                    alert("Erreur de chargement des instructions JSON : Assurez-vous que le format est correct.\nDétail de l'erreur : " + error.message);
+                }
+            }
+
+            displayCheckboxes() {
+                this.checkboxContainer.innerHTML = "";
+                this.checkboxContainer.style.display = "block";
+
+                this.instructions.forEach((instruction, index) => {
+                    const checkboxItem = document.createElement("div");
+                    const checkbox = document.createElement("input");
+                    checkbox.type = "checkbox";
+                    checkbox.value = index;
+                    const label = document.createElement("label");
+                    label.textContent = instruction.name || `Instruction ${index + 1}`;
+                    checkboxItem.appendChild(checkbox);
+                    checkboxItem.appendChild(label);
+                    this.checkboxContainer.appendChild(checkboxItem);
+                });
+            }
+
+            applySelectedPatches() {
+                const selectedCheckboxes = Array.from(this.checkboxContainer.querySelectorAll("input[type='checkbox']"));
+                selectedCheckboxes.forEach(checkbox => {
+                    const index = parseInt(checkbox.value);
+                    const instruction = this.instructions[index];
+                    const { target, newCode, type } = instruction;
+                    const element = document.querySelector(target);
+
+                    if (!element) {
+                        console.warn(`Élément avec le sélecteur "${target}" introuvable.`);
+                        return;
+                    }
+
+                    if (checkbox.checked) {
+                        if (!this.originalStates.has(index)) {
+                            this.saveOriginalState(index, element, type);
+                        }
+                        this.applyInstruction(element, newCode, type);
+                    } else {
+                        this.restoreOriginalState(index, element, type);
+                    }
+                });
+
+                alert("Patch(s) appliqué(s) avec succès.");
+            }
+
+            saveOriginalState(index, element, type) {
+                let originalState;
+                switch (type) {
+                    case 'innerHTML':
+                        originalState = element.innerHTML;
+                        break;
+                    case 'append':
+                        originalState = element.innerHTML;
+                        break;
+                    case 'style':
+                        originalState = document.head.innerHTML;
+                        break;
+                    case 'script':
+                        originalState = null; // Scripts ajoutés, impossible de les retirer proprement
+                        break;
+                    default:
+                        originalState = null;
+                }
+                this.originalStates.set(index, originalState);
+            }
+
+            restoreOriginalState(index, element, type) {
+                if (!this.originalStates.has(index)) {
+                    console.warn(`Aucun état original sauvegardé pour l'instruction ${index + 1}.`);
+                    return;
+                }
+                const originalState = this.originalStates.get(index);
+                switch (type) {
+                    case 'innerHTML':
+                        element.innerHTML = originalState;
+                        break;
+                    case 'append':
+                        element.innerHTML = originalState;
+                        break;
+                    case 'style':
+                        document.head.innerHTML = originalState;
+                        break;
+                    case 'script':
+                        alert("Impossible de retirer un script une fois exécuté.");
+                        break;
+                    default:
+                        console.warn(`Type d'instruction "${type}" non pris en charge pour la restauration.`);
+                }
+                this.originalStates.delete(index);
+            }
+
+            applyInstruction(element, newCode, type) {
+                switch (type) {
+                    case 'innerHTML':
+                        element.innerHTML = newCode;
+                        break;
+                    case 'append':
+                        element.insertAdjacentHTML('beforeend', newCode);
+                        break;
+                    case 'style':
+                        const style = document.createElement('style');
+                        style.innerHTML = newCode;
+                        document.head.appendChild(style);
+                        break;
+                    case 'script':
+                        const script = document.createElement('script');
+                        script.type = 'text/babel'; // Ajout de l'attribut type
+                        script.textContent = newCode;
+                        document.body.appendChild(script);
+                        break;
+                    default:
+                        console.warn(`Type d'instruction "${type}" non pris en charge.`);
+                }
+            }
+
+            closePopup() {
+                if (this.popup) {
+                    document.body.removeChild(this.popup);
+                    this.popup = null;
+                }
+            }
+        }
+
+        new AutonomousPatchButton();
+    })();
+</script>
+<script></script>
 </body>
 </html>
