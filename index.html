@@ -244,7 +244,7 @@
             <button onclick="app.showAIConfig()" class="btn btn-secondary" id="ai-config-btn">
                 <span class="badge badge-warning">IA: Non configurée</span>
             </button>
-            <span class="badge badge-blue">Mode Apprentissage</span>
+            <span onclick="app.showLearningConfig()" class="btn badge badge-blue">Mode Apprentissage</span>
             <button class="btn btn-secondary">Documentation</button>
         </div>
     </nav>
@@ -1042,37 +1042,51 @@ ensureBaseStyles(code) {
             }
         }
 
-        buildAnalogyPrompt(name, cve, description) {
-            return `
-            CRÉE UN PETIT JEU DANS LE BROWSER.
-            RETOURNE LE CODE COMPLET sans omission ni commentaire avec toutes les parties (HTML, CSS, JavaScript). N'OMETS AUCUNE PARTIE.`;
-        }
+buildAnalogyPrompt(name, cve, description) {
+    const defaultPrompt = localStorage.getItem('defaultAnalogyPrompt') || 'Prompt par défaut pour le mode analogie...';
+    return `${defaultPrompt}\nNom de la vulnérabilité: ${name}\nCVE: ${cve || 'n/a'}\nDescription: ${description}`;
+}
 
-        buildTechnicalPrompt(name, cve, description) {
-            return `
-            Crée le code HTML CSS JS complet et entièrement fonctionnel pour une seule page (index.html) qui simule techniquement l'exploitation de la vulnérabilité ${name} ${cve ? `(${cve})` : ''}.
+buildTechnicalPrompt(name, cve, description) {
+    const defaultPrompt = localStorage.getItem('defaultTechnicalPrompt') || 'Prompt par défaut pour le mode technique...';
+    return `${defaultPrompt}\nNom de la vulnérabilité: ${name}\nCVE: ${cve || 'n/a'}\nDescription: ${description}`;
+}
 
-            CONTRAINTES TECHNIQUES OBLIGATOIRES :
-            1. Le code DOIT contenir ces trois parties, CHACUNE EST OBLIGATOIRE :
-               - CSS dans une balise <style>
-               - HTML dans le <body>
-               - JavaScript dans une balise <script>
-            2. Style par défaut OBLIGATOIRE :
-               - background-color: #ffffff (fond blanc)
-               - color: #000000 (texte noir)
-            3. Au moins une fonction JavaScript interactive DOIT être définie
-            4. Inclure au moins un CDN
-            5. La page DOIT être autonome et fonctionner sans dépendances externes (hors CDN)
 
-            DÉTAILS DU JEU :
-            - Interface type terminal avec commandes interactives
-            - Chaque étape doit simuler une vraie commande (nmap, sqlmap, etc.)
-            - Messages clairs expliquant les actions techniques
-            - Le joueur doit comprendre techniquement l'exploitation à la fin
+showLearningConfig() {
+    const analogyPrompt = localStorage.getItem('defaultAnalogyPrompt') || 'Prompt par défaut pour le mode analogie...';
+    const technicalPrompt = localStorage.getItem('defaultTechnicalPrompt') || 'Prompt par défaut pour le mode technique...';
 
-            RETOURNE LE CODE COMPLET sans omission ni commentaire avec toutes les parties (HTML, CSS, JavaScript). N'OMETS AUCUNE PARTIE.`;
-        }
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.innerHTML = `
+        <div class="modal-content card">
+            <h2>Configuration des Prompts d'Apprentissage</h2>
+            <div style="margin-top: 1rem;">
+                <label>Prompt par défaut pour le mode analogie:</label>
+                <textarea id="analogy-prompt-input" rows="4" class="input">${analogyPrompt}</textarea>
+                <label>Prompt par défaut pour le mode technique:</label>
+                <textarea id="technical-prompt-input" rows="4" class="input">${technicalPrompt}</textarea>
+            </div>
+            <div class="flex" style="margin-top: 1rem; gap: 1rem;">
+                <button class="btn btn-primary" onclick="app.saveLearningConfig()">Sauvegarder</button>
+                <button class="btn btn-danger" onclick="this.closest('.modal').remove()">Fermer</button>
+            </div>
+        </div>`;
+    
+    document.body.appendChild(modal);
+}
 
+saveLearningConfig() {
+    const analogyPrompt = document.getElementById('analogy-prompt-input').value;
+    const technicalPrompt = document.getElementById('technical-prompt-input').value;
+
+    localStorage.setItem('defaultAnalogyPrompt', analogyPrompt);
+    localStorage.setItem('defaultTechnicalPrompt', technicalPrompt);
+
+    this.showNotification('Prompts sauvegardés avec succès', 'success');
+    document.querySelector('.modal').remove();
+}
 
 
 
@@ -1099,7 +1113,7 @@ showGame(vulnId, mode) {
             <div class="game-container">
                 <iframe 
                     srcdoc="${DOMPurify.sanitize(gameContent)}"
-                    sandbox="allow-scripts allow-same-origin allow-modals"
+                    sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-pointer-lock allow-orientation-lock allow-top-navigation allow-popups-to-escape-sandbox allow-presentation"
                     style="background: #ffffff !important; width: 100%; height: 100%; border: none;"
                     frameborder="0">
                 </iframe>
@@ -1161,7 +1175,7 @@ showGame(vulnId, mode) {
             <div class="game-container">
                 <iframe 
                     src="${blobURL}"
-                    sandbox="allow-scripts allow-same-origin allow-modals"
+                    sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-pointer-lock allow-orientation-lock allow-top-navigation allow-popups-to-escape-sandbox allow-presentation"
                     style="background: #ffffff !important; width: 100%; height: 100%; border: none;"
                     frameborder="0">
                 </iframe>
@@ -1197,11 +1211,11 @@ showGame(vulnId, mode) {
                     <h3>${vulnerability.name} (CVE: ${vulnerability.cve})</h3>
                     <div class="game-container">
                         <h4>Mode Histoire</h4>
-                        <iframe srcdoc="${vulnerability.analogyCode}" sandbox="allow-scripts allow-same-origin allow-modals" width="100%" height="300px"></iframe>
+                        <iframe srcdoc="${vulnerability.analogyCode}" sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-pointer-lock allow-orientation-lock allow-top-navigation allow-popups-to-escape-sandbox allow-presentation" width="100%" height="300px"></iframe>
                     </div>
                     <div class="game-container">
                         <h4>Mode Technique</h4>
-                        <iframe srcdoc="${vulnerability.technicalCode}" sandbox="allow-scripts allow-same-origin allow-modals" width="100%" height="300px"></iframe>
+                        <iframe srcdoc="${vulnerability.technicalCode}" sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-pointer-lock allow-orientation-lock allow-top-navigation allow-popups-to-escape-sandbox allow-presentation" width="100%" height="300px"></iframe>
                     </div>
                 </div>`;
         }
