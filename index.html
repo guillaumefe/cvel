@@ -245,7 +245,7 @@
                 <span class="badge badge-warning">IA: Non configurée</span>
             </button>
             <span onclick="app.showLearningConfig()" class="btn badge badge-blue">Mode Apprentissage</span>
-            <button class="btn btn-secondary">Documentation</button>
+            <a href="https://www.cert.ssi.gouv.fr/alerte/" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">Documentation</a>
         </div>
     </nav>
     <div class="container">
@@ -985,7 +985,17 @@ ensureBaseStyles(code) {
                             <h3 style="margin-bottom: 0.5rem;">${vuln.name}</h3>
                             ${cveBadge}
                         </div>
-                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">${vuln.description}</p>
+                        <p style="
+                            color: var(--text-secondary); 
+                            margin-bottom: 1rem; 
+                            display: -webkit-box; 
+                            -webkit-line-clamp: 3; /* Set this to 2 or 3 for the number of visible lines */ 
+                            -webkit-box-orient: vertical; 
+                            overflow: hidden; 
+                            text-overflow: ellipsis;">
+                            ${vuln.description}
+                        </p>
+
                         <div class="flex">
                             <button class="btn btn-primary" onclick="app.showGame('${vuln.id}', 'analogy')">Mode Histoire</button>
                             <button class="btn btn-warning" onclick="app.showGame('${vuln.id}', 'technical')">Mode Technique</button>
