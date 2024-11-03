@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -228,7 +227,6 @@
         min-height:450px;
     }
 </style>
-
 </head>
 <body>
 <!-- Inclusion des bibliothèques React, ReactDOM et Babel -->
@@ -245,7 +243,7 @@
                 <span class="badge badge-warning">IA: Non configurée</span>
             </button>
             <span onclick="app.showLearningConfig()" class="btn badge badge-blue">Mode Apprentissage</span>
-            <a href="https://www.cert.ssi.gouv.fr/alerte/" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">Documentation</a>
+            <a href="https://cve.circl.lu/cwe" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">Documentation</a>
         </div>
     </nav>
     <div class="container">
@@ -259,6 +257,279 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.10/purify.min.js"></script>
     
 <script>
+
+class APIManager {
+    constructor(config = {}) {
+        this.config = {
+            provider: 'none',
+            apiKey: '',
+            endpoint: '',
+            maxCost: 0.60,
+            retryDelay: 1000,
+            maxRetries: 3,
+            ...config
+        };
+        
+        this.AI_MODELS = {
+            claude: {
+                endpoint: 'https://api.anthropic.com/v1/messages',
+                models: {
+                    'claude-3-opus-20240229': { 
+                        maxTokens: 200000, 
+                        costPer1kTokens: { input: 0.015, output: 0.075 }
+                    },
+                    'claude-3-sonnet-20240229': { 
+                        maxTokens: 200000, 
+                        costPer1kTokens: { input: 0.003, output: 0.015 }
+                    }
+                }
+            },
+            openai: {
+                endpoint: 'https://api.openai.com/v1/chat/completions',
+                models: {
+                    'gpt-4': { 
+                        maxTokens: 8192, 
+                        costPer1kTokens: { input: 0.03, output: 0.06 }
+                    },
+                    'gpt-3.5-turbo': { 
+                        maxTokens: 4096, 
+                        costPer1kTokens: { input: 0.0015, output: 0.002 }
+                    }
+                }
+            }
+        };
+    }
+
+    validateConfig() {
+        const errors = [];
+        
+        if (!this.config.provider || this.config.provider === 'none') {
+            errors.push('No AI provider selected');
+        }
+        
+        if (!this.config.apiKey) {
+            errors.push('API key is missing');
+        }
+        
+        if (!this.config.preferredModel) {
+            errors.push('No model selected');
+        }
+        
+        if (this.config.provider !== 'none' && !this.AI_MODELS[this.config.provider]) {
+            errors.push('Invalid provider selected');
+        }
+        
+        return {
+            isValid: errors.length === 0,
+            errors
+        };
+    }
+
+    async callAPI(prompt, retryCount = 0) {
+        const validation = this.validateConfig();
+        if (!validation.isValid) {
+            throw new Error(`Invalid API configuration: ${validation.errors.join(', ')}`);
+        }
+
+        try {
+            // Ajout d'un délai minimal entre les appels
+            await this.enforceRateLimit();
+            
+            console.log('Making API call...');
+            const response = await this.makeAPICall(prompt);
+            
+            // Ajout d'un délai après chaque appel réussi
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            return this.processResponse(response);
+        } catch (error) {
+            if (retryCount < this.config.maxRetries) {
+                const delay = this.calculateRetryDelay(retryCount);
+                console.warn(`API call failed, waiting ${delay}ms before retry ${retryCount + 1}/${this.config.maxRetries}...`);
+                await new Promise(resolve => setTimeout(resolve, delay));
+                return this.callAPI(prompt, retryCount + 1);
+            }
+            throw new Error(`API call failed after ${this.config.maxRetries} retries: ${error.message}`);
+        }
+    }
+
+    // Méthode pour gérer les limites de taux d'appel
+    async enforceRateLimit() {
+        const now = Date.now();
+        const lastCallTime = this.lastAPICallTime || 0;
+        const minDelay = 2000; // Délai minimum de 2 secondes entre les appels
+
+        if (now - lastCallTime < minDelay) {
+            const waitTime = minDelay - (now - lastCallTime);
+            console.log(`Rate limit: Waiting ${waitTime}ms before next call`);
+            await new Promise(resolve => setTimeout(resolve, waitTime));
+        }
+
+        this.lastAPICallTime = Date.now();
+    }
+
+    // Calcul du délai de retry avec backoff exponentiel
+    calculateRetryDelay(retryCount) {
+        const baseDelay = this.config.retryDelay || 1000;
+        return Math.min(baseDelay * Math.pow(2, retryCount), 10000); // Max 10 secondes
+    }
+
+    async makeAPICall(prompt) {
+        const headers = this.buildHeaders();
+        const body = this.buildRequestBody(prompt);
+        const endpoint = this.getEndpoint();
+
+        console.log('=== API Call Details ===');
+        console.log('Endpoint:', endpoint);
+        console.log('Headers:', {...headers, 'x-api-key': '***HIDDEN***'});
+        console.log('Request Body:', body);
+
+        const response = await fetch(endpoint, {
+            method: 'POST',
+            headers,
+            body: JSON.stringify(body)
+        });
+
+        // Attendre un peu avant de traiter la réponse
+        await new Promise(resolve => setTimeout(resolve, 500));
+
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => null);
+            console.error('API Error Response:', errorData);
+            throw new Error(`API Error (${response.status}): ${errorData?.error?.message || response.statusText}`);
+        }
+
+        const responseData = await response.json();
+        console.log('Response received:', responseData);
+        return responseData;
+    }
+
+    async makeAPICall(prompt) {
+        const headers = this.buildHeaders();
+        const body = this.buildRequestBody(prompt);
+        const endpoint = this.getEndpoint();
+
+        console.log('=== API Call Details ===');
+        console.log('Endpoint:', endpoint);
+        console.log('Headers:', {...headers, 'x-api-key': '***HIDDEN***'});
+        console.log('Request Body:', body);
+
+        try {
+            const response = await fetch(endpoint, {
+                method: 'POST',
+                headers,
+                body: JSON.stringify(body)
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => null);
+                console.error('API Error Response:', errorData);
+                console.error('Response Status:', response.status);
+                console.error('Response Status Text:', response.statusText);
+                throw new Error(`API Error (${response.status}): ${errorData?.error?.message || response.statusText}`);
+            }
+
+            const responseData = await response.json();
+            console.log('=== API Response ===');
+            console.log('Raw Response:', responseData);
+            
+            const processedResponse = this.processResponse(responseData);
+            console.log('Processed Response:', processedResponse);
+            
+            return responseData;
+        } catch (error) {
+            console.error('=== API Call Failed ===');
+            console.error('Error:', error);
+            throw error;
+        }
+    }
+
+    buildHeaders() {
+        const commonHeaders = {
+            'Content-Type': 'application/json'
+        };
+
+        if (this.config.provider === 'claude') {
+            return {
+                ...commonHeaders,
+                'x-api-key': this.config.apiKey,
+                'anthropic-version': '2023-06-01'
+            };
+        }
+
+        if (this.config.provider === 'openai') {
+            return {
+                ...commonHeaders,
+                'Authorization': `Bearer ${this.config.apiKey}`
+            };
+        }
+
+        return commonHeaders;
+    }
+
+    buildRequestBody(prompt) {
+        console.log('Building request body for provider:', this.config.provider);
+        console.log('Using model:', this.config.preferredModel);
+        
+        if (this.config.provider === 'claude') {
+            const body = {
+                model: this.config.preferredModel,
+                messages: [{ role: 'user', content: prompt }],
+                max_tokens: this.getModelMaxTokens()
+            };
+            console.log('Claude request body:', body);
+            return body;
+        }
+
+        if (this.config.provider === 'openai') {
+            const body = {
+                model: this.config.preferredModel,
+                messages: [{ role: 'user', content: prompt }],
+                temperature: 0.7
+            };
+            console.log('OpenAI request body:', body);
+            return body;
+        }
+
+        throw new Error('Unsupported provider');
+    }
+
+
+    getEndpoint() {
+        return this.config.endpoint || this.AI_MODELS[this.config.provider].endpoint;
+    }
+
+    getModelMaxTokens() {
+        return this.AI_MODELS[this.config.provider].models[this.config.preferredModel].maxTokens;
+    }
+
+    processResponse(response) {
+        console.log('Processing response for provider:', this.config.provider);
+        
+        if (this.config.provider === 'claude') {
+            const text = response.content[0].text.trim();
+            console.log('Claude response text:', text);
+            return text;
+        }
+
+        if (this.config.provider === 'openai') {
+            const text = response.choices[0].message.content.trim();
+            console.log('OpenAI response text:', text);
+            return text;
+        }
+
+        throw new Error('Unsupported provider response format');
+    }
+
+
+    updateConfig(newConfig) {
+        this.config = {
+            ...this.config,
+            ...newConfig
+        };
+    }
+
+}
 
     class CodeValidator {
         static validateGameCode(code) {
@@ -311,6 +582,10 @@
             this.retryDelay = 1000;
             
             this.initializeModels();
+            
+            // Initialize apiManager before initializing state
+            this.apiManager = new APIManager(JSON.parse(localStorage.getItem('aiConfig')) || {});
+            
             this.initializeState();
             this.initializeStorage();
             this.initializeEventListeners();
@@ -318,29 +593,11 @@
             this.updateAIBadge();
             this.addUsageStyles();
             this.initializeLogger();
+    
+            // Sauvegarder l'état initial
+            this.saveState();
         }
-        
 
-
-        async callAI(prompt) {
-            const provider = this.state.aiConfig.provider;
-            if (provider === 'none') {
-                throw new Error('Please configure an AI provider in the settings.');
-            }
-        
-            try {
-                if (provider === 'claude') {
-                    return await this.callClaude(prompt);
-                } else if (provider === 'openai') {
-                    return await this.callChatGPT(prompt);
-                } else {
-                    throw new Error('Unsupported AI provider selected.');
-                }
-            } catch (error) {
-                console.error('Error in callAI:', error);
-                throw error;
-            }
-        }
         
         // Mise à jour du HTML de la navbar pour inclure l'ID correct
         updateNavbar() {
@@ -1069,14 +1326,26 @@ ensureBaseStyles(code) {
         }
 
 buildAnalogyPrompt(name, cve, description) {
-    const defaultPrompt = localStorage.getItem('defaultAnalogyPrompt') || 'Prompt par défaut pour le mode analogie...';
+    const defaultPrompt = localStorage.getItem('defaultAnalogyPrompt') || 'Montre seulement index.html sans aucun commentaire.';
     return `${defaultPrompt}\nNom de la vulnérabilité: ${name}\nCVE: ${cve || 'n/a'}\nDescription: ${description}`;
 }
 
 buildTechnicalPrompt(name, cve, description) {
-    const defaultPrompt = localStorage.getItem('defaultTechnicalPrompt') || 'Prompt par défaut pour le mode technique...';
+    const defaultPrompt = localStorage.getItem('defaultTechnicalPrompt') || `
+        Crée un jeu interactif en JavaScript qui simule l'exploitation de la vulnérabilité ${name} (CVE: ${cve || 'n/a'}). Le jeu doit inclure :
+
+        1. **Interface Utilisateur (UI) :** Une interface où l'utilisateur peut effectuer des actions spécifiques pour exploiter la vulnérabilité.
+        2. **Conséquences :** Afficher les effets de chaque action de l'utilisateur sur le système cible.
+        3. **Commentaires :** Inclure des commentaires détaillés dans le code expliquant chaque section et sa fonctionnalité.
+        4. **Instructions :** Fournir des instructions claires pour guider l'utilisateur sur la manière de jouer et d'exploiter la vulnérabilité.
+        5. **Sécurité :** S'assurer que le code est sécurisé et ne peut pas être utilisé de manière malveillante en dehors du contexte du jeu.
+
+        Assure-toi que le code est bien structuré, utilise les meilleures pratiques de développement web, et inclut des éléments interactifs pour une expérience utilisateur engageante.
+        Montre seulement index.html sans aucun commentaire.
+    `;
     return `${defaultPrompt}\nNom de la vulnérabilité: ${name}\nCVE: ${cve || 'n/a'}\nDescription: ${description}`;
 }
+
 
 
 showLearningConfig() {
@@ -1367,122 +1636,33 @@ showGame(vulnId, mode) {
             return { isValid: false, code: null };
         }
         
-saveAIConfig() {
+async saveAIConfig() {
     const provider = document.getElementById('ai-provider').value;
-    const gameType = document.getElementById('game-type').value; // Nouvel élément
     const apiKey = document.getElementById('ai-key').value;
     const endpoint = document.getElementById('ai-endpoint').value;
-    const maxCost = parseFloat(document.getElementById('max-cost').value);
-    const retryDelay = parseInt(document.getElementById('retry-delay').value);
-    const maxRetries = parseInt(document.getElementById('max-retries').value);
+    const preferredModel = document.getElementById('model-select').value;
     
-    const aiConfigInput = document.getElementById('aiConfigInput');
-    if (!aiConfigInput) {
-        console.error("L'élément aiConfigInput est introuvable.");
-        return;
-    }
-    
-    const configValue = aiConfigInput.value;
-
-    this.state.aiConfig = {
-        ...this.state.aiConfig,
+    const newConfig = {
         provider,
-        gameType, // Sauvegarder le type de jeu
         apiKey,
         endpoint,
-        maxCost,
-        retryDelay,
-        maxRetries
+        preferredModel
     };
-
-    this.storage.setItem('aiConfig', JSON.stringify(this.state.aiConfig));
+    
+    // Mettre à jour le gestionnaire d'API
+    this.apiManager.updateConfig(newConfig);
+    
+    // Valider la configuration
+    const validation = this.apiManager.validateConfig();
+    if (!validation.isValid) {
+        this.showNotification(`Configuration invalide: ${validation.errors.join(', ')}`, 'danger');
+        return;
+    }
+    
+    // Sauvegarder dans le localStorage
+    localStorage.setItem('aiConfig', JSON.stringify(newConfig));
     this.updateAIBadge();
     this.showNotification('Configuration IA sauvegardée', 'success');
-}
-saveAIConfig() {
-    const providerElement = document.getElementById("ai-provider");
-    const apiKeyElement = document.getElementById("ai-key");
-    const endpointElement = document.getElementById("ai-endpoint");
-
-    // Ajout de logs pour chaque élément
-    console.log("providerElement:", providerElement);
-    console.log("apiKeyElement:", apiKeyElement);
-    console.log("endpointElement:", endpointElement);
-
-    // Vérification de l'existence des éléments
-    if (!providerElement || !apiKeyElement || !endpointElement) {
-        console.error("Un ou plusieurs éléments sont manquants dans le DOM.");
-        return;
-    }
-
-    // Lecture des valeurs si les éléments existent
-    const provider = providerElement.value;
-    const apiKey = apiKeyElement.value;
-    const endpoint = endpointElement.value;
-
-    // Log des valeurs pour vérification
-    console.log("Provider:", provider);
-    console.log("API Key:", apiKey);
-    console.log("Endpoint:", endpoint);
-
-    // Effectuer la sauvegarde avec les valeurs récupérées
-    this.state.aiConfig = { provider, apiKey, endpoint };
-    localStorage.setItem("aiConfig", JSON.stringify(this.state.aiConfig));
-    this.updateAIBadge();
-    this.showNotification("Configuration IA sauvegardée", "success");
-}
-saveAIConfig() {
-    const providerElement = document.getElementById("ai-provider");
-    const apiKeyElement = document.getElementById("ai-key");
-    const endpointElement = document.getElementById("ai-endpoint");
-    const maxCostElement = document.getElementById("max-cost");
-    const retryDelayElement = document.getElementById("retry-delay");
-    const maxRetriesElement = document.getElementById("max-retries");
-    
-    // Ajout de logs pour chaque élément
-    console.log("providerElement:", providerElement);
-    console.log("apiKeyElement:", apiKeyElement);
-    console.log("endpointElement:", endpointElement);
-    console.log("maxCostElement:", maxCostElement);
-    console.log("retryDelayElement:", retryDelayElement);
-    console.log("maxRetriesElement:", maxRetriesElement);
-
-    // Vérification de l'existence des éléments
-    if (!providerElement || !apiKeyElement || !endpointElement || !maxCostElement || !retryDelayElement || !maxRetriesElement) {
-        console.error("Un ou plusieurs éléments sont manquants dans le DOM.");
-        this.showNotification("Configuration IA incomplète ou incorrecte.", "danger");
-        return;
-    }
-
-    // Lecture des valeurs si les éléments existent
-    const provider = providerElement.value;
-    const apiKey = apiKeyElement.value;
-    const endpoint = endpointElement.value;
-    const maxCost = parseFloat(maxCostElement.value);
-    const retryDelay = parseInt(retryDelayElement.value);
-    const maxRetries = parseInt(maxRetriesElement.value);
-
-    // Log des valeurs pour vérification
-    console.log("Provider:", provider);
-    console.log("API Key:", apiKey);
-    console.log("Endpoint:", endpoint);
-    console.log("Max Cost:", maxCost);
-    console.log("Retry Delay:", retryDelay);
-    console.log("Max Retries:", maxRetries);
-
-    // Effectuer la sauvegarde avec les valeurs récupérées
-    this.state.aiConfig = { 
-        ...this.state.aiConfig, 
-        provider, 
-        apiKey, 
-        endpoint,
-        maxCost,
-        retryDelay,
-        maxRetries 
-    };
-    localStorage.setItem("aiConfig", JSON.stringify(this.state.aiConfig));
-    this.updateAIBadge();
-    this.showNotification("Configuration IA sauvegardée", "success");
 }
 
 
@@ -1835,45 +2015,137 @@ initializeConfigHandlers() {
 }
 
 
+    // Méthode centrale pour sauvegarder l'état
+    saveState() {
+        this.storage.setItem('aiConfig', JSON.stringify(this.state.aiConfig));
+        this.storage.setItem('currentTab', this.state.currentTab);
+        this.storage.setItem('formData', JSON.stringify(this.state.formData));
+    }
+
+    // Mise à jour de updateProviderConfig
+    updateProviderConfig(provider) {
+        this.state.aiConfig.provider = provider;
+        this.saveState(); // Sauvegarde immédiate
         
-async testConnection() {
-    const provider = this.state.aiConfig.provider;
-    const apiKey = this.state.aiConfig.apiKey;
-    const endpoint = this.state.aiConfig.endpoint || '';
+        const modelConfigContainer = document.getElementById('model-config');
+        if (modelConfigContainer) {
+            modelConfigContainer.innerHTML = this.generateModelConfigHTML();
+        }
 
-    if (provider === 'none') {
-        this.showNotification('Aucun fournisseur d\'IA configuré.', 'danger');
-        return;
+        this.updateAIBadge();
     }
 
-    if (!apiKey) {
-        this.showNotification('Clé API manquante. Veuillez la configurer dans les paramètres.', 'danger');
-        return;
+    // Mise à jour de setPreferredModel
+    setPreferredModel(selectedModel) {
+        this.state.aiConfig.preferredModel = selectedModel;
+        this.saveState(); // Sauvegarde immédiate
+        this.showNotification(`Modèle préféré mis à jour: ${selectedModel}`, 'success');
     }
 
-    this.showNotification('Test de connexion en cours...', 'info');
+    // Mise à jour de saveAIConfig
+    async saveAIConfig() {
+        const provider = document.getElementById('ai-provider').value;
+        const apiKey = document.getElementById('ai-key').value;
+        const endpoint = document.getElementById('ai-endpoint').value;
+        const preferredModel = document.getElementById('model-select').value;
+        const maxCost = document.getElementById('max-cost').value;
+        const retryDelay = document.getElementById('retry-delay').value;
+        const maxRetries = document.getElementById('max-retries').value;
+        
+        const newConfig = {
+            provider,
+            apiKey,
+            endpoint,
+            preferredModel,
+            maxCost: parseFloat(maxCost),
+            retryDelay: parseInt(retryDelay),
+            maxRetries: parseInt(maxRetries)
+        };
+        
+        // Mettre à jour l'état local
+        this.state.aiConfig = {
+            ...this.state.aiConfig,
+            ...newConfig
+        };
+        
+        // Sauvegarder immédiatement
+        this.saveState();
+        
+        // Mettre à jour l'APIManager
+        this.apiManager.updateConfig(newConfig);
+        
+        // Valider la configuration
+        const validation = this.apiManager.validateConfig();
+        if (!validation.isValid) {
+            this.showNotification(`Configuration invalide: ${validation.errors.join(', ')}`, 'danger');
+            return;
+        }
+        
+        this.updateAIBadge();
+        this.showNotification('Configuration IA sauvegardée', 'success');
+    }
 
+    // Mise à jour des gestionnaires de formulaire
+    initializeFormListeners() {
+        const nameInput = document.querySelector('input[placeholder="Nom de la vulnérabilité"]');
+        const cveInput = document.querySelector('input[placeholder="Identifiant CVE (optionnel)"]');
+        const descTextarea = document.querySelector('textarea[placeholder="Description détaillée"]');
+        
+        if (!nameInput || !cveInput || !descTextarea) {
+            console.warn("Form elements not found. Skipping initialization.");
+            return;
+        }
+        
+        nameInput.value = this.state.formData.name;
+        cveInput.value = this.state.formData.cve;
+        descTextarea.value = this.state.formData.description;
+        
+        const updateStorage = () => {
+            this.state.formData = {
+                name: nameInput.value,
+                cve: cveInput.value,
+                description: descTextarea.value
+            };
+            this.saveState(); // Sauvegarde immédiate
+        };
+        
+        nameInput.addEventListener('input', updateStorage);
+        cveInput.addEventListener('input', updateStorage);
+        descTextarea.addEventListener('input', updateStorage);
+    }
+
+    // Mise à jour de testConnection pour sauvegarder l'état après test
+ async testConnection() {
     try {
-        let response;
-
-        if (provider === 'claude') {
-            // Appel d'une méthode pour tester la connexion avec Claude
-            response = await this.callClaude('Bonjour, ceci est un test de connexion.');
-        } else if (provider === 'openai') {
-            // Appel d'une méthode pour tester la connexion avec OpenAI
-            response = await this.callChatGPT('Bonjour, ceci est un test de connexion.');
+        // Définir un prompt de test approprié en fonction du fournisseur d'IA
+        let testPrompt = 'Test de connexion à l\'API IA. Veuillez répondre par "OK".';
+        
+        // Optionnel : Adapter le prompt en fonction du fournisseur
+        if (this.state.aiConfig.provider === 'claude') {
+            testPrompt = 'Bonjour Claude, réponds simplement par "OK" pour confirmer la connexion.';
+        } else if (this.state.aiConfig.provider === 'openai') {
+            testPrompt = 'Hello ChatGPT, please respond with "OK" to confirm the connection.';
         } else {
-            throw new Error('Fournisseur d\'IA non supporté.');
+            throw new Error('Aucun fournisseur d\'IA sélectionné pour le test de connexion.');
         }
 
-        if (response) {
-            this.showNotification('Connexion réussie avec ' + (provider === 'claude' ? 'Claude' : 'OpenAI') + '!', 'success');
+        // Appeler l'API avec le prompt de test
+        const response = await this.apiManager.callAPI(testPrompt);
+        
+        // Vérifier si la réponse contient "OK"
+        if (response && response.includes('OK')) {
+            // Sauvegarder l'état après un test réussi
+            this.saveState();
+            this.showNotification('Connexion établie avec succès!', 'success');
+            return { success: true, message: 'Connexion établie avec succès!' };
         } else {
-            throw new Error('Réponse vide reçue.');
+            throw new Error('La réponse de l\'API n\'est pas conforme.');
         }
+        
     } catch (error) {
+        console.error('Test connection failed:', error);
         this.showNotification(`Échec de la connexion: ${error.message}`, 'danger');
-        console.error('Erreur lors du test de connexion:', error);
+        return { success: false, message: error.message };
     }
 }
 
@@ -2116,31 +2388,10 @@ generateModelConfigHTML() {
     }
 
 
-        async callAI(prompt) {
-            const provider = this.state.aiConfig.provider;
-            if (provider === 'none') {
-                throw new Error('Please configure an AI provider in the settings.');
-            }
-        
-            try {
-                if (provider === 'claude') {
-                    return await this.callClaude(prompt);
-                } else if (provider === 'openai') {
-                    return await this.callChatGPT(prompt);
-                } else {
-                    throw new Error('Unsupported AI provider selected.');
-                }
-            } catch (error) {
-                console.error('Error in callAI:', error);
-                throw error;
-            }
-        }
-
     async generateVulnerability() {
         const terminal = document.querySelector('.logs-content');
         if (terminal) terminal.innerHTML = '';
 
-        // Réinitialiser la barre de progression
         const progressBar = document.querySelector('.progress-bar');
         if (progressBar) progressBar.style.width = '0%';
 
@@ -2155,115 +2406,158 @@ generateModelConfigHTML() {
 
         try {
             this.log('Début de la génération...', 'info');
+            await new Promise(resolve => setTimeout(resolve, 1000));
 
-            // Structure de la vulnérabilité
             let vulnerability = {
                 id: Date.now().toString(),
                 name,
                 cve,
                 description,
                 created: new Date().toISOString(),
-                analogyPrompt: this.buildAnalogyPrompt(name, cve, description), // AJOUTÉ
-                technicalPrompt: this.buildTechnicalPrompt(name, cve, description) // AJOUTÉ
+                analogyPrompt: this.buildAnalogyPrompt(name, cve, description),
+                technicalPrompt: this.buildTechnicalPrompt(name, cve, description)
             };
 
-            // Génération du mode analogique (Histoire)
+            // Génération du scénario analogique
             this.log('Génération du scénario analogique...', 'info');
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
             let analogyResponse = await this.callAI(vulnerability.analogyPrompt);
-
-            // Validation du mode analogique
+            this.log('Réponse reçue du scénario analogique, validation en cours...', 'info');
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
             analogyResponse = await this.validateAndRetryGeneration(analogyResponse);
-            const analogyValidation = this.validateGameContent(analogyResponse);
+            
+            // Pause entre les générations
+            this.log('Préparation de la génération technique...', 'info');
+            await new Promise(resolve => setTimeout(resolve, 2000));
 
-            if (analogyValidation.isValid) {
-                this.log('Scénario analogique validé et sauvegardé.', 'success');
-                vulnerability.analogyCode = analogyResponse;
-                this.log(`Code Analogy : ${analogyResponse.substring(0, 100)}...`, 'info'); // AJOUTÉ
-            } else {
-                this.log('Scénario analogique invalide, nouvelle tentative...', 'warning');
-                const retryAnalogy = await this.retrySpecificMode('analogy', name, cve, description);
-                if (retryAnalogy.isValid) {
-                    vulnerability.analogyCode = retryAnalogy.code;
-                    vulnerability.analogyPrompt = retryAnalogy.prompt; // AJOUTÉ
-                    this.log('Scénario analogique régénéré et validé.', 'success');
-                    this.log(`Code Analogy Régénéré : ${retryAnalogy.code.substring(0, 100)}...`, 'info'); // AJOUTÉ
-                } else {
-                    this.log('Échec de la génération du mode analogique.', 'error');
-                    throw new Error('La génération du scénario analogique a échoué après plusieurs tentatives.');
-                }
-            }
-
-            // Génération du mode technique
+            // Génération du scénario technique
             this.log('Génération du scénario technique...', 'info');
             let technicalResponse = await this.callAI(vulnerability.technicalPrompt);
-
-            // Validation du mode technique
+            
+            this.log('Réponse reçue du scénario technique, validation en cours...', 'info');
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
             technicalResponse = await this.validateAndRetryGeneration(technicalResponse);
-            const technicalValidation = this.validateGameContent(technicalResponse);
 
-            if (technicalValidation.isValid) {
-                this.log('Scénario technique validé et sauvegardé.', 'success');
-                vulnerability.technicalCode = technicalResponse;
-                this.log(`Code Technique : ${technicalResponse.substring(0, 100)}...`, 'info'); // AJOUTÉ
-            } else {
-                this.log('Scénario technique invalide, nouvelle tentative...', 'warning');
-                const retryTechnical = await this.retrySpecificMode('technical', name, cve, description);
-                if (retryTechnical.isValid) {
-                    vulnerability.technicalCode = retryTechnical.code;
-                    vulnerability.technicalPrompt = retryTechnical.prompt; // AJOUTÉ
-                    this.log('Scénario technique régénéré et validé.', 'success');
-                    this.log(`Code Technique Régénéré : ${retryTechnical.code.substring(0, 100)}...`, 'info'); // AJOUTÉ
-                } else {
-                    this.log('Échec de la génération du mode technique.', 'error');
-                    throw new Error('La génération du scénario technique a échoué après plusieurs tentatives.');
-                }
-            }
+            // Sauvegarde avec délai
+            this.log('Sauvegarde des scénarios...', 'info');
+            await new Promise(resolve => setTimeout(resolve, 1000));
 
-            // Vérifier que les deux modes sont valides avant de sauvegarder
-            if (vulnerability.analogyCode && vulnerability.technicalCode) {
-                const vulnerabilities = JSON.parse(localStorage.getItem('vulnerabilities')) || [];
-                vulnerabilities.push(vulnerability);
-                localStorage.setItem('vulnerabilities', JSON.stringify(vulnerabilities));
+            vulnerability.analogyCode = analogyResponse;
+            vulnerability.technicalCode = technicalResponse;
 
-                this.log('Vulnérabilité sauvegardée dans la bibliothèque.', 'success');
-                this.showNotification('Vulnérabilité créée!', 'success');
+            const vulnerabilities = JSON.parse(localStorage.getItem('vulnerabilities')) || [];
+            vulnerabilities.push(vulnerability);
+            localStorage.setItem('vulnerabilities', JSON.stringify(vulnerabilities));
 
-                // Mise à jour de la progression à 100%
-                if (progressBar) progressBar.style.width = '100%';
-
-                // Indiquer la fin de la génération
-                this.log('Génération terminée avec succès pour les deux modes.', 'success');
-                this.showNotification('Génération terminée avec succès pour les deux modes.', 'success');
-
-                // Ajout d'un message visuel dans la génération-box
-                const generationBox = document.querySelector('.generation-box');
-                if (generationBox) {
-                    const completionMessage = document.createElement('div');
-                    completionMessage.className = 'completion-message';
-                    completionMessage.innerHTML = `
-                        <p style="color: var(--success); font-weight: bold; margin-top: 1rem;">
-                            ✅ Génération terminée avec succès pour les deux modes.
-                        </p>`;
-                    generationBox.appendChild(completionMessage);
-                }
-
-                this.loadCurrentTab();
-            } else {
-                throw new Error('La génération n\'a pas pu être complétée correctement.');
-            }
+            this.log('Génération terminée avec succès!', 'success');
+            this.showNotification('Vulnérabilité créée avec succès!', 'success');
+            
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            this.loadCurrentTab();
 
         } catch (error) {
+            console.error('Generation error:', error);
             this.log(`Erreur: ${error.message}`, 'error');
             this.showNotification(error.message, 'danger');
-            // En cas d'erreur, mettre la barre de progression en rouge
             if (progressBar) {
                 progressBar.style.backgroundColor = 'var(--danger)';
             }
         } finally {
+            await new Promise(resolve => setTimeout(resolve, 1000));
             generateButton.disabled = false;
             this.storage.removeItem('generationInProgress');
         }
     }
+
+
+
+    async generateVulnerability() {
+        const terminal = document.querySelector('.logs-content');
+        if (terminal) terminal.innerHTML = '';
+
+        const progressBar = document.querySelector('.progress-bar');
+        if (progressBar) progressBar.style.width = '0%';
+
+        const { name, cve, description } = this.state.formData;
+        if (!name || !description) {
+            this.showNotification('Veuillez remplir les champs requis', 'danger');
+            return;
+        }
+
+        const generateButton = document.querySelector('.btn-primary');
+        generateButton.disabled = true;
+
+        try {
+            this.log('Début de la génération...', 'info');
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            let vulnerability = {
+                id: Date.now().toString(),
+                name,
+                cve,
+                description,
+                created: new Date().toISOString(),
+                analogyPrompt: this.buildAnalogyPrompt(name, cve, description),
+                technicalPrompt: this.buildTechnicalPrompt(name, cve, description)
+            };
+
+            // Génération du scénario analogique
+            this.log('Génération du scénario analogique...', 'info');
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            let analogyResponse = await this.callAI(vulnerability.analogyPrompt);
+            this.log('Réponse reçue du scénario analogique, validation en cours...', 'info');
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            analogyResponse = await this.validateAndRetryGeneration(analogyResponse);
+            
+            // Pause entre les générations
+            this.log('Préparation de la génération technique...', 'info');
+            await new Promise(resolve => setTimeout(resolve, 2000));
+
+            // Génération du scénario technique
+            this.log('Génération du scénario technique...', 'info');
+            let technicalResponse = await this.callAI(vulnerability.technicalPrompt);
+            
+            this.log('Réponse reçue du scénario technique, validation en cours...', 'info');
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            technicalResponse = await this.validateAndRetryGeneration(technicalResponse);
+
+            // Sauvegarde avec délai
+            this.log('Sauvegarde des scénarios...', 'info');
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            vulnerability.analogyCode = analogyResponse;
+            vulnerability.technicalCode = technicalResponse;
+
+            const vulnerabilities = JSON.parse(localStorage.getItem('vulnerabilities')) || [];
+            vulnerabilities.push(vulnerability);
+            localStorage.setItem('vulnerabilities', JSON.stringify(vulnerabilities));
+
+            this.log('Génération terminée avec succès!', 'success');
+            this.showNotification('Vulnérabilité créée avec succès!', 'success');
+            
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            this.loadCurrentTab();
+
+        } catch (error) {
+            console.error('Generation error:', error);
+            this.log(`Erreur: ${error.message}`, 'error');
+            this.showNotification(error.message, 'danger');
+            if (progressBar) {
+                progressBar.style.backgroundColor = 'var(--danger)';
+            }
+        } finally {
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            generateButton.disabled = false;
+            this.storage.removeItem('generationInProgress');
+        }
+    }
+
 
     /**
      * Méthode pour valider le contenu généré par l'IA.
@@ -2317,7 +2611,6 @@ generateModelConfigHTML() {
 
             let correctionPrompt = `Le code généré nécessite les corrections suivantes:
 ${validation.messages.map(msg => `- ${msg}`).join('\n')}
-
 ${code}
 RAPPEL DES CONTRAINTES OBLIGATOIRES :
 1. Le code DOIT contenir :
@@ -2565,7 +2858,61 @@ async retrySpecificMode(mode, name, cve, description, maxRetries = 3) {
             });
         }
         
+    async callAI(prompt) {
+        try {
+            this.log('Envoi de la requête à l\'API...', 'info');
+            const response = await this.apiManager.callAPI(prompt);
+            this.log('Réponse reçue de l\'API', 'success');
+            return response;
+        } catch (error) {
+            this.log(`Erreur API: ${error.message}`, 'error');
+            throw error;
+        }
     }
+    
+    loadState() {
+        // Charger la configuration IA
+        const savedConfig = JSON.parse(this.storage.getItem('aiConfig')) || this.getDefaultConfig();
+        const savedTab = this.storage.getItem('currentTab') || 'création';
+        const savedFormData = JSON.parse(this.storage.getItem('formData')) || {
+            name: '',
+            cve: '',
+            description: ''
+        };
+
+        this.state = {
+            aiConfig: savedConfig,
+            currentTab: savedTab,
+            formData: savedFormData
+        };
+
+        // Mettre à jour l'API Manager avec la configuration chargée
+        this.apiManager.updateConfig(savedConfig);
+        
+        // Mettre à jour l'interface
+        this.updateAIBadge();
+        this.loadCurrentTab();
+    }
+
+    initializeState() {
+        // Charger l'état sauvegardé ou utiliser les valeurs par défaut
+        this.loadState();
+        
+        // Configuration initiale si nécessaire
+        if (!this.storage.getItem('vulnerabilities')) {
+            this.storage.setItem('vulnerabilities', JSON.stringify([]));
+        }
+        if (!this.storage.getItem('userProgress')) {
+            this.storage.setItem('userProgress', JSON.stringify({
+                completedGames: [],
+                totalScore: 0
+            }));
+        }
+    }
+        
+    }
+    
+    
 
     // Initialisation de l'application
     VulnLearnerApp.initialize();
