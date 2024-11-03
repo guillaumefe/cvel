@@ -274,11 +274,11 @@ class APIManager {
             claude: {
                 endpoint: 'https://api.anthropic.com/v1/messages',
                 models: {
-                    'claude-3-opus-20240229': { 
+                    'claude-3-opus': { 
                         maxTokens: 200000, 
                         costPer1kTokens: { input: 0.015, output: 0.075 }
                     },
-                    'claude-3-sonnet-20240229': { 
+                    'claude-3-sonnet': { 
                         maxTokens: 200000, 
                         costPer1kTokens: { input: 0.003, output: 0.015 }
                     }
@@ -344,7 +344,7 @@ class APIManager {
             return this.processResponse(response);
         } catch (error) {
             if (retryCount < this.config.maxRetries) {
-                const delay = this.calculateRetryDelay(retryCount);
+                const delay = this.calculateRetryDelay(retryCount) + 1000; // Augmente le délai de 1 seconde
                 console.warn(`API call failed, waiting ${delay}ms before retry ${retryCount + 1}/${this.config.maxRetries}...`);
                 await new Promise(resolve => setTimeout(resolve, delay));
                 return this.callAPI(prompt, retryCount + 1);
@@ -372,36 +372,6 @@ class APIManager {
     calculateRetryDelay(retryCount) {
         const baseDelay = this.config.retryDelay || 1000;
         return Math.min(baseDelay * Math.pow(2, retryCount), 10000); // Max 10 secondes
-    }
-
-    async makeAPICall(prompt) {
-        const headers = this.buildHeaders();
-        const body = this.buildRequestBody(prompt);
-        const endpoint = this.getEndpoint();
-
-        console.log('=== API Call Details ===');
-        console.log('Endpoint:', endpoint);
-        console.log('Headers:', {...headers, 'x-api-key': '***HIDDEN***'});
-        console.log('Request Body:', body);
-
-        const response = await fetch(endpoint, {
-            method: 'POST',
-            headers,
-            body: JSON.stringify(body)
-        });
-
-        // Attendre un peu avant de traiter la réponse
-        await new Promise(resolve => setTimeout(resolve, 500));
-
-        if (!response.ok) {
-            const errorData = await response.json().catch(() => null);
-            console.error('API Error Response:', errorData);
-            throw new Error(`API Error (${response.status}): ${errorData?.error?.message || response.statusText}`);
-        }
-
-        const responseData = await response.json();
-        console.log('Response received:', responseData);
-        return responseData;
     }
 
     async makeAPICall(prompt) {
@@ -1093,8 +1063,8 @@ ensureBaseStyles(code) {
             this.AI_MODELS = {
                 claude: {
                     models: {
-                        'claude-3-opus-20240229': { maxTokens: 200000, costPer1kTokens: { input: 0.015, output: 0.075 }, description: 'Plus puissant et précis, meilleur raisonnement' },
-                        'claude-3-sonnet-20240229': { maxTokens: 200000, costPer1kTokens: { input: 0.003, output: 0.015 }, description: 'Excellent rapport qualité/prix' },
+                        'claude-3-opus': { maxTokens: 200000, costPer1kTokens: { input: 0.015, output: 0.075 }, description: 'Plus puissant et précis, meilleur raisonnement' },
+                        'claude-3-sonnet': { maxTokens: 200000, costPer1kTokens: { input: 0.003, output: 0.015 }, description: 'Excellent rapport qualité/prix' },
                         'claude-2.1': { maxTokens: 100000, costPer1kTokens: { input: 0.008, output: 0.024 }, description: 'Modèle stable et éprouvé' },
                         'claude-instant-1.2': { maxTokens: 100000, costPer1kTokens: { input: 0.0008, output: 0.0024 }, description: 'Rapide et économique' }
                     }
@@ -1407,7 +1377,8 @@ showGame(vulnId, mode) {
             <h2>${vuln.name} - ${mode === 'analogy' ? 'Mode Histoire' : 'Mode Technique'}</h2>
             <div class="game-container">
                 <iframe 
-                    srcdoc="${DOMPurify.sanitize(gameContent)}"
+                    <!- srcdoc="\${DOMPurify.sanitize(gameContent)}" -->
+                    srcdoc="${gameContent}"
                     sandbox="allow-modals allow-forms allow-scripts allow-same-origin allow-popups allow-pointer-lock allow-orientation-lock allow-top-navigation allow-popups-to-escape-sandbox allow-presentation"
                     style="background: #ffffff !important; width: 100%; height: 100%; border: none;"
                     frameborder="0">
@@ -1718,92 +1689,6 @@ validateGameContent(code) {
             return false;
         }
 
-async callClaude(prompt) {
-    const selectedModel = this.state.aiConfig.preferredModel;
-    const apiKey = this.state.aiConfig.apiKey;
-
-    // Vérification de la clé API et du modèle
-    if (!apiKey) {
-        throw new Error('API Key for Claude is missing. Please configure it in the settings.');
-    }
-    if (!selectedModel) {
-        throw new Error('No model selected for Claude API. Please choose a model.');
-    }
-
-    const url = this.state.aiConfig.endpoint || 'https://api.anthropic.com/v1/messages';
-
-    try {
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'x-api-key': apiKey,
-                'anthropic-version': '2023-06-01',
-                'anthropic-dangerous-direct-browser-access': 'true'
-            },
-            body: JSON.stringify({
-                model: selectedModel,
-                messages: [{ role: 'user', content: prompt }],
-                max_tokens: 4096
-            })
-        });
-
-        // Vérification du code d'état HTTP
-        if (!response.ok) {
-            const errorText = await response.text();
-            throw new Error(`Claude API Error (${response.status}): ${errorText}`);
-        }
-
-        const result = await response.json();
-        return result.content[0].text.trim();
-    } catch (error) {
-        console.error('Error in callClaude:', error);
-        throw new Error(`Failed to fetch from Claude API: ${error.message}`);
-    }
-}
-
-async callChatGPT(prompt) {
-    const selectedModel = this.state.aiConfig.preferredModel;
-    const apiKey = this.state.aiConfig.apiKey;
-
-    // Vérification de la clé API et du modèle
-    if (!apiKey) {
-        throw new Error('API Key for OpenAI is missing. Please configure it in the settings.');
-    }
-    if (!selectedModel) {
-        throw new Error('No model selected for OpenAI API. Please choose a model.');
-    }
-
-    const url = 'https://api.openai.com/v1/chat/completions';
-
-    try {
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${apiKey}`
-            },
-            body: JSON.stringify({
-                model: selectedModel,
-                messages: [{ role: 'user', content: prompt }],
-                temperature: 0.7
-            })
-        });
-
-        // Vérification du code d'état HTTP
-        if (!response.ok) {
-            const error = await response.json();
-            throw new Error(`OpenAI API Error (${response.status}): ${error.message || 'Unknown error'}`);
-        }
-
-        const data = await response.json();
-        return data.choices[0].message.content;
-    } catch (error) {
-        console.error('Error in callChatGPT:', error);
-        throw new Error(`Failed to fetch from OpenAI API: ${error.message}`);
-    }
-}
-
 
         initializeFormListeners() {
             const nameInput = document.querySelector('input[placeholder="Nom de la vulnérabilité"]');
@@ -1871,7 +1756,6 @@ async callChatGPT(prompt) {
         }
       
       
-// Ajout des configurations Firebase dans l'interface IA
         showAIConfig() {
             console.log('Ouverture de la configuration IA'); // Debug
             const modal = document.createElement('div');
@@ -2116,6 +2000,7 @@ initializeConfigHandlers() {
 
     // Mise à jour de testConnection pour sauvegarder l'état après test
  async testConnection() {
+    
     try {
         // Définir un prompt de test approprié en fonction du fournisseur d'IA
         let testPrompt = 'Test de connexion à l\'API IA. Veuillez répondre par "OK".';
@@ -2149,7 +2034,11 @@ initializeConfigHandlers() {
     }
 }
 
-
+saveConfig() {
+    // Code pour sauvegarder la configuration
+    this.state.isConfigSaved = true;
+    this.log('Configuration sauvegardée avec succès.', 'success');
+}
 
         // Gestion de Firebase
         initializeFirebase() {
