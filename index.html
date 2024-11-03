@@ -258,6 +258,36 @@
     
 <script>
 
+// Define AI_MODELS globally
+const AI_MODELS = {
+    claude: {
+        endpoint: 'https://api.anthropic.com/v1/messages',
+        models: {
+            'claude-3-opus-latest': { 
+                maxTokens: 4096, 
+                costPer1kTokens: { input: 0.015, output: 0.075 }
+            },
+            'claude-3.5-sonnet-latest': { 
+                maxTokens: 4096, 
+                costPer1kTokens: { input: 0.003, output: 0.015 }
+            }
+        }
+    },
+    openai: {
+        endpoint: 'https://api.openai.com/v1/chat/completions',
+        models: {
+            'gpt-4': { 
+                maxTokens: 8192, 
+                costPer1kTokens: { input: 0.03, output: 0.06 }
+            },
+            'gpt-3.5-turbo': { 
+                maxTokens: 4096, 
+                costPer1kTokens: { input: 0.0015, output: 0.002 }
+            }
+        }
+    }
+};
+
 class APIManager {
     constructor(config = {}) {
         this.config = {
@@ -270,34 +300,7 @@ class APIManager {
             ...config
         };
         
-        this.AI_MODELS = {
-            claude: {
-                endpoint: 'https://api.anthropic.com/v1/messages',
-                models: {
-                    'claude-3-opus': { 
-                        maxTokens: 200000, 
-                        costPer1kTokens: { input: 0.015, output: 0.075 }
-                    },
-                    'claude-3-sonnet': { 
-                        maxTokens: 200000, 
-                        costPer1kTokens: { input: 0.003, output: 0.015 }
-                    }
-                }
-            },
-            openai: {
-                endpoint: 'https://api.openai.com/v1/chat/completions',
-                models: {
-                    'gpt-4': { 
-                        maxTokens: 8192, 
-                        costPer1kTokens: { input: 0.03, output: 0.06 }
-                    },
-                    'gpt-3.5-turbo': { 
-                        maxTokens: 4096, 
-                        costPer1kTokens: { input: 0.0015, output: 0.002 }
-                    }
-                }
-            }
-        };
+        this.AI_MODELS = AI_MODELS;
     }
 
     validateConfig() {
@@ -423,7 +426,8 @@ class APIManager {
             return {
                 ...commonHeaders,
                 'x-api-key': this.config.apiKey,
-                'anthropic-version': '2023-06-01'
+                'anthropic-version': '2023-06-01',
+                'anthropic-dangerous-direct-browser-access' : 'true'
             };
         }
 
@@ -1060,24 +1064,7 @@ ensureBaseStyles(code) {
         }
 
         initializeModels() {
-            this.AI_MODELS = {
-                claude: {
-                    models: {
-                        'claude-3-opus': { maxTokens: 200000, costPer1kTokens: { input: 0.015, output: 0.075 }, description: 'Plus puissant et précis, meilleur raisonnement' },
-                        'claude-3-sonnet': { maxTokens: 200000, costPer1kTokens: { input: 0.003, output: 0.015 }, description: 'Excellent rapport qualité/prix' },
-                        'claude-2.1': { maxTokens: 100000, costPer1kTokens: { input: 0.008, output: 0.024 }, description: 'Modèle stable et éprouvé' },
-                        'claude-instant-1.2': { maxTokens: 100000, costPer1kTokens: { input: 0.0008, output: 0.0024 }, description: 'Rapide et économique' }
-                    }
-                },
-                openai: {
-                    models: {
-                        'gpt-4': { maxTokens: 8192, costPer1kTokens: { input: 0.03, output: 0.06 }, description: 'Plus précis, meilleur pour les tâches complexes' },
-                        'gpt-4-turbo-preview': { maxTokens: 128000, costPer1kTokens: { input: 0.01, output: 0.03 }, description: 'Version preview de GPT-4, plus rapide' },
-                        'gpt-3.5-turbo': { maxTokens: 4096, costPer1kTokens: { input: 0.0015, output: 0.002 }, description: 'Bon rapport qualité/prix, rapide' },
-                        'gpt-3.5-turbo-16k': { maxTokens: 16384, costPer1kTokens: { input: 0.003, output: 0.004 }, description: 'GPT-3.5 avec contexte étendu' }
-                    }
-                }
-            };
+            this.AI_MODELS = AI_MODELS;
         }
 
         getDefaultConfig() {
@@ -2210,7 +2197,7 @@ generateModelConfigHTML() {
     `;
     for (const model in models) {
         const selected = this.state.aiConfig.preferredModel === model ? 'selected' : '';
-        html += `<option value="${model}" ${selected}>${model} - ${models[model].description}</option>`;
+        html += `<option value="${model}" ${selected}>${model}</option>`;
     }
     html += '</select>';
 
