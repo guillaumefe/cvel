@@ -227,17 +227,25 @@
         min-height:450px;
     }
 </style>
-</head>
-<body>
+
+
+<!-- Firebase App CDN -->
+<!-- Utilisation des versions sans modules -->
+<script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-firestore-compat.js"></script>
+
 <!-- Inclusion des bibliothèques React, ReactDOM et Babel -->
 <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
 <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
+</head>
+<body>
+
 
 
     <nav class="navbar">
-        <div class="logo">VulnLearner</div>
+        <div class="logo">CVEL</div>
         <div class="flex">
             <button onclick="app.showAIConfig()" class="btn btn-secondary" id="ai-config-btn">
                 <span class="badge badge-warning">IA: Non configurée</span>
@@ -255,8 +263,68 @@
         <div id="tab-content"></div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.10/purify.min.js"></script>
-    
+
 <script>
+      
+// Fonction pour initialiser Firebase avec la configuration collée
+// Fonction pour initialiser Firebase avec la configuration collée
+function initializeFirebaseFromInput() {
+    try {
+        // Récupérer la configuration collée par l'utilisateur
+        const configText = document.getElementById("firebase-config").value.trim();
+
+        // Extraction du JSON à partir de configText
+        const jsonMatch = configText.match(/{[\s\S]*}/);
+        if (!jsonMatch) throw new Error("Format JSON non valide");
+
+        // Conversion en objet JSON
+        const firebaseConfig = new Function("return " + jsonMatch[0])();
+
+        // Initialisation de Firebase
+        firebase.initializeApp(firebaseConfig);
+        console.log("Firebase initialisé avec succès !");
+        alert("Firebase a été initialisé avec succès !");
+    } catch (error) {
+        console.error("Erreur lors de l'initialisation de Firebase :", error);
+        alert("Erreur de configuration Firebase. Vérifiez le format du code.");
+    }
+}
+
+
+
+
+// Fonction pour recharger le contenu du body
+function reloadBody() {
+    //document.body.innerHTML = document.body.innerHTML;
+    location.assign(location.href)
+}
+
+function uploadConfig() {
+    const fileInput = document.getElementById('firebase-config');
+    
+    // Vérifiez si fileInput et fileInput.files existent et contiennent un fichier
+    if (fileInput && fileInput.files && fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            try {
+                const config = JSON.parse(e.target.result);
+                localStorage.setItem('firebaseConfig', JSON.stringify(config));
+                initializeFirebase(config);
+            } catch (error) {
+                console.error("Erreur de parsing JSON:", error);
+                alert("Le fichier n'est pas un fichier JSON valide.");
+            }
+        };
+
+        reader.readAsText(file);
+    } else {
+        alert("Veuillez sélectionner un fichier avant de cliquer sur 'Télécharger'.");
+    }
+}
+
+
 
 // Define AI_MODELS globally
 const AI_MODELS = {
@@ -1373,6 +1441,9 @@ showGame(vulnId, mode) {
             </div>
             <div class="flex" style="margin-top: 1rem; gap: 1rem;">
                 <button class="btn btn-primary" onclick="app.reloadGame('${vuln.id}', '${mode}')">
+                    🔄 Changer
+                </button>
+                <button class="btn btn-primary" onclick="reloadBody()">
                     🔄 Recharger
                 </button>
                 <button class="btn btn-danger" onclick="this.closest('.modal').remove()">Fermer</button>
@@ -1435,6 +1506,9 @@ showGame(vulnId, mode) {
             </div>
             <div class="flex" style="margin-top: 1rem; gap: 1rem;">
                 <button class="btn btn-primary" onclick="app.reloadGame('${vuln.id}', '${mode}')">
+                    🔄 Changer
+                </button>
+                <button class="btn btn-primary" onclick="reloadBody()">
                     🔄 Recharger
                 </button>
                 <button class="btn btn-danger" onclick="this.closest('.modal').remove()">Fermer</button>
@@ -1481,6 +1555,9 @@ showGame(vulnId, mode) {
             </div>
             <div class="flex" style="margin-top: 1rem; gap: 1rem;">
                 <button class="btn btn-primary" onclick="app.reloadGame('${vuln.id}', '${mode}')">
+                    🔄 Changer
+                </button>
+                <button class="btn btn-primary" onclick="reloadBody()">
                     🔄 Recharger
                 </button>
                 <button class="btn btn-danger" onclick="this.closest('.modal').remove()">Fermer</button>
@@ -1531,6 +1608,9 @@ showGame(vulnId, mode) {
             </div>
             <div class="flex" style="margin-top: 1rem; gap: 1rem;">
                 <button class="btn btn-primary" onclick="app.reloadGame('${vuln.id}', '${mode}')">
+                    🔄 Changer
+                </button>
+                <button class="btn btn-primary" onclick="reloadBody()">
                     🔄 Recharger
                 </button>
                 <button class="btn btn-danger" onclick="this.closest('.modal').remove()">Fermer</button>
@@ -1810,9 +1890,22 @@ validateGameContent(code) {
                         </div>
                     </div>
 
-                    <div id="firebase-config" class="config-section" style="display: none;">
-                        <!-- Contenu Firebase -->
-                    </div>
+    <div class="config-firebase-section">
+        <h3>Collez le code de configuration Firebase ici :</h3>
+        <textarea id="firebase-config" rows="10" cols="50">
+            {
+                "apiKey": "Votre_ApiKey",
+                "authDomain": "Votre_AuthDomain",
+                "projectId": "Votre_ProjectId",
+                "storageBucket": "Votre_StorageBucket",
+                "messagingSenderId": "Votre_MessagingSenderId",
+                "appId": "Votre_AppId"
+            }
+        </textarea>
+
+        <br>
+        <button id="initialize-btn" onclick="initializeFirebaseFromInput()">Enregistrer et initialiser Firebase</button>
+    </div>
 
                     <div class="flex" style="margin-top: 1rem; gap: 1rem;">
                         <button class="btn btn-primary" onclick="app.saveAIConfig()">Sauvegarder</button>
@@ -2027,6 +2120,8 @@ saveConfig() {
     this.log('Configuration sauvegardée avec succès.', 'success');
 }
 
+
+
         // Gestion de Firebase
         initializeFirebase() {
             const config = JSON.parse(localStorage.getItem('firebaseConfig'));
@@ -2049,20 +2144,19 @@ saveConfig() {
             }
         }
 
-        async initializeFirebaseApp(config) {
+        initializeFirebaseApp(config) {
             try {
-                this.firebaseApp = firebase.initializeApp(config);
+                if (!firebase.apps.length) {
+                    this.firebaseApp = firebase.initializeApp(config);
+                } else {
+                    this.firebaseApp = firebase.app();
+                }
                 this.db = firebase.firestore();
                 console.log('Firebase initialized successfully');
             } catch (error) {
                 console.error('Firebase initialization error:', error);
             }
         }
-        
-    /**
-     * Méthode pour tester la connexion avec le fournisseur d'IA configuré.
-     */
-
 
 
         async saveFirebaseConfig() {
@@ -2162,15 +2256,23 @@ saveConfig() {
             document.head.appendChild(styles);
         }
 
-        switchConfigTab(tab, section) {
-            // Gérer l'activation des onglets
-            document.querySelectorAll('.config-tab').forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
+switchConfigTab(tab, section) {
+    // Gérer l'activation des onglets
+    document.querySelectorAll('.config-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
 
-            // Afficher la section correspondante
-            document.querySelectorAll('.config-section').forEach(s => s.style.display = 'none');
-            document.getElementById(`${section}-config`).style.display = 'block';
-        }
+    // Afficher la section correspondante
+    document.querySelectorAll('.config-section').forEach(s => s.style.display = 'none');
+
+    // Vérifiez si l'élément existe avant d'appliquer le style
+    const sectionElement = document.getElementById(`${section}-config`);
+    if (sectionElement) {
+        sectionElement.style.display = 'block';
+    } else {
+        console.error(`L'élément avec l'ID ${section}-config n'a pas été trouvé.`);
+    }
+}
+
         
 setPreferredModel(selectedModel) {
     this.state.aiConfig.preferredModel = selectedModel;
@@ -2786,13 +2888,15 @@ async retrySpecificMode(mode, name, cve, description, maxRetries = 3) {
         }
     }
         
-    }
-    
-    
+}
 
-    // Initialisation de l'application
-    VulnLearnerApp.initialize();
-    
+
+
+// Initialisation de l'application
+VulnLearnerApp.initialize();
+
 </script>
+
+
 </body>
 </html>
