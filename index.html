@@ -316,6 +316,28 @@
             this.initializeLogger();
         }
         
+
+
+        async callAI(prompt) {
+            const provider = this.state.aiConfig.provider;
+            if (provider === 'none') {
+                throw new Error('Please configure an AI provider in the settings.');
+            }
+        
+            try {
+                if (provider === 'claude') {
+                    return await this.callClaude(prompt);
+                } else if (provider === 'openai') {
+                    return await this.callChatGPT(prompt);
+                } else {
+                    throw new Error('Unsupported AI provider selected.');
+                }
+            } catch (error) {
+                console.error('Error in callAI:', error);
+                throw error;
+            }
+        }
+        
         // Mise à jour du HTML de la navbar pour inclure l'ID correct
         updateNavbar() {
             const navbar = document.querySelector('.navbar');
@@ -1256,6 +1278,32 @@ showGame(vulnId, mode) {
             
             return { isValid: false, code: null };
         }
+        
+saveAIConfig() {
+    const provider = document.getElementById('ai-provider').value;
+    const gameType = document.getElementById('game-type').value; // Nouvel élément
+    const apiKey = document.getElementById('ai-key').value;
+    const endpoint = document.getElementById('ai-endpoint').value;
+    const maxCost = parseFloat(document.getElementById('max-cost').value);
+    const retryDelay = parseInt(document.getElementById('retry-delay').value);
+    const maxRetries = parseInt(document.getElementById('max-retries').value);
+
+    this.state.aiConfig = {
+        ...this.state.aiConfig,
+        provider,
+        gameType, // Sauvegarder le type de jeu
+        apiKey,
+        endpoint,
+        maxCost,
+        retryDelay,
+        maxRetries
+    };
+
+    this.storage.setItem('aiConfig', JSON.stringify(this.state.aiConfig));
+    this.updateAIBadge();
+    this.showNotification('Configuration IA sauvegardée', 'success');
+}
+
 
 validateGameContent(code) {
     // Validation de base
@@ -1306,26 +1354,6 @@ validateGameContent(code) {
             }
             
             return false;
-        }
-
-        async callAI(prompt) {
-            const provider = this.state.aiConfig.provider;
-            if (provider === 'none') {
-                throw new Error('Please configure an AI provider in the settings.');
-            }
-        
-            try {
-                if (provider === 'claude') {
-                    return await this.callClaude(prompt);
-                } else if (provider === 'openai') {
-                    return await this.callChatGPT(prompt);
-                } else {
-                    throw new Error('Unsupported AI provider selected.');
-                }
-            } catch (error) {
-                console.error('Error in callAI:', error);
-                throw error;
-            }
         }
 
         async callClaude(prompt) {
@@ -1543,6 +1571,100 @@ validateGameContent(code) {
             // Initialiser les gestionnaires d'événements
             this.initializeConfigHandlers();
         }
+        
+initializeConfigHandlers() {
+    // Get the AI config elements from the DOM
+    const providerSelect = document.getElementById('ai-provider-select');
+    const apiKeyInput = document.getElementById('ai-api-key');
+    const endpointInput = document.getElementById('ai-endpoint');
+    const saveButton = document.getElementById('save-ai-config');
+    const testConnectionButton = document.getElementById('test-ai-connection');
+
+    // Check if each element exists before trying to set its properties
+    if (providerSelect) {
+        providerSelect.value = this.state.aiConfig.provider;
+        providerSelect.onchange = () => {
+            this.state.aiConfig.provider = providerSelect.value;
+        };
+    }
+
+    if (apiKeyInput) {
+        apiKeyInput.value = this.state.aiConfig.apiKey;
+        apiKeyInput.oninput = () => {
+            this.state.aiConfig.apiKey = apiKeyInput.value;
+        };
+    }
+
+    if (endpointInput) {
+        endpointInput.value = this.state.aiConfig.endpoint;
+        endpointInput.oninput = () => {
+            this.state.aiConfig.endpoint = endpointInput.value;
+        };
+    }
+
+    if (saveButton) {
+        saveButton.onclick = () => {
+            const newConfig = {
+                provider: providerSelect ? providerSelect.value : '',
+                apiKey: apiKeyInput ? apiKeyInput.value : '',
+                endpoint: endpointInput ? endpointInput.value : ''
+            };
+
+            this.saveAIConfig(newConfig);
+            this.showNotification('Configuration sauvegardée avec succès.', 'success');
+        };
+    }
+
+    if (testConnectionButton) {
+        testConnectionButton.onclick = () => {
+            this.testConnection();
+        };
+    }
+}
+
+
+        
+async testConnection() {
+    const provider = this.state.aiConfig.provider;
+    const apiKey = this.state.aiConfig.apiKey;
+    const endpoint = this.state.aiConfig.endpoint || '';
+
+    if (provider === 'none') {
+        this.showNotification('Aucun fournisseur d\'IA configuré.', 'danger');
+        return;
+    }
+
+    if (!apiKey) {
+        this.showNotification('Clé API manquante. Veuillez la configurer dans les paramètres.', 'danger');
+        return;
+    }
+
+    this.showNotification('Test de connexion en cours...', 'info');
+
+    try {
+        let response;
+
+        if (provider === 'claude') {
+            // Appel d'une méthode pour tester la connexion avec Claude
+            response = await this.callClaude('Bonjour, ceci est un test de connexion.');
+        } else if (provider === 'openai') {
+            // Appel d'une méthode pour tester la connexion avec OpenAI
+            response = await this.callChatGPT('Bonjour, ceci est un test de connexion.');
+        } else {
+            throw new Error('Fournisseur d\'IA non supporté.');
+        }
+
+        if (response) {
+            this.showNotification('Connexion réussie avec ' + (provider === 'claude' ? 'Claude' : 'OpenAI') + '!', 'success');
+        } else {
+            throw new Error('Réponse vide reçue.');
+        }
+    } catch (error) {
+        this.showNotification(`Échec de la connexion: ${error.message}`, 'danger');
+        console.error('Erreur lors du test de connexion:', error);
+    }
+}
+
 
 
         // Gestion de Firebase
@@ -1576,6 +1698,12 @@ validateGameContent(code) {
                 console.error('Firebase initialization error:', error);
             }
         }
+        
+    /**
+     * Méthode pour tester la connexion avec le fournisseur d'IA configuré.
+     */
+
+
 
         async saveFirebaseConfig() {
             const config = {
@@ -1802,6 +1930,25 @@ async validateAndRetryGeneration(code, mode, retryCount = 0) { // Ajout du param
     return code;
 }
 
+        async callAI(prompt) {
+            const provider = this.state.aiConfig.provider;
+            if (provider === 'none') {
+                throw new Error('Please configure an AI provider in the settings.');
+            }
+        
+            try {
+                if (provider === 'claude') {
+                    return await this.callClaude(prompt);
+                } else if (provider === 'openai') {
+                    return await this.callChatGPT(prompt);
+                } else {
+                    throw new Error('Unsupported AI provider selected.');
+                }
+            } catch (error) {
+                console.error('Error in callAI:', error);
+                throw error;
+            }
+        }
 
     async generateVulnerability() {
         const terminal = document.querySelector('.logs-content');
