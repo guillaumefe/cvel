@@ -809,6 +809,22 @@ ensureBaseStyles(code) {
 }
 
 
+    updateProviderConfig(provider) {
+        // Met à jour le fournisseur IA dans l'état
+        this.state.aiConfig.provider = provider;
+        // Sauvegarde le changement dans le stockage local
+        this.storage.setItem('aiConfig', JSON.stringify(this.state.aiConfig));
+        
+        // Met à jour la sélection des modèles en fonction du nouveau fournisseur
+        const modelConfigContainer = document.getElementById('model-config');
+        if (modelConfigContainer) {
+            modelConfigContainer.innerHTML = this.generateModelConfigHTML();
+        }
+
+        this.updateAIBadge();  // Met à jour l'affichage du badge IA
+    }
+
+
 
         setTab(tabName) {
             this.state.currentTab = tabName;
@@ -1113,7 +1129,7 @@ showGame(vulnId, mode) {
             <div class="game-container">
                 <iframe 
                     srcdoc="${DOMPurify.sanitize(gameContent)}"
-                    sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-pointer-lock allow-orientation-lock allow-top-navigation allow-popups-to-escape-sandbox allow-presentation"
+                    sandbox="allow-modals allow-forms allow-scripts allow-same-origin allow-popups allow-pointer-lock allow-orientation-lock allow-top-navigation allow-popups-to-escape-sandbox allow-presentation"
                     style="background: #ffffff !important; width: 100%; height: 100%; border: none;"
                     frameborder="0">
                 </iframe>
@@ -1175,7 +1191,7 @@ showGame(vulnId, mode) {
             <div class="game-container">
                 <iframe 
                     src="${blobURL}"
-                    sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-pointer-lock allow-orientation-lock allow-top-navigation allow-popups-to-escape-sandbox allow-presentation"
+                    sandbox="allow-modals allow-forms allow-scripts allow-same-origin allow-popups allow-pointer-lock allow-orientation-lock allow-top-navigation allow-popups-to-escape-sandbox allow-presentation"
                     style="background: #ffffff !important; width: 100%; height: 100%; border: none;"
                     frameborder="0">
                 </iframe>
@@ -1211,11 +1227,11 @@ showGame(vulnId, mode) {
                     <h3>${vulnerability.name} (CVE: ${vulnerability.cve})</h3>
                     <div class="game-container">
                         <h4>Mode Histoire</h4>
-                        <iframe srcdoc="${vulnerability.analogyCode}" sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-pointer-lock allow-orientation-lock allow-top-navigation allow-popups-to-escape-sandbox allow-presentation" width="100%" height="300px"></iframe>
+                        <iframe srcdoc="${vulnerability.analogyCode}" sandbox="allow-modals allow-forms allow-scripts allow-same-origin allow-popups allow-pointer-lock allow-orientation-lock allow-top-navigation allow-popups-to-escape-sandbox allow-presentation" width="100%" height="300px"></iframe>
                     </div>
                     <div class="game-container">
                         <h4>Mode Technique</h4>
-                        <iframe srcdoc="${vulnerability.technicalCode}" sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-pointer-lock allow-orientation-lock allow-top-navigation allow-popups-to-escape-sandbox allow-presentation" width="100%" height="300px"></iframe>
+                        <iframe srcdoc="${vulnerability.technicalCode}" sandbox="allow-modals rallow-forms allow-scripts allow-same-origin allow-popups allow-pointer-lock allow-orientation-lock allow-top-navigation allow-popups-to-escape-sandbox allow-presentation" width="100%" height="300px"></iframe>
                     </div>
                 </div>`;
         }
