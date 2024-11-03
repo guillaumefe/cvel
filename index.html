@@ -3,366 +3,228 @@
 <html lang="en">
 <head>
 <style>
+    /* Reset and root variables */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+        --bg-primary: #0f172a;
+        --bg-secondary: #1e293b;
+        --accent: #3b82f6;
+        --text-primary: #f8fafc;
+        --text-secondary: #94a3b8;
+        --success: #22c55e;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --card-bg: rgba(30, 41, 59, 0.5);
+    }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        :root {
-            --bg-primary: #0f172a;
-            --bg-secondary: #1e293b;
-            --accent: #3b82f6;
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-            --success: #22c55e;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --card-bg: rgba(30, 41, 59, 0.5);
-        }
-        body {
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            font-family: 'Inter', system-ui, sans-serif;
-            min-height: 100vh;
-            line-height: 1.6;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        .navbar {
-            background: var(--bg-secondary);
-            padding: 1rem 2rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            margin-bottom: 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            background: linear-gradient(45deg, var(--accent), var(--success));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        .card {
-            background: var(--card-bg);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s;
-        }
-        .card:hover {
-            transform: translateY(-2px);
-        }
-        .input {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            background: var(--bg-secondary);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 0.5rem;
-            color: var(--text-primary);
-            margin-bottom: 1rem;
-            font-size: 1rem;
-        }
-        
-        .input:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
-        }
+    /* Body and layout */
+    body {
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        font-family: 'Inter', sans-serif;
+        min-height: 100vh;
+        line-height: 1.6;
+    }
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
 
-        .btn {
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 1rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .btn-primary {
-            background: var(--accent);
-            color: white;
-        }
-        .btn-secondary {
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .btn-success { background: var(--success); color: white; }
-        .btn-warning { background: var(--warning); color: white; }
-        .btn-danger { background: var(--danger); color: white; }
-        .btn:hover {
-            transform: translateY(-1px);
-            filter: brightness(110%);
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-        .tab-group {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-        .tab {
-            padding: 0.5rem 1rem;
-            cursor: pointer;
-            border-radius: 0.5rem;
-            transition: all 0.2s;
-            color: var(--text-secondary);
-        }
-        .tab.active {
-            background: var(--accent);
-            color: white;
-        }
-        .terminal {
-            background: #1a1a1a;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            font-family: 'Fira Code', monospace;
-            line-height: 1.4;
-            margin: 1rem 0;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-        .terminal-line {
-            display: flex;
-            gap: 1rem;
-            padding: 0.25rem 0;
-        }
-        .terminal-prompt {
-            color: var(--success);
-        }
-        .terminal-output {
-            color: var(--text-secondary);
-            white-space: pre-wrap;
-        }
-        .badge {
-            padding: 0.25rem 0.5rem;
-            border-radius: 9999px;
-            font-size: 0.875rem;
-            font-weight: 500;
-        }
-        .badge-blue { background: rgba(59, 130, 246, 0.1); color: var(--accent); }
-        .badge-green { background: rgba(34, 197, 94, 0.1); color: var(--success); }
-        .badge-warning { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-in {
-            animation: fadeIn 0.3s ease-out;
-        }
-        .flex {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-        .modal-content {
-            width: 90%;
-            max-width: 800px;
-            height: 90vh;
-            max-height: 600px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            background: var(--bg-secondary);
-            padding: 1rem;
-            border-radius: 1rem;
-        }
-        .game-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            height: 100%;
-        }
-        .game-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            border-radius: 0.5rem;
-            background-color: var(--bg-secondary);
-        }
-        .progress-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 10px;
-        }
-        body {
-            background: #1a1d25;
-            color: #f0f2f5;
-            font-family: 'Inter', sans-serif;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        .card {
-            background: #242833;
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        .btn {
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 1rem;
-        }
-        .btn-primary {
-            background: #3b82f6;
-            color: white;
-        }
-        .btn-primary:hover {
-            background: #2563eb;
-        }
-        .btn-danger {
-            background: #ef4444;
-            color: white;
-        }
-        .btn-danger:hover {
-            background: #dc2626;
-        }
-        .progress-container {
-            background: #3a3f47;
-            border-radius: 5px;
-            overflow: hidden;
-            height: 12px;
-            margin: 0.5rem 0;
-        }
-        .progress-container progress {
-            background-color: #3b82f6;
-            height: 100%;
-        }
-        textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-        input[type="text"],
-        textarea {
-            width: 100%;
-            padding: 10px;
-            background-color: var(--bg-secondary);
-            color: var(--text-primary);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            font-size: 1rem;
-            margin-bottom: 15px;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-        input[type="text"]:focus,
-        textarea:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
-            outline: none;
-        }
-        textarea {
-            width: 100%;
-            padding: 10px;
-            background-color: var(--bg-secondary);
-            color: var(--text-primary);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            font-size: 1rem;
-            margin-bottom: 15px;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-            height: calc(30vh - 10px);
-        }
-        textarea:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
-            outline: none;
-        }
-        .modal-content {
-            max-height: 80vh;
-            overflow-y: auto;
-            padding: 1rem;
-        }
-        #wall {
-            margin-top: 1rem;
-            padding: 1rem;
-            background: var(--bg-secondary);
-            border-radius: 0.5rem;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1rem;
-        }
-        .validation-error {
-            color: var(--danger);
-            font-size: 0.9rem;
-            margin-top: 0.5rem;
-        }
-        .generation-log {
-            background: var(--bg-secondary);
-            border-radius: 0.5rem;
-            padding: 1rem;
-            margin-top: 1rem;
-            max-height: 300px;
-            overflow-y: auto;
-        }
-        .log-entry {
-            margin-bottom: 0.5rem;
-            padding: 0.5rem;
-            border-radius: 0.25rem;
-        }
-        .log-entry.error { background: rgba(239, 68, 68, 0.2); }
-        .log-entry.warning { background: rgba(245, 158, 11, 0.2); }
-        .log-entry.success { background: rgba(34, 197, 94, 0.2); }
-        .log-entry.info { background: rgba(59, 130, 246, 0.2); }
-    </style>
-    <style>
-        .analogy-game {
-            background-color: #f5f5f5;
-            text-align: center;
-            padding: 50px;
-        }
-        .technical-game {
-            background-color: #1a1d25;
-            color: #fff;
-            font-family: monospace;
-            text-align: center;
-            padding-top: 50px;
-        }
-        
-        
-/* Style pour le bouton de rechargement */
-.modal-content .btn-primary {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
+    /* Navbar */
+    .navbar {
+        background: var(--bg-secondary);
+        padding: 1rem 2rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+    .logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        background: linear-gradient(45deg, var(--accent), var(--success));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
 
+    /* Card */
+    .card {
+        background: var(--card-bg);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s;
+    }
+    .card:hover { transform: translateY(-2px); }
+
+    /* Input */
+    .input, input[type="text"], textarea {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        background: var(--bg-secondary);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 0.5rem;
+        color: var(--text-primary);
+        font-size: 1rem;
+        margin-bottom: 1rem;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .input:focus, input[type="text"]:focus, textarea:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+    }
+
+    /* Buttons */
+    .btn {
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 0.5rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-size: 1rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    .btn-primary { background: var(--accent); color: white; }
+    .btn-secondary {
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .btn-success { background: var(--success); color: white; }
+    .btn-warning { background: var(--warning); color: white; }
+    .btn-danger { background: var(--danger); color: white; }
+    .btn:hover { transform: translateY(-1px); filter: brightness(110%); }
+
+    /* Grid */
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+    }
+
+    /* Tabs */
+    .tab-group {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+    .tab {
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        border-radius: 0.5rem;
+        transition: all 0.2s;
+        color: var(--text-secondary);
+    }
+    .tab.active { background: var(--accent); color: white; }
+
+    /* Terminal */
+    .terminal {
+        background: #1a1a1a;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        font-family: 'Fira Code', monospace;
+        line-height: 1.4;
+        margin: 1rem 0;
+        max-height: 400px;
+        overflow-y: auto;
+    }
+    .terminal-line { display: flex; gap: 1rem; padding: 0.25rem 0; }
+    .terminal-prompt { color: var(--success); }
+    .terminal-output { color: var(--text-secondary); white-space: pre-wrap; }
+
+    /* Badges */
+    .badge {
+        padding: 0.25rem 0.5rem;
+        border-radius: 9999px;
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+    .badge-blue { background: rgba(59, 130, 246, 0.1); color: var(--accent); }
+    .badge-green { background: rgba(34, 197, 94, 0.1); color: var(--success); }
+    .badge-warning { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+
+    /* Animations */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-in { animation: fadeIn 0.3s ease-out; }
+
+    /* Modal */
+    .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+    }
+    .modal-content {
+        width: 90%;
+        max-width: 800px;
+        height: 90vh;
+        max-height: 600px;
+        overflow-y: auto; /* Ajoute le défilement vertical */
+        display: flex;
+        flex-direction: column;
+        background: var(--bg-secondary);
+        padding: 1rem;
+        border-radius: 1rem;
+    }
+
+    /* Miscellaneous */
+    .flex { display: flex; align-items: center; gap: 1rem; }
+    .progress-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+        background: #3a3f47;
+        border-radius: 5px;
+        overflow: hidden;
+        height: 12px;
+        margin: 0.5rem 0;
+    }
+    .generation-log, .log-entry {
+        background: var(--bg-secondary);
+        border-radius: 0.5rem;
+        padding: 1rem;
+        margin-top: 1rem;
+        max-height: 300px;
+        overflow-y: auto;
+    }
+    .log-entry.error { background: rgba(239, 68, 68, 0.2); }
+    .log-entry.warning { background: rgba(245, 158, 11, 0.2); }
+    .log-entry.success { background: rgba(34, 197, 94, 0.2); }
+    .log-entry.info { background: rgba(59, 130, 246, 0.2); }
+    .analogy-game {
+        background-color: #f5f5f5;
+        text-align: center;
+        padding: 50px;
+    }
+    .technical-game {
+        background-color: #1a1d25;
+        color: #fff;
+        font-family: monospace;
+        text-align: center;
+        padding-top: 50px;
+    }
 </style>
+
 </head>
 <body>
 <!-- Inclusion des bibliothèques React, ReactDOM et Babel -->
@@ -375,7 +237,7 @@
     <nav class="navbar">
         <div class="logo">VulnLearner</div>
         <div class="flex">
-            <button class="btn btn-secondary" id="ai-config-btn">
+            <button onclick="app.showAIConfig()" class="btn btn-secondary" id="ai-config-btn">
                 <span class="badge badge-warning">IA: Non configurée</span>
             </button>
             <span class="badge badge-blue">Mode Apprentissage</span>
@@ -1632,7 +1494,7 @@ validateGameContent(code) {
                             <div class="input-group">
                                 <label>Budget maximum par requête (USD)</label>
                                 <input type="number" class="input" id="max-cost"
-                                    value="${this.state.aiConfig.maxCost || 0}"
+                                    value="${this.state.aiConfig.maxCost || 0.60}"
                                     step="0.01" min="0">
                             </div>
                             <div class="input-group">
@@ -1796,13 +1658,13 @@ validateGameContent(code) {
                     padding: 0.5rem 1rem;
                     cursor: pointer;
                     border-radius: 0.5rem;
-                    background: var(--bg-secondary);
                     color: var(--text-secondary);
+                    background: var(--bg-secondary);
+                    
                 }
 
                 .config-tab.active {
                     background: var(--accent);
-                    color: white;
                 }
 
                 .config-section {
@@ -1821,7 +1683,86 @@ validateGameContent(code) {
             document.querySelectorAll('.config-section').forEach(s => s.style.display = 'none');
             document.getElementById(`${section}-config`).style.display = 'block';
         }
-        
+    
+    /**
+     * Génère le HTML pour la configuration des modèles AI en fonction du fournisseur sélectionné.
+     * @returns {string} - Le HTML généré pour la sélection des modèles.
+     */
+    generateModelConfigHTML() {
+        const provider = this.state.aiConfig.provider;
+
+        if (provider === 'none') {
+            return '<p>Veuillez sélectionner un fournisseur d\'IA pour configurer les modèles.</p>';
+        }
+
+        const models = this.AI_MODELS[provider].models;
+        let html = '<label for="model-select">Sélectionnez un modèle :</label><select class="input" id="model-select">';
+        for (const model in models) {
+            const selected = this.state.aiConfig.preferredModel === model ? 'selected' : '';
+            html += `<option value="${model}" ${selected}>${model} - ${models[model].description}</option>`;
+        }
+        html += '</select>';
+
+        return html;
+    }   
+
+    // Méthode pour ajouter les styles de configuration AI
+    addAIConfigStyles() {
+        const style = document.createElement('style');
+        style.innerHTML = `
+            /* Styles pour le modal de configuration IA */
+            .modal {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: rgba(0, 0, 0, 0.6);
+                z-index: 1000;
+            }
+            .modal-content {
+                background: black;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+                max-width: 600px;
+                width: 100%;
+            }
+            .tab-group {
+                display: flex;
+                gap: 1rem;
+            }
+            .config-tab {
+                padding: 0.5rem 1rem;
+                cursor: pointer;
+                border-radius: 0.5rem;
+                background: #f0f0f0;
+                color : #333;
+            }
+            .config-tab.active {
+                background: #007bff;
+                color: white;
+            }
+            .provider-select select {
+                width: 100%;
+                padding: 0.5rem;
+                margin-top: 1rem;
+            }
+            .input-group label {
+                font-weight: bold;
+            }
+            .input-group input {
+                width: 100%;
+                padding: 0.5rem;
+                margin-top: 0.5rem;
+                margin-bottom: 1rem;
+            }
+        `;
+        document.head.appendChild(style);
+    }
 
 async validateAndRetryGeneration(code, mode, retryCount = 0) { // Ajout du paramètre mode
     const validation = this.validateGameContent(code, mode); // Passer le mode
@@ -2297,242 +2238,5 @@ async retrySpecificMode(mode, name, cve, description, maxRetries = 3) {
     VulnLearnerApp.initialize();
     
 </script>
-<script>
-
-
-
-    (function () {
-        class AutonomousPatchButton {
-            constructor() {
-                this.instructions = [];
-                this.originalStates = new Map();
-                this.createButton();
-            }
-
-            createButton() {
-                this.button = document.createElement("button");
-                this.button.textContent = "Appliquer Instructions";
-                this.styleButton(this.button);
-                this.button.addEventListener("click", () => this.showPopup());
-                document.body.appendChild(this.button);
-            }
-
-            styleButton(button) {
-                button.style.position = "fixed";
-                button.style.top = "10px";
-                button.style.left = "10px";
-                button.style.padding = "10px 20px";
-                button.style.backgroundColor = "#3b82f6";
-                button.style.color = "#ffffff";
-                button.style.border = "none";
-                button.style.borderRadius = "5px";
-                button.style.cursor = "pointer";
-                button.style.zIndex = 10000;
-            }
-
-            showPopup() {
-                this.popup = document.createElement("div");
-                this.stylePopup(this.popup);
-
-                const textArea = document.createElement("textarea");
-                textArea.placeholder = 'Collez vos instructions JSON ici...';
-                this.styleTextArea(textArea);
-
-                const loadButton = this.createButtonElement("Charger Instructions", "#3b82f6");
-                const applyButton = this.createButtonElement("Appliquer Patch", "#10b981", false);
-                const closeButton = this.createButtonElement("Fermer", "#ef4444");
-
-                this.checkboxContainer = document.createElement("div");
-                this.checkboxContainer.style.maxHeight = "200px";
-                this.checkboxContainer.style.overflowY = "auto";
-                this.checkboxContainer.style.display = "none";
-
-                this.popup.appendChild(textArea);
-                this.popup.appendChild(loadButton);
-                this.popup.appendChild(this.checkboxContainer);
-                this.popup.appendChild(applyButton);
-                this.popup.appendChild(closeButton);
-                document.body.appendChild(this.popup);
-
-                loadButton.addEventListener("click", () => {
-                    this.loadInstructions(textArea.value);
-                    applyButton.style.display = "block";
-                });
-
-                applyButton.addEventListener("click", () => this.applySelectedPatches());
-                closeButton.addEventListener("click", () => this.closePopup());
-            }
-
-            stylePopup(popup) {
-                popup.style.position = "fixed";
-                popup.style.top = "50%";
-                popup.style.left = "50%";
-                popup.style.transform = "translate(-50%, -50%)";
-                popup.style.backgroundColor = "#ffffff";
-                popup.style.border = "2px solid #3b82f6";
-                popup.style.padding = "20px";
-                popup.style.width = "80%";
-                popup.style.maxWidth = "500px";
-                popup.style.zIndex = 10001;
-            }
-
-            styleTextArea(textArea) {
-                textArea.style.width = "100%";
-                textArea.style.height = "150px";
-                textArea.style.marginBottom = "10px";
-                textArea.style.padding = "10px";
-            }
-
-            createButtonElement(text, backgroundColor, visible = true) {
-                const button = document.createElement("button");
-                button.textContent = text;
-                button.style.padding = "10px 20px";
-                button.style.backgroundColor = backgroundColor;
-                button.style.color = "#ffffff";
-                button.style.border = "none";
-                button.style.borderRadius = "5px";
-                button.style.cursor = "pointer";
-                button.style.marginBottom = "10px";
-                button.style.display = visible ? "block" : "none";
-                return button;
-            }
-
-            loadInstructions(instructionsText) {
-                try {
-                    this.instructions = JSON.parse(instructionsText);
-                    if (!Array.isArray(this.instructions)) throw new Error("Les instructions doivent être un tableau.");
-                    this.displayCheckboxes();
-                    alert("Instructions chargées avec succès.");
-                } catch (error) {
-                    console.error("Erreur JSON :", error.message);
-                    alert("Erreur de chargement des instructions JSON : Assurez-vous que le format est correct.\nDétail de l'erreur : " + error.message);
-                }
-            }
-
-            displayCheckboxes() {
-                this.checkboxContainer.innerHTML = "";
-                this.checkboxContainer.style.display = "block";
-
-                this.instructions.forEach((instruction, index) => {
-                    const checkboxItem = document.createElement("div");
-                    const checkbox = document.createElement("input");
-                    checkbox.type = "checkbox";
-                    checkbox.value = index;
-                    const label = document.createElement("label");
-                    label.textContent = instruction.name || `Instruction ${index + 1}`;
-                    checkboxItem.appendChild(checkbox);
-                    checkboxItem.appendChild(label);
-                    this.checkboxContainer.appendChild(checkboxItem);
-                });
-            }
-
-            applySelectedPatches() {
-                const selectedCheckboxes = Array.from(this.checkboxContainer.querySelectorAll("input[type='checkbox']"));
-                selectedCheckboxes.forEach(checkbox => {
-                    const index = parseInt(checkbox.value);
-                    const instruction = this.instructions[index];
-                    const { target, newCode, type } = instruction;
-                    const element = document.querySelector(target);
-
-                    if (!element) {
-                        console.warn(`Élément avec le sélecteur "${target}" introuvable.`);
-                        return;
-                    }
-
-                    if (checkbox.checked) {
-                        if (!this.originalStates.has(index)) {
-                            this.saveOriginalState(index, element, type);
-                        }
-                        this.applyInstruction(element, newCode, type);
-                    } else {
-                        this.restoreOriginalState(index, element, type);
-                    }
-                });
-
-                alert("Patch(s) appliqué(s) avec succès.");
-            }
-
-            saveOriginalState(index, element, type) {
-                let originalState;
-                switch (type) {
-                    case 'innerHTML':
-                        originalState = element.innerHTML;
-                        break;
-                    case 'append':
-                        originalState = element.innerHTML;
-                        break;
-                    case 'style':
-                        originalState = document.head.innerHTML;
-                        break;
-                    case 'script':
-                        originalState = null; // Scripts ajoutés, impossible de les retirer proprement
-                        break;
-                    default:
-                        originalState = null;
-                }
-                this.originalStates.set(index, originalState);
-            }
-
-            restoreOriginalState(index, element, type) {
-                if (!this.originalStates.has(index)) {
-                    console.warn(`Aucun état original sauvegardé pour l'instruction ${index + 1}.`);
-                    return;
-                }
-                const originalState = this.originalStates.get(index);
-                switch (type) {
-                    case 'innerHTML':
-                        element.innerHTML = originalState;
-                        break;
-                    case 'append':
-                        element.innerHTML = originalState;
-                        break;
-                    case 'style':
-                        document.head.innerHTML = originalState;
-                        break;
-                    case 'script':
-                        alert("Impossible de retirer un script une fois exécuté.");
-                        break;
-                    default:
-                        console.warn(`Type d'instruction "${type}" non pris en charge pour la restauration.`);
-                }
-                this.originalStates.delete(index);
-            }
-
-            applyInstruction(element, newCode, type) {
-                switch (type) {
-                    case 'innerHTML':
-                        element.innerHTML = newCode;
-                        break;
-                    case 'append':
-                        element.insertAdjacentHTML('beforeend', newCode);
-                        break;
-                    case 'style':
-                        const style = document.createElement('style');
-                        style.innerHTML = newCode;
-                        document.head.appendChild(style);
-                        break;
-                    case 'script':
-                        const script = document.createElement('script');
-                        script.type = 'text/babel'; // Ajout de l'attribut type
-                        script.textContent = newCode;
-                        document.body.appendChild(script);
-                        break;
-                    default:
-                        console.warn(`Type d'instruction "${type}" non pris en charge.`);
-                }
-            }
-
-            closePopup() {
-                if (this.popup) {
-                    document.body.removeChild(this.popup);
-                    this.popup = null;
-                }
-            }
-        }
-
-        new AutonomousPatchButton();
-    })();
-</script>
-<script></script>
 </body>
 </html>
