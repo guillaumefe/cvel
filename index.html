@@ -223,6 +223,10 @@
         text-align: center;
         padding-top: 50px;
     }
+    iframe {
+        width:100%;
+        min-height:450px;
+    }
 </style>
 
 </head>
@@ -262,7 +266,7 @@
                 style: new RegExp('<style[^>]*>[\\s\\S]*?<\\/style>', 'i'),
                 javascript: new RegExp('<script[^>]*>[\\s\\S]*?<\\/script>', 'i'),
                 htmlStructure: new RegExp('<body[^>]*>[\\s\\S]*?<\\/body>', 'i'),
-                cdn: new RegExp('https:\\/\\/cdnjs\\.cloudflare\\.com', 'i')
+                //cdn: new RegExp('https:\\/\\/cdnjs\\.cloudflare\\.com', 'i')
             };
     
             const validation = {
@@ -805,45 +809,6 @@ ensureBaseStyles(code) {
 }
 
 
-async validateAndRetryGeneration(code, retryCount = 0) {
-    const validation = CodeValidator.validateGameCode(code);
-    
-    if (!validation.isValid && retryCount < this.maxRetries) {
-        this.log(`Validation échouée: ${validation.messages.join(', ')}`, 'warning');
-        this.log(`Tentative ${retryCount + 1}/${this.maxRetries} de régénération...`, 'info');
-        
-        await new Promise(resolve => setTimeout(resolve, this.retryDelay));
-        
-        let correctionPrompt = `Le code généré nécessite les corrections suivantes:
-        ${validation.messages.map(msg => `- ${msg}`).join('\n')}
-        
-        RAPPEL DES CONTRAINTES OBLIGATOIRES :
-        1. Le code DOIT contenir :
-           - CSS dans une balise <style>
-           - HTML dans le <body>
-           - JavaScript dans une balise <script>
-        2. Style par défaut OBLIGATOIRE :
-           - background-color: #ffffff
-           - color: #000000
-        3. Au moins une fonction JavaScript
-        4. Un CDN de cdnjs.cloudflare.com
-        
-        Régénère le code complet en respectant TOUTES ces contraintes.`;
-
-        return this.callAI(correctionPrompt)
-            .then(newCode => this.validateAndRetryGeneration(newCode, retryCount + 1));
-    }
-    
-    if (!validation.isValid) {
-        // Si toujours invalide après les retries, on force les styles de base
-        code = this.ensureBaseStyles(code);
-        this.log('Styles de base forcés sur le code.', 'warning');
-    }
-    
-    return code;
-}
-
-
 
         setTab(tabName) {
             this.state.currentTab = tabName;
@@ -1079,26 +1044,7 @@ async validateAndRetryGeneration(code, retryCount = 0) {
 
         buildAnalogyPrompt(name, cve, description) {
             return `
-            Crée le code HTML CSS JS complet et entièrement fonctionnel pour une seule page (index.html) qui explique la vulnérabilité ${name} ${cve ? `(${cve})` : ''} de manière analogique.
-
-            CONTRAINTES TECHNIQUES OBLIGATOIRES :
-            1. Le code DOIT contenir ces trois parties, CHACUNE EST OBLIGATOIRE :
-               - CSS dans une balise <style>
-               - HTML dans le <body>
-               - JavaScript dans une balise <script>
-            2. Style par défaut OBLIGATOIRE :
-               - background-color: #ffffff (fond blanc)
-               - color: #000000 (texte noir)
-            3. Au moins une fonction JavaScript interactive DOIT être définie
-            4. Inclure au moins un CDN
-            5. La page DOIT être autonome et fonctionner sans dépendances externes (hors CDN)
-
-            DÉTAILS DU JEU :
-            - Créer une métaphore simple et ludique (ex: infiltration d'un bâtiment pour expliquer une injection)
-            - Interface claire avec des boutons "Continuer" pour chaque étape
-            - Feedback visuel pour chaque action (animations, messages)
-            - Le joueur doit comprendre intuitivement la vulnérabilité ${name} à la fin
-
+            CRÉE UN PETIT JEU DANS LE BROWSER.
             RETOURNE LE CODE COMPLET sans omission ni commentaire avec toutes les parties (HTML, CSS, JavaScript). N'OMETS AUCUNE PARTIE.`;
         }
 
@@ -1139,46 +1085,12 @@ showGame(vulnId, mode) {
     }
 
     const gameContent = mode === 'analogy' ? vuln.analogyCode : vuln.technicalCode;
-    const currentPrompt = mode === 'analogy' ? vuln.analogyPrompt : vuln.technicalPrompt; // AJOUTÉ
-
     if (!gameContent) {
         this.showNotification('Le jeu sélectionné est manquant.', 'danger');
         return;
     }
 
-    // Assurer le fond blanc et le texte noir
-    const wrappedContent = `
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <meta charset="UTF-8">
-            <style>
-                /* Style de base forcé */
-                html, body {
-                    background-color: #ffffff !important;
-                    color: #000000 !important;
-                    margin: 0 !important;
-                    padding: 20px !important;
-                    min-height: 100vh !important;
-                    font-family: Arial, sans-serif !important;
-                }
-                /* Forcer les couleurs pour les éléments de texte communs */
-                p, h1, h2, h3, h4, h5, h6, span, div {
-                    color: #000000 !important;
-                }
-                /* Conserver les couleurs spécifiques pour les boutons et éléments d'interface */
-                button, .btn, .button {
-                    color: inherit;
-                }
-            </style>
-            ${gameContent.match(/<style[^>]*>[\s\S]*?<\/style>/gi) || ''}
-        </head>
-        <body>
-            ${gameContent.match(/<body[^>]*>([\s\S]*?)<\/body>/i)?.[1] || gameContent}
-            ${gameContent.match(/<script[^>]*>[\s\S]*?<\/script>/gi) || ''}
-        </body>
-        </html>`;
-
+    // Injecter directement le contenu sans re-créer l'HTML complet
     const modal = document.createElement('div');
     modal.className = 'modal';
     modal.innerHTML = `
@@ -1186,8 +1098,8 @@ showGame(vulnId, mode) {
             <h2>${vuln.name} - ${mode === 'analogy' ? 'Mode Histoire' : 'Mode Technique'}</h2>
             <div class="game-container">
                 <iframe 
-                    srcdoc="${DOMPurify.sanitize(wrappedContent)}"
-                    sandbox="allow-scripts allow-same-origin"
+                    srcdoc="${DOMPurify.sanitize(gameContent)}"
+                    sandbox="allow-scripts allow-same-origin allow-modals"
                     style="background: #ffffff !important; width: 100%; height: 100%; border: none;"
                     frameborder="0">
                 </iframe>
@@ -1202,7 +1114,7 @@ showGame(vulnId, mode) {
 
     document.body.appendChild(modal);
 
-    // AJOUTÉ : Forcer les styles après le chargement de l'iframe
+    // Style forcé après le chargement de l'iframe
     const iframe = modal.querySelector('iframe');
     iframe.onload = () => {
         const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
@@ -1222,9 +1134,54 @@ showGame(vulnId, mode) {
         iframeDocument.head.appendChild(style);
     };
 }
+showGame(vulnId, mode) {
+    const vulnerabilities = JSON.parse(localStorage.getItem('vulnerabilities')) || [];
+    const vuln = vulnerabilities.find(v => v.id === vulnId.toString());
+    if (!vuln) {
+        this.showNotification('Vulnérabilité non trouvée.', 'danger');
+        return;
+    }
 
+    const gameContent = mode === 'analogy' ? vuln.analogyCode : vuln.technicalCode;
+    if (!gameContent) {
+        this.showNotification('Le jeu sélectionné est manquant.', 'danger');
+        return;
+    }
 
+    // Crée un blob pour permettre l'exécution du JavaScript
+    const blob = new Blob([gameContent], { type: 'text/html' });
+    const blobURL = URL.createObjectURL(blob);
 
+    // Crée la modal sans recréer la structure HTML complète
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.innerHTML = `
+        <div class="modal-content card">
+            <h2>${vuln.name} - ${mode === 'analogy' ? 'Mode Histoire' : 'Mode Technique'}</h2>
+            <div class="game-container">
+                <iframe 
+                    src="${blobURL}"
+                    sandbox="allow-scripts allow-same-origin allow-modals"
+                    style="background: #ffffff !important; width: 100%; height: 100%; border: none;"
+                    frameborder="0">
+                </iframe>
+            </div>
+            <div class="flex" style="margin-top: 1rem; gap: 1rem;">
+                <button class="btn btn-primary" onclick="app.reloadGame('${vuln.id}', '${mode}')">
+                    🔄 Recharger
+                </button>
+                <button class="btn btn-danger" onclick="this.closest('.modal').remove()">Fermer</button>
+            </div>
+        </div>`;
+
+    document.body.appendChild(modal);
+
+    // Ajout du style après le chargement de l'iframe pour forcer le fond blanc et le texte noir
+    const iframe = modal.querySelector('iframe');
+    iframe.onload = () => {
+        URL.revokeObjectURL(blobURL); // Libère l'URL après chargement
+    };
+}
 
 
 
@@ -1240,11 +1197,11 @@ showGame(vulnId, mode) {
                     <h3>${vulnerability.name} (CVE: ${vulnerability.cve})</h3>
                     <div class="game-container">
                         <h4>Mode Histoire</h4>
-                        <iframe srcdoc="${DOMPurify.sanitize(vulnerability.analogyCode)}" sandbox="allow-scripts" width="100%" height="300px"></iframe>
+                        <iframe srcdoc="${vulnerability.analogyCode}" sandbox="allow-scripts allow-same-origin allow-modals" width="100%" height="300px"></iframe>
                     </div>
                     <div class="game-container">
                         <h4>Mode Technique</h4>
-                        <iframe srcdoc="${DOMPurify.sanitize(vulnerability.technicalCode)}" sandbox="allow-scripts" width="100%" height="300px"></iframe>
+                        <iframe srcdoc="${vulnerability.technicalCode}" sandbox="allow-scripts allow-same-origin allow-modals" width="100%" height="300px"></iframe>
                     </div>
                 </div>`;
         }
@@ -1892,43 +1849,6 @@ async testConnection() {
         document.head.appendChild(style);
     }
 
-async validateAndRetryGeneration(code, mode, retryCount = 0) { // Ajout du paramètre mode
-    const validation = this.validateGameContent(code, mode); // Passer le mode
-
-    if (!validation.isValid && retryCount < this.maxRetries) {
-        this.log(`Validation échouée pour ${mode}: ${validation.messages.join(', ')}`, 'warning');
-        this.log(`Tentative ${retryCount + 1}/${this.maxRetries} de régénération pour ${mode}...`, 'info');
-        
-        await new Promise(resolve => setTimeout(resolve, this.retryDelay));
-        
-        let correctionPrompt = `Le code généré pour le mode ${mode} nécessite les corrections suivantes:
-        ${validation.messages.map(msg => `- ${msg}`).join('\n')}
-        
-        RAPPEL DES CONTRAINTES OBLIGATOIRES :
-        1. Le code DOIT contenir ces trois parties, CHACUNE EST OBLIGATOIRE :
-           - CSS dans une balise <style>
-           - HTML dans le <body>
-           - JavaScript dans une balise <script>
-        2. Style par défaut OBLIGATOIRE :
-           - background-color: #ffffff
-           - color: #000000
-        3. Au moins une fonction JavaScript
-        4. Un CDN de cdnjs.cloudflare.com
-        
-        Régénère le code complet pour le mode ${mode} en respectant TOUTES ces contraintes.`;
-        
-        return this.callAI(correctionPrompt)
-            .then(newCode => this.validateAndRetryGeneration(newCode, mode, retryCount + 1));
-    }
-    
-    if (!validation.isValid) {
-        // Si toujours invalide après les retries, on force les styles de base
-        code = this.ensureBaseStyles(code);
-        this.log(`Styles de base forcés sur le code pour ${mode}.`, 'warning');
-    }
-    
-    return code;
-}
 
         async callAI(prompt) {
             const provider = this.state.aiConfig.provider;
@@ -2132,6 +2052,7 @@ async validateAndRetryGeneration(code, mode, retryCount = 0) { // Ajout du param
             let correctionPrompt = `Le code généré nécessite les corrections suivantes:
 ${validation.messages.map(msg => `- ${msg}`).join('\n')}
 
+${code}
 RAPPEL DES CONTRAINTES OBLIGATOIRES :
 1. Le code DOIT contenir :
    - CSS dans une balise <style>
@@ -2340,7 +2261,7 @@ async retrySpecificMode(mode, name, cve, description, maxRetries = 3) {
                             </body>
                             </html>`;
 
-                        iframe.srcdoc = DOMPurify.sanitize(wrappedContent);
+                        iframe.srcdoc = DOMPurify.sanitize(validatedCode);
                     }
                 }
 
