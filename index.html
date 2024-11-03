@@ -1222,6 +1222,97 @@ showGame(vulnId, mode) {
         URL.revokeObjectURL(blobURL); // Libère l'URL après chargement
     };
 }
+showGame(vulnId, mode) {
+    const vulnerabilities = JSON.parse(localStorage.getItem('vulnerabilities')) || [];
+    const vuln = vulnerabilities.find(v => v.id === vulnId.toString());
+    if (!vuln) {
+        this.showNotification('Vulnérabilité non trouvée.', 'danger');
+        return;
+    }
+
+    const gameContent = mode === 'analogy' ? vuln.analogyCode : vuln.technicalCode;
+    if (!gameContent) {
+        this.showNotification('Le jeu sélectionné est manquant.', 'danger');
+        return;
+    }
+
+    // Utiliser DOMPurify pour assainir le contenu avant de l'injecter dans l'iframe
+    const sanitizedContent = DOMPurify.sanitize(gameContent, { USE_PROFILES: { html: true } });
+
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.innerHTML = `
+        <div class="modal-content card">
+            <h2>${vuln.name} - ${mode === 'analogy' ? 'Mode Histoire' : 'Mode Technique'}</h2>
+            <div class="game-container">
+                <iframe 
+                    srcdoc="${sanitizedContent}"
+                    sandbox="allow-modals allow-forms allow-scripts allow-same-origin"
+                    style="background: #ffffff; width: 100%; height: 100%; border: none;"
+                    frameborder="0">
+                </iframe>
+            </div>
+            <div class="flex" style="margin-top: 1rem; gap: 1rem;">
+                <button class="btn btn-primary" onclick="app.reloadGame('${vuln.id}', '${mode}')">
+                    🔄 Recharger
+                </button>
+                <button class="btn btn-danger" onclick="this.closest('.modal').remove()">Fermer</button>
+            </div>
+        </div>`;
+
+    document.body.appendChild(modal);
+}
+showGame(vulnId, mode) {
+    const vulnerabilities = JSON.parse(localStorage.getItem('vulnerabilities')) || [];
+    const vuln = vulnerabilities.find(v => v.id === vulnId.toString());
+    if (!vuln) {
+        this.showNotification('Vulnérabilité non trouvée.', 'danger');
+        return;
+    }
+
+    const gameContent = mode === 'analogy' ? vuln.analogyCode : vuln.technicalCode;
+    if (!gameContent) {
+        this.showNotification('Le jeu sélectionné est manquant.', 'danger');
+        return;
+    }
+    
+    function escapeHTML(content) {
+        return content
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;")
+            .replace(/`/g, "&#96;"); // Échappe les backticks
+    }
+
+    // Appliquer l'échappement manuel des caractères spéciaux
+    const escapedContent = escapeHTML(gameContent);
+
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.innerHTML = `
+        <div class="modal-content card">
+            <h2>${vuln.name} - ${mode === 'analogy' ? 'Mode Histoire' : 'Mode Technique'}</h2>
+            <div class="game-container">
+                <iframe 
+                    srcdoc="${escapedContent}"
+                    sandbox="allow-modals allow-forms allow-scripts allow-same-origin"
+                    style="background: #ffffff; width: 100%; height: 100%; border: none;"
+                    frameborder="0">
+                </iframe>
+            </div>
+            <div class="flex" style="margin-top: 1rem; gap: 1rem;">
+                <button class="btn btn-primary" onclick="app.reloadGame('${vuln.id}', '${mode}')">
+                    🔄 Recharger
+                </button>
+                <button class="btn btn-danger" onclick="this.closest('.modal').remove()">Fermer</button>
+            </div>
+        </div>`;
+
+    document.body.appendChild(modal);
+}
+
 
 
 
@@ -1284,6 +1375,14 @@ saveAIConfig() {
     const maxCost = parseFloat(document.getElementById('max-cost').value);
     const retryDelay = parseInt(document.getElementById('retry-delay').value);
     const maxRetries = parseInt(document.getElementById('max-retries').value);
+    
+    const aiConfigInput = document.getElementById('aiConfigInput');
+    if (!aiConfigInput) {
+        console.error("L'élément aiConfigInput est introuvable.");
+        return;
+    }
+    
+    const configValue = aiConfigInput.value;
 
     this.state.aiConfig = {
         ...this.state.aiConfig,
@@ -1300,6 +1399,92 @@ saveAIConfig() {
     this.updateAIBadge();
     this.showNotification('Configuration IA sauvegardée', 'success');
 }
+saveAIConfig() {
+    const providerElement = document.getElementById("ai-provider");
+    const apiKeyElement = document.getElementById("ai-key");
+    const endpointElement = document.getElementById("ai-endpoint");
+
+    // Ajout de logs pour chaque élément
+    console.log("providerElement:", providerElement);
+    console.log("apiKeyElement:", apiKeyElement);
+    console.log("endpointElement:", endpointElement);
+
+    // Vérification de l'existence des éléments
+    if (!providerElement || !apiKeyElement || !endpointElement) {
+        console.error("Un ou plusieurs éléments sont manquants dans le DOM.");
+        return;
+    }
+
+    // Lecture des valeurs si les éléments existent
+    const provider = providerElement.value;
+    const apiKey = apiKeyElement.value;
+    const endpoint = endpointElement.value;
+
+    // Log des valeurs pour vérification
+    console.log("Provider:", provider);
+    console.log("API Key:", apiKey);
+    console.log("Endpoint:", endpoint);
+
+    // Effectuer la sauvegarde avec les valeurs récupérées
+    this.state.aiConfig = { provider, apiKey, endpoint };
+    localStorage.setItem("aiConfig", JSON.stringify(this.state.aiConfig));
+    this.updateAIBadge();
+    this.showNotification("Configuration IA sauvegardée", "success");
+}
+saveAIConfig() {
+    const providerElement = document.getElementById("ai-provider");
+    const apiKeyElement = document.getElementById("ai-key");
+    const endpointElement = document.getElementById("ai-endpoint");
+    const maxCostElement = document.getElementById("max-cost");
+    const retryDelayElement = document.getElementById("retry-delay");
+    const maxRetriesElement = document.getElementById("max-retries");
+    
+    // Ajout de logs pour chaque élément
+    console.log("providerElement:", providerElement);
+    console.log("apiKeyElement:", apiKeyElement);
+    console.log("endpointElement:", endpointElement);
+    console.log("maxCostElement:", maxCostElement);
+    console.log("retryDelayElement:", retryDelayElement);
+    console.log("maxRetriesElement:", maxRetriesElement);
+
+    // Vérification de l'existence des éléments
+    if (!providerElement || !apiKeyElement || !endpointElement || !maxCostElement || !retryDelayElement || !maxRetriesElement) {
+        console.error("Un ou plusieurs éléments sont manquants dans le DOM.");
+        this.showNotification("Configuration IA incomplète ou incorrecte.", "danger");
+        return;
+    }
+
+    // Lecture des valeurs si les éléments existent
+    const provider = providerElement.value;
+    const apiKey = apiKeyElement.value;
+    const endpoint = endpointElement.value;
+    const maxCost = parseFloat(maxCostElement.value);
+    const retryDelay = parseInt(retryDelayElement.value);
+    const maxRetries = parseInt(maxRetriesElement.value);
+
+    // Log des valeurs pour vérification
+    console.log("Provider:", provider);
+    console.log("API Key:", apiKey);
+    console.log("Endpoint:", endpoint);
+    console.log("Max Cost:", maxCost);
+    console.log("Retry Delay:", retryDelay);
+    console.log("Max Retries:", maxRetries);
+
+    // Effectuer la sauvegarde avec les valeurs récupérées
+    this.state.aiConfig = { 
+        ...this.state.aiConfig, 
+        provider, 
+        apiKey, 
+        endpoint,
+        maxCost,
+        retryDelay,
+        maxRetries 
+    };
+    localStorage.setItem("aiConfig", JSON.stringify(this.state.aiConfig));
+    this.updateAIBadge();
+    this.showNotification("Configuration IA sauvegardée", "success");
+}
+
 
 
 validateGameContent(code) {
@@ -1353,62 +1538,92 @@ validateGameContent(code) {
             return false;
         }
 
-        async callClaude(prompt) {
-            const selectedModel = this.state.aiConfig.preferredModel;
-            const apiKey = this.state.aiConfig.apiKey;
-        
-            if (!apiKey) {
-                throw new Error('API Key for Claude is missing. Please configure it in the settings.');
-            }
-        
-            const url = this.state.aiConfig.endpoint || 'https://api.anthropic.com/v1/messages';
-        
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-api-key': apiKey,
-                    'anthropic-version': '2023-06-01',
-                    'anthropic-dangerous-direct-browser-access': 'true' 
-                },
-                body: JSON.stringify({
-                    model: selectedModel,
-                    messages: [{ role: 'user', content: prompt }],
-                    max_tokens: 4096
-                })
-            });
-        
-            if (!response.ok) {
-                throw new Error(`Claude API Error: ${await response.text()}`);
-            }
-        
-            const result = await response.json();
-            return result.content[0].text.trim();
+async callClaude(prompt) {
+    const selectedModel = this.state.aiConfig.preferredModel;
+    const apiKey = this.state.aiConfig.apiKey;
+
+    // Vérification de la clé API et du modèle
+    if (!apiKey) {
+        throw new Error('API Key for Claude is missing. Please configure it in the settings.');
+    }
+    if (!selectedModel) {
+        throw new Error('No model selected for Claude API. Please choose a model.');
+    }
+
+    const url = this.state.aiConfig.endpoint || 'https://api.anthropic.com/v1/messages';
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-api-key': apiKey,
+                'anthropic-version': '2023-06-01',
+                'anthropic-dangerous-direct-browser-access': 'true'
+            },
+            body: JSON.stringify({
+                model: selectedModel,
+                messages: [{ role: 'user', content: prompt }],
+                max_tokens: 4096
+            })
+        });
+
+        // Vérification du code d'état HTTP
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Claude API Error (${response.status}): ${errorText}`);
         }
-        
-        async callChatGPT(prompt) {
-            const selectedModel = this.state.aiConfig.preferredModel;
-            const response = await fetch('https://api.openai.com/v1/chat/completions', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.state.aiConfig.apiKey}`
-                },
-                body: JSON.stringify({
-                    model: selectedModel,
-                    messages: [{ role: 'user', content: prompt }],
-                    temperature: 0.7
-                })
-            });
-        
-            if (!response.ok) {
-                const error = await response.json();
-                throw new Error(error.message || 'OpenAI API Error');
-            }
-        
-            const data = await response.json();
-            return data.choices[0].message.content;
+
+        const result = await response.json();
+        return result.content[0].text.trim();
+    } catch (error) {
+        console.error('Error in callClaude:', error);
+        throw new Error(`Failed to fetch from Claude API: ${error.message}`);
+    }
+}
+
+async callChatGPT(prompt) {
+    const selectedModel = this.state.aiConfig.preferredModel;
+    const apiKey = this.state.aiConfig.apiKey;
+
+    // Vérification de la clé API et du modèle
+    if (!apiKey) {
+        throw new Error('API Key for OpenAI is missing. Please configure it in the settings.');
+    }
+    if (!selectedModel) {
+        throw new Error('No model selected for OpenAI API. Please choose a model.');
+    }
+
+    const url = 'https://api.openai.com/v1/chat/completions';
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}`
+            },
+            body: JSON.stringify({
+                model: selectedModel,
+                messages: [{ role: 'user', content: prompt }],
+                temperature: 0.7
+            })
+        });
+
+        // Vérification du code d'état HTTP
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(`OpenAI API Error (${response.status}): ${error.message || 'Unknown error'}`);
         }
+
+        const data = await response.json();
+        return data.choices[0].message.content;
+    } catch (error) {
+        console.error('Error in callChatGPT:', error);
+        throw new Error(`Failed to fetch from OpenAI API: ${error.message}`);
+    }
+}
+
 
         initializeFormListeners() {
             const nameInput = document.querySelector('input[placeholder="Nom de la vulnérabilité"]');
@@ -1808,28 +2023,39 @@ async testConnection() {
             document.querySelectorAll('.config-section').forEach(s => s.style.display = 'none');
             document.getElementById(`${section}-config`).style.display = 'block';
         }
+        
+setPreferredModel(selectedModel) {
+    this.state.aiConfig.preferredModel = selectedModel;
+    this.storage.setItem('aiConfig', JSON.stringify(this.state.aiConfig));
+    this.showNotification(`Modèle préféré mis à jour: ${selectedModel}`, 'success');
+}
+
     
     /**
      * Génère le HTML pour la configuration des modèles AI en fonction du fournisseur sélectionné.
      * @returns {string} - Le HTML généré pour la sélection des modèles.
      */
-    generateModelConfigHTML() {
-        const provider = this.state.aiConfig.provider;
+generateModelConfigHTML() {
+    const provider = this.state.aiConfig.provider;
 
-        if (provider === 'none') {
-            return '<p>Veuillez sélectionner un fournisseur d\'IA pour configurer les modèles.</p>';
-        }
+    if (provider === 'none') {
+        return '<p>Veuillez sélectionner un fournisseur d\'IA pour configurer les modèles.</p>';
+    }
 
-        const models = this.AI_MODELS[provider].models;
-        let html = '<label for="model-select">Sélectionnez un modèle :</label><select class="input" id="model-select">';
-        for (const model in models) {
-            const selected = this.state.aiConfig.preferredModel === model ? 'selected' : '';
-            html += `<option value="${model}" ${selected}>${model} - ${models[model].description}</option>`;
-        }
-        html += '</select>';
+    const models = this.AI_MODELS[provider].models;
+    let html = `
+        <label for="model-select">Sélectionnez un modèle :</label>
+        <select class="input" id="model-select" onchange="app.setPreferredModel(this.value)">
+    `;
+    for (const model in models) {
+        const selected = this.state.aiConfig.preferredModel === model ? 'selected' : '';
+        html += `<option value="${model}" ${selected}>${model} - ${models[model].description}</option>`;
+    }
+    html += '</select>';
 
-        return html;
-    }   
+    return html;
+}
+
 
     // Méthode pour ajouter les styles de configuration AI
     addAIConfigStyles() {
@@ -2321,7 +2547,6 @@ async retrySpecificMode(mode, name, cve, description, maxRetries = 3) {
             }
         }
     }
- 
         
         // Modification de l'initialisation de l'application
         static initialize() {
